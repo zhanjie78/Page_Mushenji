@@ -169,13 +169,14 @@ const renderSections = (commands, features, errors) => {
       const isQuickTable = title === "命令速查表";
       const errorSection = title === "终章：天道法则" ? errors : [];
 
+      const bannerHue = (index * 28) % 360;
       return `
         <section class="section" id="${sectionId(title, index)}">
           <header class="section-header">
             <h2>${title}</h2>
             <p>${isQuickTable ? "全量指令清单与系统速查。" : "根据代码抽取的系统与指令说明。"}</p>
           </header>
-          <img class="section-banner" src="assets/chapters/${String(index + 1).padStart(2, "0")}.jpg" alt="${title}" />
+          <div class="section-banner" role="img" aria-label="${title}" style="--banner-hue: ${bannerHue}"></div>
           <div class="glass-card">
             ${mappedFeatures.length ? mappedFeatures.map(renderFeature).join("") : "<div>Unknown</div>"}
             ${mappedCommands.length ? `<div class=\"card-grid\">${mappedCommands

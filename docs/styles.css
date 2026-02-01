@@ -116,8 +116,7 @@ body {
 .hero-bg {
   position: absolute;
   inset: 0;
-  background: linear-gradient(120deg, rgba(9, 12, 20, 0.85), rgba(12, 15, 28, 0.6)),
-    url("assets/hero.jpg") center/cover no-repeat;
+  background: linear-gradient(120deg, rgba(9, 12, 20, 0.9), rgba(18, 22, 34, 0.7));
 }
 
 .hero-content {
@@ -223,6 +222,16 @@ body {
   object-fit: cover;
   margin-bottom: 16px;
   border: 1px solid var(--border);
+  background: linear-gradient(130deg, rgba(10, 14, 25, 0.9), hsla(var(--banner-hue, 32), 45%, 35%, 0.65));
+  position: relative;
+  overflow: hidden;
+}
+
+.section-banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.08), transparent 55%);
 }
 
 .collapsible {
