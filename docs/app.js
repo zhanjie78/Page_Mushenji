@@ -301,13 +301,83 @@ const renderCommandDetail = (command) => {
   container.innerHTML = detail;
 };
 
-const highlightActiveNav = () => {
-  const hash = window.location.hash.replace("#", "");
+const setActiveNav = (sectionId) => {
+  if (!sectionId) return;
   const navLinks = document.querySelectorAll(".topbar-nav a, .sidebar-nav a");
   navLinks.forEach((link) => {
     const target = link.getAttribute("href")?.replace("#", "");
-    link.classList.toggle("active", target === hash);
+    link.classList.toggle("active", target === sectionId);
   });
+};
+
+const highlightActiveNav = () => {
+  const hash = window.location.hash.replace("#", "");
+  if (!hash) return;
+  const hasLink = document.querySelector(`.topbar-nav a[href="#${hash}"], .sidebar-nav a[href="#${hash}"]`);
+  if (hasLink) {
+    setActiveNav(hash);
+  }
+};
+
+const setupSidebarSearch = () => {
+  const searchInput = document.getElementById("searchInput");
+  if (!searchInput) return;
+
+  const applyFilter = () => {
+    const query = searchInput.value.trim().toLowerCase();
+    const cards = Array.from(document.querySelectorAll(".command-card"));
+    const detailsBlocks = Array.from(document.querySelectorAll("details"));
+
+    const shouldShow = (element) => !query || element.textContent.toLowerCase().includes(query);
+
+    cards.forEach((card) => {
+      card.style.display = shouldShow(card) ? "" : "none";
+    });
+
+    detailsBlocks.forEach((detail) => {
+      detail.style.display = shouldShow(detail) ? "" : "none";
+    });
+
+    document.querySelectorAll(".section").forEach((section) => {
+      const sectionCards = Array.from(section.querySelectorAll(".command-card"));
+      const sectionDetails = Array.from(section.querySelectorAll("details"));
+      if (!sectionCards.length && !sectionDetails.length) return;
+      const hasVisible = [...sectionCards, ...sectionDetails].some((element) => element.style.display !== "none");
+      section.style.display = hasVisible ? "" : "none";
+    });
+  };
+
+  searchInput.addEventListener("input", applyFilter);
+};
+
+const setupScrollSpy = () => {
+  const sections = Array.from(document.querySelectorAll(".section, .hero"));
+  if (!sections.length) return;
+
+  if (!("IntersectionObserver" in window)) {
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      const visibleEntries = entries.filter((entry) => entry.isIntersecting);
+      if (!visibleEntries.length) return;
+      const topEntry = visibleEntries.reduce((best, entry) =>
+        entry.intersectionRatio > best.intersectionRatio ? entry : best
+      );
+      const targetId = topEntry.target.getAttribute("id");
+      if (targetId) {
+        setActiveNav(targetId);
+      }
+    },
+    {
+      root: null,
+      rootMargin: "-30% 0px -55% 0px",
+      threshold: [0, 0.25, 0.5, 0.75, 1],
+    }
+  );
+
+  sections.forEach((section) => observer.observe(section));
 };
 
 const setupCommandInteractions = (commands) => {
@@ -416,6 +486,8 @@ const init = async () => {
   renderErrors(errors);
   setupCommandInteractions(commands);
   highlightActiveNav();
+  setupSidebarSearch();
+  setupScrollSpy();
 };
 
 init();
