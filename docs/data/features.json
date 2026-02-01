@@ -1,0 +1,12 @@
+[
+  {
+    "name": "REALM_TIERS",
+    "details": "Unknown",
+    "references": [
+      {
+        "file": "tools\\extract_mushenji_docs.py",
+        "function": "module"
+      }
+    ]
+  }
+]
