@@ -22,7 +22,7 @@
 body {
   margin: 0;
   font-family: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
-  background: radial-gradient(circle at top, #171a21, #090a0e 55%);
+  background: radial-gradient(circle at top, #121622, #090a0e 55%);
   color: var(--mist-100);
   line-height: 1.6;
 }
@@ -62,6 +62,7 @@ a {
   font-size: 18px;
   font-weight: 700;
   color: var(--gold-200);
+  font-family: "Noto Serif SC", "Songti SC", "STSong", serif;
 }
 
 .brand-subtitle {
@@ -188,6 +189,7 @@ a {
   margin: 0 0 12px;
   font-size: 28px;
   color: var(--gold-200);
+  font-family: "Noto Serif SC", "Songti SC", "STSong", serif;
 }
 
 .hero-text p {
@@ -230,6 +232,7 @@ a {
 .panel-title {
   font-size: 13px;
   color: var(--gold-200);
+  font-family: "Noto Serif SC", "Songti SC", "STSong", serif;
 }
 
 .panel-content {
@@ -243,6 +246,7 @@ a {
   margin: 0 0 6px;
   color: var(--gold-200);
   font-size: 22px;
+  font-family: "Noto Serif SC", "Songti SC", "STSong", serif;
 }
 
 .section-header p {
@@ -270,6 +274,7 @@ a {
   margin: 0;
   font-size: 16px;
   color: var(--gold-200);
+  font-family: "Noto Serif SC", "Songti SC", "STSong", serif;
 }
 
 .card .card-meta {
@@ -282,6 +287,59 @@ a {
   border-radius: 6px;
   background: var(--ink-600);
   color: var(--gold-200);
+}
+
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag-pill {
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(215, 180, 106, 0.6);
+  background: rgba(10, 12, 18, 0.75);
+  color: var(--gold-200);
+  font-size: 12px;
+  letter-spacing: 0.5px;
+}
+
+.tag-pill .cmd-code {
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.cmd-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.props-list {
+  display: grid;
+  gap: 8px;
+}
+
+.props-row {
+  display: grid;
+  grid-template-columns: minmax(120px, 1fr) minmax(0, 2fr);
+  gap: 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed rgba(215, 180, 106, 0.2);
+}
+
+.props-key {
+  color: var(--mist-200);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.props-value {
+  color: var(--mist-100);
+  font-size: 13px;
 }
 
 .glass-card {
@@ -357,12 +415,60 @@ a {
 .command-item h4 {
   margin: 0 0 6px;
   color: var(--gold-200);
+  font-family: "Noto Serif SC", "Songti SC", "STSong", serif;
 }
 
 .command-item p {
   margin: 0;
   font-size: 12px;
   color: var(--mist-200);
+}
+
+.command-card {
+  gap: 12px;
+}
+
+.card-field {
+  display: grid;
+  gap: 6px;
+}
+
+.field-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--mist-200);
+}
+
+.cmd-lines {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cmd-code {
+  padding: 3px 8px;
+  border-radius: 8px;
+  background: rgba(10, 12, 18, 0.85);
+  border: 1px solid rgba(215, 180, 106, 0.4);
+  font-family: "SFMono-Regular", "Consolas", "Menlo", monospace;
+  font-size: 12px;
+  color: var(--gold-200);
+}
+
+.detail-text {
+  font-size: 12px;
+  color: var(--mist-200);
+}
+
+.section-banner {
+  height: 120px;
+  border-radius: var(--radius-md);
+  margin-bottom: 16px;
+  background: radial-gradient(circle at 20% 20%, rgba(215, 180, 106, 0.2), transparent 45%),
+    linear-gradient(135deg, rgba(10, 12, 18, 0.95), rgba(30, 28, 20, 0.9));
+  border: 1px solid rgba(215, 180, 106, 0.25);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6);
 }
 
 .command-detail {
@@ -386,6 +492,7 @@ a {
   margin: 0 0 6px;
   color: var(--gold-200);
   font-size: 13px;
+  font-family: "Noto Serif SC", "Songti SC", "STSong", serif;
 }
 
 .detail-block ul {

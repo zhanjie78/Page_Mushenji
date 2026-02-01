@@ -1,19 +1,28 @@
 const SECTIONS = [
-  { id: "quick-start", title: "Quick Start", category: "Quick Start", contentId: "quickStartContent" },
+  { id: "quick-start", title: "快速入门", category: "Quick Start", contentId: "quickStartContent" },
   {
     id: "movement",
-    title: "Movement and Exploration",
+    title: "探索与移动",
     category: "Movement and Exploration",
     contentId: "movementContent",
   },
-  { id: "combat", title: "Combat and Survival", category: "Combat and Survival", contentId: "combatContent" },
-  { id: "inventory", title: "Inventory and Gear", category: "Inventory and Gear", contentId: "inventoryContent" },
-  { id: "trading", title: "Trading and Economy", category: "Trading and Economy", contentId: "tradingContent" },
-  { id: "progression", title: "Quests and Progression", category: "Quests and Progression", contentId: "progressionContent" },
+  { id: "combat", title: "战斗与生存", category: "Combat and Survival", contentId: "combatContent" },
+  { id: "inventory", title: "背包与装备", category: "Inventory and Gear", contentId: "inventoryContent" },
+  { id: "trading", title: "交易与经济", category: "Trading and Economy", contentId: "tradingContent" },
+  { id: "progression", title: "任务与成长", category: "Quests and Progression", contentId: "progressionContent" },
 ];
 
-const HERO_TAGS = ["代码驱动", "新手到进阶", "静态指引", "GitHub Pages"];
+const HERO_TAGS = ["代码驱动", "新手到进阶", "静态指引", "GitHub Pages 部署"];
 const REDACT_KEYWORD = "天道";
+const CATEGORY_LABELS = {
+  "Quick Start": "快速入门",
+  "Movement and Exploration": "探索与移动",
+  "Combat and Survival": "战斗与生存",
+  "Inventory and Gear": "背包与装备",
+  "Trading and Economy": "交易与经济",
+  "Quests and Progression": "任务与成长",
+  Uncategorized: "未分类",
+};
 
 const safeJsonParse = (text, fallback) => {
   try {
@@ -80,6 +89,53 @@ const filterCommands = (commands) =>
     },
   }));
 
+const getCategoryLabel = (category) => CATEGORY_LABELS[category] || category || "未分类";
+
+const renderTagCloud = (items, className = "tag-pill") =>
+  `<div class="tag-cloud">${items
+    .map((item) => `<span class="${className}">${item}</span>`)
+    .join("")}</div>`;
+
+const renderPropsList = (data) => {
+  const entries = Object.entries(data || {});
+  if (!entries.length) {
+    return "<div class=\"detail-inline\">暂无</div>";
+  }
+  return `
+    <div class="props-list">
+      ${entries
+        .map(
+          ([key, value]) => `
+          <div class="props-row">
+            <div class="props-key">${key}</div>
+            <div class="props-value">${value}</div>
+          </div>
+        `
+        )
+        .join("")}
+    </div>
+  `;
+};
+
+const renderDetailContent = (data) => {
+  if (Array.isArray(data)) {
+    if (!data.length) return "<div class=\"detail-inline\">暂无</div>";
+    return renderTagCloud(data);
+  }
+  if (data && typeof data === "object") {
+    return renderPropsList(data);
+  }
+  if (!data) {
+    return "<div class=\"detail-inline\">暂无</div>";
+  }
+  return `<div class="detail-text">${data}</div>`;
+};
+
+const renderCommandCloud = (items) => {
+  if (!items || !items.length) return "<div class=\"detail-inline\">暂无</div>";
+  return renderTagCloud(items.map((item) => `<code class="cmd-code">${item}</code>`), "tag-pill cmd-pill");
+};
+
 const filterFeatures = (features) =>
   features
     .filter((feature) => !isRedacted(feature.name) && !isRedacted(feature.description))
@@ -132,10 +188,16 @@ const renderSectionCards = (commands, sectionId, category) => {
   container.innerHTML = scoped
     .map(
       (cmd) => `
-        <article class="card">
+        <article class="card command-card">
           <h3>${cmd.name}</h3>
-          <div class="card-meta">分类：${cmd.category}</div>
+          <div class="card-meta">分类：${getCategoryLabel(cmd.category)}</div>
           <div class="card-meta">描述：${cmd.description || "TODO"}</div>
+          <div class="card-field">
+            <span class="field-label">用法</span>
+            <div class="cmd-lines">
+              ${cmd.usage && cmd.usage.length ? cmd.usage.map((usage) => `<code class="cmd-code">${usage}</code>`).join("") : "<span class=\"detail-inline\">暂无</span>"}
+            </div>
+          </div>
         </article>
       `
     )
@@ -180,7 +242,10 @@ const renderCommandList = (commands) => {
       (command) => `
       <div class="command-item" data-command="${slugify(command.name)}">
         <h4>${command.name}</h4>
-        <p>${command.description || "TODO: 待补充说明"}</p>
+        <p>${getCategoryLabel(command.category)} · ${command.description || "TODO: 待补充说明"}</p>
+        ${command.usage && command.usage.length ? `<div class="cmd-lines">${command.usage
+          .map((usage) => `<code class="cmd-code">${usage}</code>`)
+          .join("")}</div>` : ""}
       </div>
     `
     )
@@ -195,41 +260,38 @@ const renderCommandDetail = (command) => {
     return;
   }
 
-  const listOrEmpty = (items) =>
-    items && items.length ? `<ul>${items.map((item) => `<li>${item}</li>`).join("")}</ul>` : "<div class=\"detail-inline\">暂无</div>";
-
   const detail = `
     <div class="detail-block">
       <h5>${command.name}</h5>
-      <div class="detail-inline">分类：${command.category || "未分类"}</div>
+      <div class="detail-inline">分类：${getCategoryLabel(command.category)}</div>
     </div>
     <div class="detail-block">
       <h5>使用方法</h5>
-      ${listOrEmpty(command.usage)}
+      ${renderCommandCloud(command.usage)}
     </div>
     <div class="detail-block">
       <h5>示例</h5>
-      ${listOrEmpty(command.examples)}
+      ${renderCommandCloud(command.examples)}
     </div>
     <div class="detail-block">
       <h5>参数</h5>
-      ${listOrEmpty(command.details?.parameters || [])}
+      ${renderDetailContent(command.details?.parameters || [])}
     </div>
     <div class="detail-block">
       <h5>前置条件</h5>
-      ${listOrEmpty(command.details?.preconditions || [])}
+      ${renderDetailContent(command.details?.preconditions || [])}
     </div>
     <div class="detail-block">
       <h5>结果/提示</h5>
-      ${listOrEmpty(command.details?.outcomes || [])}
+      ${renderDetailContent(command.details?.outcomes || [])}
     </div>
     <div class="detail-block">
       <h5>注意事项</h5>
-      ${listOrEmpty(command.pitfalls || [])}
+      ${renderDetailContent(command.pitfalls || [])}
     </div>
     <div class="detail-block">
       <h5>相关命令</h5>
-      ${listOrEmpty(command.related || [])}
+      ${renderDetailContent(command.related || [])}
     </div>
     <div class="detail-block">
       <h5>引用位置</h5>
@@ -277,7 +339,7 @@ const setupCommandInteractions = (commands) => {
   const categories = [...new Set(commands.map((command) => command.category))].filter(Boolean);
   categorySelect.innerHTML =
     `<option value="all">全部分类</option>` +
-    categories.map((category) => `<option value="${category}">${category}</option>`).join("");
+    categories.map((category) => `<option value="${category}">${getCategoryLabel(category)}</option>`).join("");
 
   searchInput.addEventListener("input", renderFiltered);
   categorySelect.addEventListener("change", renderFiltered);
@@ -326,20 +388,20 @@ const init = async () => {
   renderHeroTags();
   renderSnapshot(commands, features);
   buildNavLinks(document.getElementById("topNav"), [
-    { id: "quick-start", title: "Quick Start" },
-    { id: "movement", title: "Movement" },
-    { id: "combat", title: "Combat" },
-    { id: "inventory", title: "Inventory" },
-    { id: "trading", title: "Trading" },
-    { id: "progression", title: "Progression" },
-    { id: "troubleshooting", title: "Troubleshooting" },
-    { id: "command-library", title: "Command Library" },
+    { id: "quick-start", title: "快速入门" },
+    { id: "movement", title: "探索与移动" },
+    { id: "combat", title: "战斗与生存" },
+    { id: "inventory", title: "背包与装备" },
+    { id: "trading", title: "交易与经济" },
+    { id: "progression", title: "任务与成长" },
+    { id: "troubleshooting", title: "故障排查" },
+    { id: "command-library", title: "命令索引" },
   ]);
   buildNavLinks(document.getElementById("sidebarNav"), [
     { id: "hero", title: "概览" },
     ...SECTIONS.map((section) => ({ id: section.id, title: section.title })),
-    { id: "troubleshooting", title: "Troubleshooting" },
-    { id: "command-library", title: "Command Library" },
+    { id: "troubleshooting", title: "故障排查" },
+    { id: "command-library", title: "命令索引" },
   ]);
 
   const prefixFeature = features.find((feature) => feature.name === "PREFIX" || feature.id === "PREFIX");
