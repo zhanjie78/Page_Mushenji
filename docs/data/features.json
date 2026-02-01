@@ -1,186 +1,432 @@
 [
   {
+    "id": "feature-1",
     "name": "PREFIX",
+    "description": "TODO: 从 mushenji_bot.py 或配置表补充系统说明。",
+    "unlock_stage": "TODO",
+    "dependencies": [],
+    "beginner_tips": [],
+    "advanced_notes": [],
+    "related": {
+      "commands": [],
+      "errors": [],
+      "items": [],
+      "quests": []
+    },
     "details": ".",
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "module"
-      }
-    ]
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位系统常量的定义位置与行号。"
+    }
   },
   {
+    "id": "feature-2",
     "name": "TRAIN_CD_MIN",
+    "description": "TODO: 从 mushenji_bot.py 或配置表补充系统说明。",
+    "unlock_stage": "TODO",
+    "dependencies": [],
+    "beginner_tips": [],
+    "advanced_notes": [],
+    "related": {
+      "commands": [],
+      "errors": [],
+      "items": [],
+      "quests": []
+    },
     "details": 600,
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "module"
-      }
-    ]
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位系统常量的定义位置与行号。"
+    }
   },
   {
+    "id": "feature-3",
     "name": "TRAIN_CD_MAX",
+    "description": "TODO: 从 mushenji_bot.py 或配置表补充系统说明。",
+    "unlock_stage": "TODO",
+    "dependencies": [],
+    "beginner_tips": [],
+    "advanced_notes": [],
+    "related": {
+      "commands": [],
+      "errors": [],
+      "items": [],
+      "quests": []
+    },
     "details": 900,
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "module"
-      }
-    ]
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位系统常量的定义位置与行号。"
+    }
   },
   {
+    "id": "feature-4",
     "name": "DEEP_DURATION",
+    "description": "TODO: 从 mushenji_bot.py 或配置表补充系统说明。",
+    "unlock_stage": "TODO",
+    "dependencies": [],
+    "beginner_tips": [],
+    "advanced_notes": [],
+    "related": {
+      "commands": [],
+      "errors": [],
+      "items": [],
+      "quests": []
+    },
     "details": 28800,
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "module"
-      }
-    ]
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位系统常量的定义位置与行号。"
+    }
   },
   {
+    "id": "feature-5",
     "name": "DEEP_COOLDOWN",
+    "description": "TODO: 从 mushenji_bot.py 或配置表补充系统说明。",
+    "unlock_stage": "TODO",
+    "dependencies": [],
+    "beginner_tips": [],
+    "advanced_notes": [],
+    "related": {
+      "commands": [],
+      "errors": [],
+      "items": [],
+      "quests": []
+    },
     "details": 79200,
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "module"
-      }
-    ]
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位系统常量的定义位置与行号。"
+    }
   },
   {
+    "id": "feature-6",
     "name": "PASSIVE_CD",
+    "description": "TODO: 从 mushenji_bot.py 或配置表补充系统说明。",
+    "unlock_stage": "TODO",
+    "dependencies": [],
+    "beginner_tips": [],
+    "advanced_notes": [],
+    "related": {
+      "commands": [],
+      "errors": [],
+      "items": [],
+      "quests": []
+    },
     "details": 60,
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "module"
-      }
-    ]
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位系统常量的定义位置与行号。"
+    }
   },
   {
+    "id": "feature-7",
     "name": "PASSIVE_MIN_LEN",
+    "description": "TODO: 从 mushenji_bot.py 或配置表补充系统说明。",
+    "unlock_stage": "TODO",
+    "dependencies": [],
+    "beginner_tips": [],
+    "advanced_notes": [],
+    "related": {
+      "commands": [],
+      "errors": [],
+      "items": [],
+      "quests": []
+    },
     "details": 6,
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "module"
-      }
-    ]
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位系统常量的定义位置与行号。"
+    }
   },
   {
+    "id": "feature-8",
     "name": "PASSIVE_GAIN",
+    "description": "TODO: 从 mushenji_bot.py 或配置表补充系统说明。",
+    "unlock_stage": "TODO",
+    "dependencies": [],
+    "beginner_tips": [],
+    "advanced_notes": [],
+    "related": {
+      "commands": [],
+      "errors": [],
+      "items": [],
+      "quests": []
+    },
     "details": 1,
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "module"
-      }
-    ]
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位系统常量的定义位置与行号。"
+    }
   },
   {
+    "id": "feature-9",
     "name": "TASK_COOLDOWN",
+    "description": "TODO: 从 mushenji_bot.py 或配置表补充系统说明。",
+    "unlock_stage": "TODO",
+    "dependencies": [],
+    "beginner_tips": [],
+    "advanced_notes": [],
+    "related": {
+      "commands": [],
+      "errors": [],
+      "items": [],
+      "quests": []
+    },
     "details": 21600,
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "module"
-      }
-    ]
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位系统常量的定义位置与行号。"
+    }
   },
   {
+    "id": "feature-10",
     "name": "SECT_TASK_COOLDOWN",
+    "description": "TODO: 从 mushenji_bot.py 或配置表补充系统说明。",
+    "unlock_stage": "TODO",
+    "dependencies": [],
+    "beginner_tips": [],
+    "advanced_notes": [],
+    "related": {
+      "commands": [],
+      "errors": [],
+      "items": [],
+      "quests": []
+    },
     "details": 28800,
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "module"
-      }
-    ]
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位系统常量的定义位置与行号。"
+    }
   },
   {
+    "id": "feature-11",
     "name": "SECT_SIGNIN_COOLDOWN",
+    "description": "TODO: 从 mushenji_bot.py 或配置表补充系统说明。",
+    "unlock_stage": "TODO",
+    "dependencies": [],
+    "beginner_tips": [],
+    "advanced_notes": [],
+    "related": {
+      "commands": [],
+      "errors": [],
+      "items": [],
+      "quests": []
+    },
     "details": 86400,
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "module"
-      }
-    ]
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位系统常量的定义位置与行号。"
+    }
   },
   {
+    "id": "feature-12",
     "name": "DAO_MEN_QUIZ_COOLDOWN",
+    "description": "TODO: 从 mushenji_bot.py 或配置表补充系统说明。",
+    "unlock_stage": "TODO",
+    "dependencies": [],
+    "beginner_tips": [],
+    "advanced_notes": [],
+    "related": {
+      "commands": [],
+      "errors": [],
+      "items": [],
+      "quests": []
+    },
     "details": 600,
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "module"
-      }
-    ]
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位系统常量的定义位置与行号。"
+    }
   },
   {
+    "id": "feature-13",
     "name": "DRAGON_BUFF_DURATION",
+    "description": "TODO: 从 mushenji_bot.py 或配置表补充系统说明。",
+    "unlock_stage": "TODO",
+    "dependencies": [],
+    "beginner_tips": [],
+    "advanced_notes": [],
+    "related": {
+      "commands": [],
+      "errors": [],
+      "items": [],
+      "quests": []
+    },
     "details": 7200,
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "module"
-      }
-    ]
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位系统常量的定义位置与行号。"
+    }
   },
   {
+    "id": "feature-14",
     "name": "GHOST_MARKET_COST",
+    "description": "TODO: 从 mushenji_bot.py 或配置表补充系统说明。",
+    "unlock_stage": "TODO",
+    "dependencies": [],
+    "beginner_tips": [],
+    "advanced_notes": [],
+    "related": {
+      "commands": [],
+      "errors": [],
+      "items": [],
+      "quests": []
+    },
     "details": 500,
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "module"
-      }
-    ]
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位系统常量的定义位置与行号。"
+    }
   },
   {
+    "id": "feature-15",
     "name": "BLOCK_GATE_CD",
+    "description": "TODO: 从 mushenji_bot.py 或配置表补充系统说明。",
+    "unlock_stage": "TODO",
+    "dependencies": [],
+    "beginner_tips": [],
+    "advanced_notes": [],
+    "related": {
+      "commands": [],
+      "errors": [],
+      "items": [],
+      "quests": []
+    },
     "details": 3600,
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "module"
-      }
-    ]
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位系统常量的定义位置与行号。"
+    }
   },
   {
+    "id": "feature-16",
     "name": "TEST_DRUG_COOLDOWN",
+    "description": "TODO: 从 mushenji_bot.py 或配置表补充系统说明。",
+    "unlock_stage": "TODO",
+    "dependencies": [],
+    "beginner_tips": [],
+    "advanced_notes": [],
+    "related": {
+      "commands": [],
+      "errors": [],
+      "items": [],
+      "quests": []
+    },
     "details": 86400,
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "module"
-      }
-    ]
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位系统常量的定义位置与行号。"
+    }
   },
   {
+    "id": "feature-17",
     "name": "TRAIN_LOOT_CHANCE",
+    "description": "TODO: 从 mushenji_bot.py 或配置表补充系统说明。",
+    "unlock_stage": "TODO",
+    "dependencies": [],
+    "beginner_tips": [],
+    "advanced_notes": [],
+    "related": {
+      "commands": [],
+      "errors": [],
+      "items": [],
+      "quests": []
+    },
     "details": 0.12,
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "module"
-      }
-    ]
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位系统常量的定义位置与行号。"
+    }
   },
   {
+    "id": "feature-18",
     "name": "DEEP_LOOT_CHANCE",
+    "description": "TODO: 从 mushenji_bot.py 或配置表补充系统说明。",
+    "unlock_stage": "TODO",
+    "dependencies": [],
+    "beginner_tips": [],
+    "advanced_notes": [],
+    "related": {
+      "commands": [],
+      "errors": [],
+      "items": [],
+      "quests": []
+    },
     "details": 0.25,
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "module"
-      }
-    ]
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位系统常量的定义位置与行号。"
+    }
   },
   {
+    "id": "feature-19",
     "name": "REALM_TIERS",
+    "description": "TODO: 从 mushenji_bot.py 或配置表补充系统说明。",
+    "unlock_stage": "TODO",
+    "dependencies": [],
+    "beginner_tips": [],
+    "advanced_notes": [],
+    "related": {
+      "commands": [],
+      "errors": [],
+      "items": [],
+      "quests": []
+    },
     "details": [
       "灵胎",
       "五曜",
@@ -190,25 +436,51 @@
       "生死",
       "神桥"
     ],
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "module"
-      }
-    ]
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位系统常量的定义位置与行号。"
+    }
   },
   {
+    "id": "feature-20",
     "name": "STAGES_PER_TIER",
+    "description": "TODO: 从 mushenji_bot.py 或配置表补充系统说明。",
+    "unlock_stage": "TODO",
+    "dependencies": [],
+    "beginner_tips": [],
+    "advanced_notes": [],
+    "related": {
+      "commands": [],
+      "errors": [],
+      "items": [],
+      "quests": []
+    },
     "details": 3,
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "module"
-      }
-    ]
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位系统常量的定义位置与行号。"
+    }
   },
   {
+    "id": "feature-21",
     "name": "SELL_PRICES",
+    "description": "TODO: 从 mushenji_bot.py 或配置表补充系统说明。",
+    "unlock_stage": "TODO",
+    "dependencies": [],
+    "beginner_tips": [],
+    "advanced_notes": [],
+    "related": {
+      "commands": [],
+      "errors": [],
+      "items": [],
+      "quests": []
+    },
     "details": {
       "灵木": {
         "coin": 40
@@ -259,15 +531,28 @@
         "coin": 5
       }
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "module"
-      }
-    ]
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位系统常量的定义位置与行号。"
+    }
   },
   {
+    "id": "feature-22",
     "name": "SECTS",
+    "description": "TODO: 从 mushenji_bot.py 或配置表补充系统说明。",
+    "unlock_stage": "TODO",
+    "dependencies": [],
+    "beginner_tips": [],
+    "advanced_notes": [],
+    "related": {
+      "commands": [],
+      "errors": [],
+      "items": [],
+      "quests": []
+    },
     "details": {
       "延康": {
         "desc": "国师变法，有教无类。新手默认归属。",
@@ -301,15 +586,28 @@
         "starter_kind": "护具方"
       }
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "module"
-      }
-    ]
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位系统常量的定义位置与行号。"
+    }
   },
   {
+    "id": "feature-23",
     "name": "LORE",
+    "description": "TODO: 从 mushenji_bot.py 或配置表补充系统说明。",
+    "unlock_stage": "TODO",
+    "dependencies": [],
+    "beginner_tips": [],
+    "advanced_notes": [],
+    "related": {
+      "commands": [],
+      "errors": [],
+      "items": [],
+      "quests": []
+    },
     "details": {
       "世界观": [
         "大墟风沙如海，延康的灯火却从未熄灭。",
@@ -338,15 +636,28 @@
         "有人在风沙中见到不该存在的城池。"
       ]
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "module"
-      }
-    ]
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位系统常量的定义位置与行号。"
+    }
   },
   {
+    "id": "feature-24",
     "name": "LOW_TIER_LOOT",
+    "description": "TODO: 从 mushenji_bot.py 或配置表补充系统说明。",
+    "unlock_stage": "TODO",
+    "dependencies": [],
+    "beginner_tips": [],
+    "advanced_notes": [],
+    "related": {
+      "commands": [],
+      "errors": [],
+      "items": [],
+      "quests": []
+    },
     "details": [
       [
         "灵木",
@@ -385,15 +696,28 @@
         2
       ]
     ],
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "module"
-      }
-    ]
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位系统常量的定义位置与行号。"
+    }
   },
   {
+    "id": "feature-25",
     "name": "HIGH_TIER_LOOT",
+    "description": "TODO: 从 mushenji_bot.py 或配置表补充系统说明。",
+    "unlock_stage": "TODO",
+    "dependencies": [],
+    "beginner_tips": [],
+    "advanced_notes": [],
+    "related": {
+      "commands": [],
+      "errors": [],
+      "items": [],
+      "quests": []
+    },
     "details": [
       [
         "灵木",
@@ -448,31 +772,58 @@
         2
       ]
     ],
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "module"
-      }
-    ]
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位系统常量的定义位置与行号。"
+    }
   },
   {
+    "id": "feature-26",
     "name": "REALM_TIERS",
+    "description": "TODO: 从 mushenji_bot.py 或配置表补充系统说明。",
+    "unlock_stage": "TODO",
+    "dependencies": [],
+    "beginner_tips": [],
+    "advanced_notes": [],
+    "related": {
+      "commands": [],
+      "errors": [],
+      "items": [],
+      "quests": []
+    },
     "details": "Unknown",
-    "references": [
-      {
-        "file": "test/test_basic.py",
-        "function": "module"
-      }
-    ]
+    "source": {
+      "file": "test/test_basic.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位系统常量的定义位置与行号。"
+    }
   },
   {
+    "id": "feature-27",
     "name": "REALM_TIERS",
+    "description": "TODO: 从 mushenji_bot.py 或配置表补充系统说明。",
+    "unlock_stage": "TODO",
+    "dependencies": [],
+    "beginner_tips": [],
+    "advanced_notes": [],
+    "related": {
+      "commands": [],
+      "errors": [],
+      "items": [],
+      "quests": []
+    },
     "details": "Unknown",
-    "references": [
-      {
-        "file": "tools/extract_mushenji_docs.py",
-        "function": "module"
-      }
-    ]
+    "source": {
+      "file": "tools/extract_mushenji_docs.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位系统常量的定义位置与行号。"
+    }
   }
 ]
