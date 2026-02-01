@@ -4,30 +4,20 @@
     "aliases": [],
     "usage": [],
     "examples": [],
-    "category": "Quick Start",
+    "category": "Uncategorized",
     "description": "TODO: 待从 mushenji_bot.py 补充说明",
     "pitfalls": [],
     "related": [],
     "details": {
       "parameters": [],
       "preconditions": [],
-      "outcomes": [
-        "暂无世界观条目。",
-        "世界观"
-      ]
+      "outcomes": []
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
     "source": {
       "file": "mushenji_bot.py",
-      "line_start": null,
-      "line_end": null,
-      "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "line_start": 2786,
+      "line_end": 2786,
+      "registry": "handle_cmd"
     }
   },
   {
@@ -35,30 +25,20 @@
     "aliases": [],
     "usage": [],
     "examples": [],
-    "category": "Quick Start",
+    "category": "Uncategorized",
     "description": "TODO: 待从 mushenji_bot.py 补充说明",
     "pitfalls": [],
     "related": [],
     "details": {
       "parameters": [],
       "preconditions": [],
-      "outcomes": [
-        "暂无人物条目。",
-        "人物"
-      ]
+      "outcomes": []
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
     "source": {
       "file": "mushenji_bot.py",
-      "line_start": null,
-      "line_end": null,
-      "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "line_start": 2789,
+      "line_end": 2789,
+      "registry": "handle_cmd"
     }
   },
   {
@@ -66,44 +46,20 @@
     "aliases": [],
     "usage": [],
     "examples": [],
-    "category": "Quests and Progression",
+    "category": "Uncategorized",
     "description": "TODO: 待从 mushenji_bot.py 补充说明",
     "pitfalls": [],
     "related": [],
     "details": {
       "parameters": [],
-      "preconditions": [
-        "你尚未入道，请先发送 .检测灵体。",
-        "任务冷却中，请在"
-      ],
-      "outcomes": [
-        "任务完成",
-        "提示：任务奖励周期为6小时。",
-        "奖励：",
-        "、",
-        "分",
-        "秒 后再试。",
-        "延康任务完成",
-        "提示：国家任务稳定发薪。",
-        "任务：",
-        "奖励：大丰币×",
-        "、灵石×",
-        "、修为×",
-        "、火把×1"
-      ]
+      "preconditions": [],
+      "outcomes": []
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
     "source": {
       "file": "mushenji_bot.py",
-      "line_start": null,
-      "line_end": null,
-      "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "line_start": 2637,
+      "line_end": 2637,
+      "registry": "handle_cmd"
     }
   },
   {
@@ -111,30 +67,20 @@
     "aliases": [],
     "usage": [],
     "examples": [],
-    "category": "Movement and Exploration",
+    "category": "Uncategorized",
     "description": "TODO: 待从 mushenji_bot.py 补充说明",
     "pitfalls": [],
     "related": [],
     "details": {
       "parameters": [],
       "preconditions": [],
-      "outcomes": [
-        "暂无传闻。",
-        "传闻"
-      ]
+      "outcomes": []
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
     "source": {
       "file": "mushenji_bot.py",
-      "line_start": null,
-      "line_end": null,
-      "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "line_start": 2783,
+      "line_end": 2783,
+      "registry": "handle_cmd"
     }
   },
   {
@@ -142,113 +88,62 @@
     "aliases": [],
     "usage": [],
     "examples": [],
-    "category": "Inventory and Gear",
+    "category": "Uncategorized",
     "description": "TODO: 待从 mushenji_bot.py 补充说明",
     "pitfalls": [],
     "related": [],
     "details": {
       "parameters": [],
-      "preconditions": [
-        "你尚未入道，请先发送 .检测灵体。"
-      ],
-      "outcomes": [
-        "储物袋",
-        "储物袋空空如也。"
-      ]
+      "preconditions": [],
+      "outcomes": []
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
     "source": {
       "file": "mushenji_bot.py",
-      "line_start": null,
-      "line_end": null,
-      "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "line_start": 2104,
+      "line_end": 2104,
+      "registry": "handle_cmd"
     }
   },
   {
     "name": "出售",
     "aliases": [],
-    "usage": [
-      "用法：.出售 物品名*数量"
-    ],
+    "usage": [],
     "examples": [],
-    "category": "Trading and Economy",
+    "category": "Uncategorized",
     "description": "TODO: 待从 mushenji_bot.py 补充说明",
     "pitfalls": [],
     "related": [],
     "details": {
-      "parameters": [
-        ".出售 物品名*数量"
-      ],
-      "preconditions": [
-        "你尚未入道，请先发送 .检测灵体。",
-        "该物品不可出售。可出售：常见材料与部分异兽战利品。",
-        "储物袋中不足（拥有"
-      ],
-      "outcomes": [
-        "出售完成",
-        "出售：",
-        "×",
-        "获得：",
-        "、",
-        "）。"
-      ]
+      "parameters": [],
+      "preconditions": [],
+      "outcomes": []
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
     "source": {
       "file": "mushenji_bot.py",
-      "line_start": null,
-      "line_end": null,
-      "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "line_start": 2204,
+      "line_end": 2204,
+      "registry": "handle_cmd"
     }
   },
   {
     "name": "前往",
     "aliases": [],
-    "usage": [
-      "用法：.前往 延康/大墟/宗门名"
-    ],
+    "usage": [],
     "examples": [],
-    "category": "Movement and Exploration",
+    "category": "Uncategorized",
     "description": "TODO: 待从 mushenji_bot.py 补充说明",
     "pitfalls": [],
     "related": [],
     "details": {
-      "parameters": [
-        ".前往 延康/大墟/宗门名"
-      ],
-      "preconditions": [
-        "你尚未入道，请先发送 .检测灵体。",
-        "前往大墟需要火把。可在延康任务或宗门兑换获取。"
-      ],
-      "outcomes": [
-        "你已前往",
-        "。"
-      ]
+      "parameters": [],
+      "preconditions": [],
+      "outcomes": []
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
     "source": {
       "file": "mushenji_bot.py",
-      "line_start": null,
-      "line_end": null,
-      "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "line_start": 2117,
+      "line_end": 2117,
+      "registry": "handle_cmd"
     }
   },
   {
@@ -256,106 +151,62 @@
     "aliases": [],
     "usage": [],
     "examples": [],
-    "category": "Quick Start",
+    "category": "Uncategorized",
     "description": "TODO: 待从 mushenji_bot.py 补充说明",
     "pitfalls": [],
     "related": [],
     "details": {
       "parameters": [],
       "preconditions": [],
-      "outcomes": [
-        "暂无势力条目。",
-        "势力"
-      ]
+      "outcomes": []
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
     "source": {
       "file": "mushenji_bot.py",
-      "line_start": null,
-      "line_end": null,
-      "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "line_start": 2792,
+      "line_end": 2792,
+      "registry": "handle_cmd"
     }
   },
   {
     "name": "喂食",
     "aliases": [],
-    "usage": [
-      "用法：.喂食 赤火灵丹/灵石*数量"
-    ],
+    "usage": [],
     "examples": [],
-    "category": "Combat and Survival",
+    "category": "Uncategorized",
     "description": "TODO: 待从 mushenji_bot.py 补充说明",
     "pitfalls": [],
     "related": [],
     "details": {
-      "parameters": [
-        ".喂食 赤火灵丹/灵石*数量"
-      ],
-      "preconditions": [
-        "你尚未入道，请先发送 .检测灵体。",
-        "灵石不足，需要",
-        "储物袋中不足（拥有"
-      ],
-      "outcomes": [
-        "龙麒麟吞下丹药，舒服地打了个饱嗝，慢吞吞地站了起来：'教主，去哪？'",
-        "。",
-        "龙麒麟只吃赤火灵丹或灵石。",
-        "）。"
-      ]
+      "parameters": [],
+      "preconditions": [],
+      "outcomes": []
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
     "source": {
       "file": "mushenji_bot.py",
-      "line_start": null,
-      "line_end": null,
-      "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "line_start": 2327,
+      "line_end": 2327,
+      "registry": "handle_cmd"
     }
   },
   {
     "name": "图鉴",
     "aliases": [],
     "usage": [],
-    "examples": [
-      "示例：.图鉴 丹药"
-    ],
-    "category": "Inventory and Gear",
+    "examples": [],
+    "category": "Uncategorized",
     "description": "TODO: 待从 mushenji_bot.py 补充说明",
     "pitfalls": [],
     "related": [],
     "details": {
       "parameters": [],
       "preconditions": [],
-      "outcomes": [
-        "图鉴",
-        "提示：已移除可用 .已移除 发放 发放物品。",
-        "可选分类：丹药、武器、护具、材料、丹方、武器方、护具方、限量武器、限量防具、超稀有丹药、限量道具",
-        "示例：.图鉴 丹药"
-      ]
+      "outcomes": []
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
     "source": {
       "file": "mushenji_bot.py",
-      "line_start": null,
-      "line_end": null,
-      "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "line_start": 2314,
+      "line_end": 2314,
+      "registry": "handle_cmd"
     }
   },
   {
@@ -363,246 +214,83 @@
     "aliases": [],
     "usage": [],
     "examples": [],
-    "category": "Quick Start",
+    "category": "Uncategorized",
     "description": "TODO: 待从 mushenji_bot.py 补充说明",
     "pitfalls": [],
     "related": [],
     "details": {
       "parameters": [],
       "preconditions": [],
-      "outcomes": [
-        "暂无地名条目。",
-        "地名"
-      ]
+      "outcomes": []
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
     "source": {
       "file": "mushenji_bot.py",
-      "line_start": null,
-      "line_end": null,
-      "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "line_start": 2795,
+      "line_end": 2795,
+      "registry": "handle_cmd"
     }
   },
   {
     "name": "堵门",
     "aliases": [],
-    "usage": [
-      "用法：.堵门 宗门名"
-    ],
+    "usage": [],
     "examples": [],
-    "category": "Combat and Survival",
+    "category": "Uncategorized",
     "description": "TODO: 待从 mushenji_bot.py 补充说明",
     "pitfalls": [],
     "related": [],
     "details": {
-      "parameters": [
-        ".堵门 宗门名"
-      ],
-      "preconditions": [
-        "你尚未入道，请先发送 .检测灵体。",
-        "不可堵自己的宗门。",
-        "你需在延康或目标宗门所在地才能堵门。"
-      ],
-      "outcomes": [
-        "你被宗门弟子击退，获得称号：被堵门的手下败将（1小时）。",
-        "教主说了，要叫天圣教！扣除 10 点贡献！",
-        "你需在延康或目标宗门所在地才能堵门。",
-        "你还在堵门败将的阴影中，",
-        "分",
-        "秒 后再试。",
-        "宗门派出弟子迎战，你大胜！获得声望×",
-        "。"
-      ]
+      "parameters": [],
+      "preconditions": [],
+      "outcomes": []
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
     "source": {
       "file": "mushenji_bot.py",
-      "line_start": null,
-      "line_end": null,
-      "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "line_start": 2233,
+      "line_end": 2233,
+      "registry": "handle_cmd"
     }
   },
   {
     "name": "宗门",
     "aliases": [],
-    "usage": [
-      "用法：.宗门 查看/加入 宗门名/信息/任务/签到/兑换",
-      "用法：.宗门 加入 宗门名 / .宗门 信息 / .宗门 签到",
-      "用法：.宗门 兑换 物品名",
-      "用法：.宗门 加入 宗门名"
-    ],
+    "usage": [],
     "examples": [],
-    "category": "Quests and Progression",
+    "category": "Uncategorized",
     "description": "TODO: 待从 mushenji_bot.py 补充说明",
     "pitfalls": [],
     "related": [],
     "details": {
-      "parameters": [
-        ".宗门 查看/加入 宗门名/信息/任务/签到/兑换",
-        ".宗门 加入 宗门名 / .宗门 信息 / .宗门 签到",
-        ".宗门 兑换 物品名",
-        ".宗门 加入 宗门名"
-      ],
-      "preconditions": [
-        "提示：宗门任务冷却为8小时。",
-        "你尚未入道，请先发送 .检测灵体。",
-        "你尚未加入宗门。可用：.宗门 查看",
-        "你尚未加入宗门。可用：.宗门 加入 宗门名",
-        "宗门任务冷却中，请在",
-        "宗门签到冷却中，请在",
-        "宗门贡献不足，需要",
-        "你资质平平（无信物）且囊中羞涩（灵石不足）。请先在延康打工，或去大墟碰碰运气。"
-      ],
-      "outcomes": [
-        "宗门一览",
-        "宗门信息",
-        "提示：.宗门 任务 / .宗门 签到 / .宗门 兑换",
-        "宗门：",
-        "宗门描述：",
-        "宗门贡献：",
-        "desc",
-        "暂无",
-        "宗门任务完成",
-        "任务：",
-        "提交：",
-        "奖励：",
-        "title",
-        "、",
-        "×",
-        "requirements",
-        "宗门签到",
-        "提示：每日可签到一次。",
-        "获得宗门贡献×",
-        "兑换成功",
-        "物品：",
-        "消耗贡献：",
-        "qty",
-        "cost",
-        "宗门加入成功",
-        "入门奖励：",
-        "分",
-        "秒 后再试。",
-        "宗门任务",
-        "可通过 .储物袋 查看库存。",
-        "需求：",
-        "缺少：",
-        "-",
-        "小时",
-        "分 后再试。",
-        "宗门兑换",
-        "查看配方：.宗门 兑换 配方",
-        "查看材料：.宗门 兑换 材料",
-        "查看信物：.宗门 兑换 信物",
-        "配方可兑换数量：",
-        "信物可兑换数量：",
-        "暂无可兑换物品。",
-        "点。",
-        "你已加入宗门："
-      ]
+      "parameters": [],
+      "preconditions": [],
+      "outcomes": []
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
     "source": {
       "file": "mushenji_bot.py",
-      "line_start": null,
-      "line_end": null,
-      "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "line_start": 2416,
+      "line_end": 2416,
+      "registry": "handle_cmd"
     }
   },
   {
     "name": "帮助",
     "aliases": [],
     "usage": [],
-    "examples": [
-      ".检测灵体",
-      ".我的灵体",
-      ".我的配方",
-      ".闭关修炼",
-      ".突破",
-      ".深度闭关 / .查看闭关 / .强行出关",
-      ".储物袋",
-      ".前往 延康/大墟/宗门名",
-      ".拜访 村长/药师",
-      ".出售 物品名*数量",
-      ".喂食 赤火灵丹/灵石*数量",
-      ".鬼市 淘宝",
-      ".堵门 宗门名",
-      ".试药",
-      ".服用 丹药名*数量",
-      ".炼制 配方名/目标物品*数量",
-      ".图鉴 丹药/武器/护具/材料/丹方/武器方/护具方/限量武器/限量防具/超稀有丹药/限量道具",
-      ".道门 解题 [答案]",
-      ".宗门 查看/加入 宗门名/信息/任务/签到/兑换",
-      ".任务",
-      ".榜单 灵石/修为",
-      ".传闻",
-      ".世界观 / .人物 / .势力 / .地名",
-      ".已移除 帮助（管理员）"
-    ],
-    "category": "Quick Start",
+    "examples": [],
+    "category": "Uncategorized",
     "description": "TODO: 待从 mushenji_bot.py 补充说明",
     "pitfalls": [],
     "related": [],
     "details": {
       "parameters": [],
       "preconditions": [],
-      "outcomes": [
-        "指令一览",
-        ".检测灵体",
-        ".我的灵体",
-        ".我的配方",
-        ".闭关修炼",
-        ".突破",
-        ".深度闭关 / .查看闭关 / .强行出关",
-        ".储物袋",
-        ".前往 延康/大墟/宗门名",
-        ".拜访 村长/药师",
-        ".出售 物品名*数量",
-        ".喂食 赤火灵丹/灵石*数量",
-        ".鬼市 淘宝",
-        ".堵门 宗门名",
-        ".试药",
-        ".服用 丹药名*数量",
-        ".炼制 配方名/目标物品*数量",
-        ".图鉴 丹药/武器/护具/材料/丹方/武器方/护具方/限量武器/限量防具/超稀有丹药/限量道具",
-        ".道门 解题 [答案]",
-        ".宗门 查看/加入 宗门名/信息/任务/签到/兑换",
-        ".任务",
-        ".榜单 灵石/修为",
-        ".传闻",
-        ".世界观 / .人物 / .势力 / .地名",
-        ".已移除 帮助（管理员）"
-      ]
+      "outcomes": []
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
     "source": {
       "file": "mushenji_bot.py",
-      "line_start": null,
-      "line_end": null,
-      "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "line_start": 1899,
+      "line_end": 1899,
+      "registry": "handle_cmd"
     }
   },
   {
@@ -610,7 +298,7 @@
     "aliases": [],
     "usage": [],
     "examples": [],
-    "category": "Quests and Progression",
+    "category": "Uncategorized",
     "description": "TODO: 待从 mushenji_bot.py 补充说明",
     "pitfalls": [],
     "related": [],
@@ -619,18 +307,11 @@
       "preconditions": [],
       "outcomes": []
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
     "source": {
       "file": "mushenji_bot.py",
-      "line_start": null,
-      "line_end": null,
-      "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "line_start": 2101,
+      "line_end": 2101,
+      "registry": "handle_cmd"
     }
   },
   {
@@ -638,44 +319,20 @@
     "aliases": [],
     "usage": [],
     "examples": [],
-    "category": "Quick Start",
+    "category": "Uncategorized",
     "description": "TODO: 待从 mushenji_bot.py 补充说明",
     "pitfalls": [],
     "related": [],
     "details": {
       "parameters": [],
-      "preconditions": [
-        "你尚未入道，请先发送 .检测灵体。"
-      ],
-      "outcomes": [
-        "道友档案",
-        "道友：",
-        "道号：",
-        "灵体：",
-        "境界：",
-        "当前修为：",
-        "/",
-        "灵石：",
-        "大丰币：",
-        "所在地：",
-        "声望：",
-        "生命：",
-        "临时灵体：",
-        "无"
-      ]
+      "preconditions": [],
+      "outcomes": []
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
     "source": {
       "file": "mushenji_bot.py",
-      "line_start": null,
-      "line_end": null,
-      "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "line_start": 1973,
+      "line_end": 1973,
+      "registry": "handle_cmd"
     }
   },
   {
@@ -683,141 +340,62 @@
     "aliases": [],
     "usage": [],
     "examples": [],
-    "category": "Inventory and Gear",
+    "category": "Uncategorized",
     "description": "TODO: 待从 mushenji_bot.py 补充说明",
     "pitfalls": [],
     "related": [],
     "details": {
       "parameters": [],
-      "preconditions": [
-        "你尚未入道，请先发送 .检测灵体。",
-        "目前尚未学会任何配方。"
-      ],
-      "outcomes": [
-        "我的配方",
-        "提示：可通过宗门/任务/已移除获取配方。"
-      ]
+      "preconditions": [],
+      "outcomes": []
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
     "source": {
       "file": "mushenji_bot.py",
-      "line_start": null,
-      "line_end": null,
-      "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "line_start": 2036,
+      "line_end": 2036,
+      "registry": "handle_cmd"
     }
   },
   {
     "name": "拜访",
     "aliases": [],
-    "usage": [
-      "用法：.拜访 村长/屠夫/药师..."
-    ],
+    "usage": [],
     "examples": [],
-    "category": "Movement and Exploration",
+    "category": "Uncategorized",
     "description": "TODO: 待从 mushenji_bot.py 补充说明",
     "pitfalls": [],
     "related": [],
     "details": {
-      "parameters": [
-        ".拜访 村长/屠夫/药师..."
-      ],
-      "preconditions": [
-        "你尚未入道。"
-      ],
-      "outcomes": [
-        "似乎不在家。",
-        "你四顾茫然，这里不是残老村（大墟）。只有在大墟才能拜访各位长者。",
-        "村长看着你的",
-        "：'资质尚可。但若想成为举世无双的霸体，需寻来【四灵血】，我可为你逆天改命。'",
-        "药师失手：'糟了！' 你被毒翻倒地，生命归1，并获得临时抗性：",
-        "（6小时）。",
-        "村长上下打量你，眼中闪过一丝惊讶：\n'没想到世间真有天生的霸体……咳咳，我是说，霸体已成，去战斗吧！不要辜负了这无敌的体质！'",
-        "霸体觉醒",
-        "村长面色凝重，丢掉手中的拐杖，死死盯着你。",
-        "村长：'少年，你以为你是凡体？错！大错特错！'",
-        "村长：'你是万古无一的苍天霸体！只不过神光内敛，被凡俗蒙尘！'",
-        "你听得热血沸腾，感觉体内充满了力量！",
-        "灵体变更为：苍天霸体",
-        "获得被动：信心爆棚（修炼速度小幅提升）",
-        "村长：'去吧，霸体无敌。'",
-        "你献上【四灵血】。",
-        "村长为你逆天改命，重塑根基！",
-        "获得被动：信心爆棚",
-        "药师：'你体内清净，无需配药。'",
-        "药师：'配药要花灵石",
-        "，你这点家当不够。'",
-        "药师捻须：'此药可解丹毒。' 你的丹毒已清空。"
-      ]
+      "parameters": [],
+      "preconditions": [],
+      "outcomes": []
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
     "source": {
       "file": "mushenji_bot.py",
-      "line_start": null,
-      "line_end": null,
-      "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "line_start": 2135,
+      "line_end": 2135,
+      "registry": "handle_cmd"
     }
   },
   {
     "name": "服用",
     "aliases": [],
-    "usage": [
-      "用法：.服用 丹药名*数量"
-    ],
+    "usage": [],
     "examples": [],
-    "category": "Inventory and Gear",
+    "category": "Uncategorized",
     "description": "TODO: 待从 mushenji_bot.py 补充说明",
     "pitfalls": [],
     "related": [],
     "details": {
-      "parameters": [
-        ".服用 丹药名*数量"
-      ],
-      "preconditions": [
-        "你尚未入道，请先发送 .检测灵体。",
-        "储物袋中不足（拥有",
-        "境界不足，无法承受药力。"
-      ],
-      "outcomes": [
-        "服用成功",
-        "丹药：",
-        "×",
-        "修为变化：+",
-        "当前境界：",
-        "当前修为：",
-        "/",
-        "丹毒层数：",
-        "）。",
-        "肉身强度：+",
-        "最大生命",
-        "(大幅增加)",
-        "洗髓丹入腹，丹毒尽消，道心澄明。",
-        "(已降低)"
-      ]
+      "parameters": [],
+      "preconditions": [],
+      "outcomes": []
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
     "source": {
       "file": "mushenji_bot.py",
-      "line_start": null,
-      "line_end": null,
-      "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "line_start": 2798,
+      "line_end": 2798,
+      "registry": "handle_cmd"
     }
   },
   {
@@ -825,7 +403,7 @@
     "aliases": [],
     "usage": [],
     "examples": [],
-    "category": "Quests and Progression",
+    "category": "Uncategorized",
     "description": "TODO: 待从 mushenji_bot.py 补充说明",
     "pitfalls": [],
     "related": [],
@@ -834,18 +412,11 @@
       "preconditions": [],
       "outcomes": []
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
     "source": {
       "file": "mushenji_bot.py",
-      "line_start": null,
-      "line_end": null,
-      "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "line_start": 2098,
+      "line_end": 2098,
+      "registry": "handle_cmd"
     }
   },
   {
@@ -853,35 +424,20 @@
     "aliases": [],
     "usage": [],
     "examples": [],
-    "category": "Quick Start",
+    "category": "Uncategorized",
     "description": "TODO: 待从 mushenji_bot.py 补充说明",
     "pitfalls": [],
     "related": [],
     "details": {
       "parameters": [],
       "preconditions": [],
-      "outcomes": [
-        "检测灵体",
-        "身处大墟，万象皆险。",
-        "初始资助：大丰币100、灵石10。",
-        "道友：",
-        "先已移除灵体：",
-        "当前境界：",
-        "你已检测过灵体，可发送 .我的灵体 查看档案。"
-      ]
+      "outcomes": []
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
     "source": {
       "file": "mushenji_bot.py",
-      "line_start": null,
-      "line_end": null,
-      "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "line_start": 1930,
+      "line_end": 1930,
+      "registry": "handle_cmd"
     }
   },
   {
@@ -889,34 +445,20 @@
     "aliases": [],
     "usage": [],
     "examples": [],
-    "category": "Quests and Progression",
+    "category": "Uncategorized",
     "description": "TODO: 待从 mushenji_bot.py 补充说明",
     "pitfalls": [],
     "related": [],
     "details": {
       "parameters": [],
       "preconditions": [],
-      "outcomes": [
-        "灵石榜",
-        "统计范围：当前玩家灵石总量",
-        "修为榜",
-        "统计范围：当前玩家修为总量",
-        "暂无灵石榜数据。",
-        "暂无修为榜数据。"
-      ]
+      "outcomes": []
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
     "source": {
       "file": "mushenji_bot.py",
-      "line_start": null,
-      "line_end": null,
-      "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "line_start": 2767,
+      "line_end": 2767,
+      "registry": "handle_cmd"
     }
   },
   {
@@ -924,7 +466,7 @@
     "aliases": [],
     "usage": [],
     "examples": [],
-    "category": "Quests and Progression",
+    "category": "Uncategorized",
     "description": "TODO: 待从 mushenji_bot.py 补充说明",
     "pitfalls": [],
     "related": [],
@@ -933,70 +475,32 @@
       "preconditions": [],
       "outcomes": []
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
     "source": {
       "file": "mushenji_bot.py",
-      "line_start": null,
-      "line_end": null,
-      "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "line_start": 2095,
+      "line_end": 2095,
+      "registry": "handle_cmd"
     }
   },
   {
     "name": "炼制",
     "aliases": [],
-    "usage": [
-      "用法：.炼制 配方名/目标物品*数量"
-    ],
+    "usage": [],
     "examples": [],
-    "category": "Inventory and Gear",
+    "category": "Uncategorized",
     "description": "TODO: 待从 mushenji_bot.py 补充说明",
     "pitfalls": [],
     "related": [],
     "details": {
-      "parameters": [
-        ".炼制 配方名/目标物品*数量"
-      ],
-      "preconditions": [
-        "你尚未入道，请先发送 .检测灵体。",
-        "你尚未获得该配方，可通过宗门/任务/已移除获取。",
-        "境界不足，需达到",
-        "材料不足：",
-        "灵石不足，需要"
-      ],
-      "outcomes": [
-        "炼制成功",
-        "配方：",
-        "产物：",
-        "×",
-        "消耗灵石：",
-        "材料：",
-        "炼制",
-        "请输入阁下想要炼制的物品",
-        "提示：可用 .我的配方 查看已学配方。",
-        "才可炼制。",
-        "配方缺少材料配置，请联系已移除修正。",
-        "灵石。",
-        "存在多个配方，请直接填写配方名。"
-      ]
+      "parameters": [],
+      "preconditions": [],
+      "outcomes": []
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
     "source": {
       "file": "mushenji_bot.py",
-      "line_start": null,
-      "line_end": null,
-      "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "line_start": 2689,
+      "line_end": 2689,
+      "registry": "handle_cmd"
     }
   },
   {
@@ -1004,130 +508,7 @@
     "aliases": [],
     "usage": [],
     "examples": [],
-    "category": "Quests and Progression",
-    "description": "TODO: 待从 mushenji_bot.py 补充说明",
-    "pitfalls": [],
-    "related": [],
-    "details": {
-      "parameters": [],
-      "preconditions": [
-        "你尚未入道，请先发送 .检测灵体。",
-        "尚未到达瓶颈，无法突破。"
-      ],
-      "outcomes": [
-        "。请调息后再试。",
-        "你凝聚心神，强行破壁成功！当前境界：",
-        "。",
-        "，生命受损。请调息后再试。",
-        "破境丹药力化开，你强行冲破瓶颈！当前境界："
-      ]
-    },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
-    "source": {
-      "file": "mushenji_bot.py",
-      "line_start": null,
-      "line_end": null,
-      "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
-    }
-  },
-  {
-    "name": "试药",
-    "aliases": [],
-    "usage": [],
-    "examples": [],
-    "category": "Combat and Survival",
-    "description": "TODO: 待从 mushenji_bot.py 补充说明",
-    "pitfalls": [],
-    "related": [],
-    "details": {
-      "parameters": [],
-      "preconditions": [
-        "你尚未入道，请先发送 .检测灵体。",
-        "试药必须在延康进行。",
-        "试药冷却中，请在"
-      ],
-      "outcomes": [
-        "你感觉体内充满了神兽之力！临时灵体：",
-        "（24小时）。",
-        "小时",
-        "分 后再试。",
-        "脸都绿了！药有毒！你生命降到1，1小时内无法闭关。",
-        "味道有点甜，没啥反应。",
-        "药力洗刷全身，你的皮膜更加坚韧了！最大生命+10。"
-      ]
-    },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
-    "source": {
-      "file": "mushenji_bot.py",
-      "line_start": null,
-      "line_end": null,
-      "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
-    }
-  },
-  {
-    "name": "道门",
-    "aliases": [],
-    "usage": [
-      "用法：.道门 解题 [答案]",
-      "用法：.道门 解题 你的答案"
-    ],
-    "examples": [],
-    "category": "Quests and Progression",
-    "description": "TODO: 待从 mushenji_bot.py 补充说明",
-    "pitfalls": [],
-    "related": [],
-    "details": {
-      "parameters": [
-        ".道门 解题 [答案]",
-        ".道门 解题 你的答案"
-      ],
-      "preconditions": [
-        "你尚未入道，请先发送 .检测灵体。"
-      ],
-      "outcomes": [
-        "解题成功，你已获得道门免试资格！",
-        "你已获得道门免试资格，可直接申请加入。",
-        "道门解题",
-        "请计算：",
-        "+",
-        "= ?",
-        "题目已过期，请重新发送 .道门 解题 获取新题。",
-        "回答错误，请重新发送 .道门 解题 获取新题。",
-        "答案需为整数。"
-      ]
-    },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
-    "source": {
-      "file": "mushenji_bot.py",
-      "line_start": null,
-      "line_end": null,
-      "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
-    }
-  },
-  {
-    "name": "闭关修炼",
-    "aliases": [],
-    "usage": [],
-    "examples": [],
-    "category": "Quests and Progression",
+    "category": "Uncategorized",
     "description": "TODO: 待从 mushenji_bot.py 补充说明",
     "pitfalls": [],
     "related": [],
@@ -1136,62 +517,95 @@
       "preconditions": [],
       "outcomes": []
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
     "source": {
       "file": "mushenji_bot.py",
-      "line_start": null,
-      "line_end": null,
-      "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "line_start": 2049,
+      "line_end": 2049,
+      "registry": "handle_cmd"
+    }
+  },
+  {
+    "name": "试药",
+    "aliases": [],
+    "usage": [],
+    "examples": [],
+    "category": "Uncategorized",
+    "description": "TODO: 待从 mushenji_bot.py 补充说明",
+    "pitfalls": [],
+    "related": [],
+    "details": {
+      "parameters": [],
+      "preconditions": [],
+      "outcomes": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": 2271,
+      "line_end": 2271,
+      "registry": "handle_cmd"
+    }
+  },
+  {
+    "name": "道门",
+    "aliases": [],
+    "usage": [],
+    "examples": [],
+    "category": "Uncategorized",
+    "description": "TODO: 待从 mushenji_bot.py 补充说明",
+    "pitfalls": [],
+    "related": [],
+    "details": {
+      "parameters": [],
+      "preconditions": [],
+      "outcomes": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": 2385,
+      "line_end": 2385,
+      "registry": "handle_cmd"
+    }
+  },
+  {
+    "name": "闭关修炼",
+    "aliases": [],
+    "usage": [],
+    "examples": [],
+    "category": "Uncategorized",
+    "description": "TODO: 待从 mushenji_bot.py 补充说明",
+    "pitfalls": [],
+    "related": [],
+    "details": {
+      "parameters": [],
+      "preconditions": [],
+      "outcomes": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": 2092,
+      "line_end": 2092,
+      "registry": "handle_cmd"
     }
   },
   {
     "name": "鬼市",
     "aliases": [],
-    "usage": [
-      "用法：.鬼市 淘宝"
-    ],
+    "usage": [],
     "examples": [],
-    "category": "Trading and Economy",
+    "category": "Uncategorized",
     "description": "TODO: 待从 mushenji_bot.py 补充说明",
     "pitfalls": [],
     "related": [],
     "details": {
-      "parameters": [
-        ".鬼市 淘宝"
-      ],
-      "preconditions": [
-        "你尚未入道，请先发送 .检测灵体。",
-        "鬼市只在夜晚（20:00-06:00）开放。",
-        "大丰币不足，需要"
-      ],
-      "outcomes": [
-        "你在鬼市中捡到稀罕物：",
-        "！",
-        "鬼市只在夜晚（20:00-06:00）开放。",
-        "鬼市只会在延康或大墟现身。",
-        "。",
-        "你在鬼市的摊位前蹲下，摊主戴着面具，阴森地看着你……\n你买到了一个看起来很厉害的……垃圾：",
-        "鬼市摊主掀开黑布，你淘到了："
-      ]
+      "parameters": [],
+      "preconditions": [],
+      "outcomes": []
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
     "source": {
       "file": "mushenji_bot.py",
-      "line_start": null,
-      "line_end": null,
-      "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "line_start": 2354,
+      "line_end": 2354,
+      "registry": "handle_cmd"
     }
   }
 ]
