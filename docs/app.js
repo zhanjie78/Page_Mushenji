@@ -1,26 +1,85 @@
-const SECTIONS = [
-  { id: "quick-start", title: "快速入门", category: "Quick Start", contentId: "quickStartContent" },
+const TAXONOMY = [
   {
-    id: "movement",
-    title: "探索与移动",
-    category: "Movement and Exploration",
-    contentId: "movementContent",
+    id: "preface",
+    title: "卷首语",
+    description: "霸体启示，掌灯人传下的修行要诀。",
   },
-  { id: "combat", title: "战斗与生存", category: "Combat and Survival", contentId: "combatContent" },
-  { id: "inventory", title: "背包与装备", category: "Inventory and Gear", contentId: "inventoryContent" },
-  { id: "trading", title: "交易与经济", category: "Trading and Economy", contentId: "tradingContent" },
-  { id: "progression", title: "任务与成长", category: "Quests and Progression", contentId: "progressionContent" },
+  {
+    id: "great-ruins",
+    title: "壹 · 大墟残老村",
+    description: "检测灵体、石像守夜与村长的吩咐。",
+  },
+  {
+    id: "overlord-foundation",
+    title: "贰 · 霸体筑基",
+    description: "闭关磨炼，突破体魄的第一道关隘。",
+  },
+  {
+    id: "imperial-reform",
+    title: "叁 · 延康国师变法",
+    description: "宗门与任务流转，山河秩序重新洗牌。",
+  },
+  {
+    id: "heavenly-devil",
+    title: "肆 · 天魔教主",
+    description: "炼制与丹药，炉火里藏着天魔的秘密。",
+  },
+  {
+    id: "fengdu",
+    title: "伍 · 酆都鬼城",
+    description: "鬼市开张，交易与出售暗流涌动。",
+  },
+  {
+    id: "jade-thunder",
+    title: "陆 · 小玉京与大雷音",
+    description: "宗门事务与天下秘闻的汇聚之地。",
+  },
+  {
+    id: "upper-realm",
+    title: "柒 · 上苍虚界",
+    description: "虚界副本与强敌试炼。",
+  },
+  {
+    id: "butcher-blade",
+    title: "捌 · 屠夫的一刀",
+    description: "堵门与生死对决的锋芒。",
+  },
+  {
+    id: "herding-gods",
+    title: "终章 · 牧神之道",
+    description: "破心中之神，方得牧神之道。",
+  },
 ];
 
-const HERO_TAGS = ["代码驱动", "新手到进阶", "静态指引", "GitHub Pages 部署"];
+const sectionMappings = {
+  preface: ["Quick Start"],
+  "great-ruins": ["Movement and Exploration"],
+  "overlord-foundation": [],
+  "imperial-reform": ["Quests and Progression"],
+  "heavenly-devil": ["Inventory and Gear"],
+  fengdu: ["Trading and Economy"],
+  "jade-thunder": [],
+  "upper-realm": [],
+  "butcher-blade": ["Combat and Survival"],
+  "herding-gods": [],
+};
+
+const SECTIONS = TAXONOMY.map((section) => ({
+  ...section,
+  contentId: `${section.id}Content`,
+  categories: sectionMappings[section.id] || [],
+}));
+
+const HERO_TAGS = ["大墟夜行", "霸体修行", "九老叮嘱", "牧神之道"];
 const REDACT_KEYWORD = "天道";
+const UNKNOWN_TEXT = "大墟的黑暗掩盖了真相...";
 const CATEGORY_LABELS = {
-  "Quick Start": "快速入门",
-  "Movement and Exploration": "探索与移动",
-  "Combat and Survival": "战斗与生存",
-  "Inventory and Gear": "背包与装备",
-  "Trading and Economy": "交易与经济",
-  "Quests and Progression": "任务与成长",
+  "Quick Start": "卷首语",
+  "Movement and Exploration": "壹 · 大墟残老村",
+  "Combat and Survival": "捌 · 屠夫的一刀",
+  "Inventory and Gear": "肆 · 天魔教主",
+  "Trading and Economy": "伍 · 酆都鬼城",
+  "Quests and Progression": "叁 · 延康国师变法",
   Uncategorized: "未分类",
 };
 
@@ -70,9 +129,18 @@ const slugify = (text) => text.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z
 
 const isRedacted = (value) => typeof value === "string" && value.includes(REDACT_KEYWORD);
 
-const sanitizeText = (value) => (typeof value === "string" ? value.replaceAll(REDACT_KEYWORD, "已移除") : value);
+const sanitizeText = (value) => {
+  if (typeof value !== "string") return value;
+  const normalized = value.trim().toLowerCase() === "unknown" ? UNKNOWN_TEXT : value;
+  return normalized.replaceAll(REDACT_KEYWORD, "已移除");
+};
 
 const sanitizeArray = (items) => (items || []).map(sanitizeText).filter((item) => !isRedacted(item));
+
+const formatDisplayValue = (value) => {
+  if (typeof value === "string") return sanitizeText(value);
+  return value;
+};
 
 const filterCommands = (commands) =>
   commands.filter((command) => !isRedacted(command.name)).map((command) => ({
@@ -108,7 +176,7 @@ const renderPropsList = (data) => {
           ([key, value]) => `
           <div class="props-row">
             <div class="props-key">${key}</div>
-            <div class="props-value">${value}</div>
+            <div class="props-value">${formatDisplayValue(value)}</div>
           </div>
         `
         )
@@ -170,19 +238,21 @@ const renderSnapshot = (commands, features) => {
   const prefix = features.find((feature) => feature.name === "PREFIX" || feature.id === "PREFIX");
   const totalCommands = commands.length;
   const categories = [...new Set(commands.map((cmd) => cmd.category))].filter(Boolean).length;
+  const prefixText = sanitizeText(prefix?.details ?? ".");
   container.innerHTML = `
-    <div>指令前缀：<code>${prefix?.details ?? "."}</code></div>
+    <div>指令前缀：<code>${prefixText}</code></div>
     <div>已收录命令：${totalCommands}</div>
     <div>已覆盖分类：${categories}</div>
   `;
 };
 
-const renderSectionCards = (commands, sectionId, category) => {
+const renderSectionCards = (commands, sectionId, categories) => {
   const container = document.getElementById(sectionId);
-  const scoped = commands.filter((cmd) => cmd.category === category);
+  const scoped = commands.filter((cmd) => (categories || []).includes(cmd.category));
   if (!container) return;
   if (!scoped.length) {
-    container.innerHTML = `<div class="card"><h3>待补充</h3><div class="card-meta">此分类暂无命令，请从 mushenji_bot.py 抽取后更新。</div></div>`;
+    container.innerHTML =
+      `<div class="card"><h3>待补充</h3><div class="card-meta">大墟的黑暗掩盖了真相...</div></div>`;
     return;
   }
   container.innerHTML = scoped
@@ -458,12 +528,7 @@ const init = async () => {
   renderHeroTags();
   renderSnapshot(commands, features);
   buildNavLinks(document.getElementById("topNav"), [
-    { id: "quick-start", title: "快速入门" },
-    { id: "movement", title: "探索与移动" },
-    { id: "combat", title: "战斗与生存" },
-    { id: "inventory", title: "背包与装备" },
-    { id: "trading", title: "交易与经济" },
-    { id: "progression", title: "任务与成长" },
+    ...SECTIONS.map((section) => ({ id: section.id, title: section.title })),
     { id: "troubleshooting", title: "故障排查" },
     { id: "command-library", title: "命令索引" },
   ]);
@@ -476,11 +541,11 @@ const init = async () => {
 
   const prefixFeature = features.find((feature) => feature.name === "PREFIX" || feature.id === "PREFIX");
   if (prefixFeature) {
-    document.getElementById("prefixValue").textContent = prefixFeature.details;
+    document.getElementById("prefixValue").textContent = sanitizeText(prefixFeature.details);
   }
 
   SECTIONS.forEach((section) => {
-    renderSectionCards(commands, section.contentId, section.category);
+    renderSectionCards(commands, section.contentId, section.categories);
   });
 
   renderErrors(errors);
