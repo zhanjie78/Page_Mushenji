@@ -649,3 +649,72 @@ a {
     transform: translate3d(-2%, -1%, 0);
   }
 }
+
+h1,
+h2,
+.brand-title {
+  background: linear-gradient(120deg, #f8e5ad 0%, #f2bf6d 35%, #f5d27e 65%, #d59a52 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: liquid-gold 6s ease-in-out infinite;
+}
+
+.command-card,
+.glass-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.command-card:hover,
+.glass-card:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 0 25px rgba(215, 180, 106, 0.4);
+  border-color: #f5d27e;
+}
+
+.page {
+  position: relative;
+  overflow: hidden;
+}
+
+.page::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -20%;
+  height: 40%;
+  background: linear-gradient(to bottom, rgba(8, 9, 12, 0.45), transparent);
+  opacity: 0.35;
+  transform: scaleY(-1);
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0b0d13;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #f8e5ad, #f2bf6d, #d59a52);
+  border-radius: 999px;
+}
+
+@keyframes liquid-gold {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
