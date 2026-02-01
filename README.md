@@ -1,124 +1,103 @@
-\# 牧神记教程站
+# 牧神记教程站（Page_Mushenji）
 
+本仓库是 **静态教程站点**（纯 HTML/CSS/JS），内容来源于 `zhanjie78/mushenji` 仓库中的 `mushenji_bot.py`。站点部署在 GitHub Pages 的 `/docs` 目录下，打开 `docs/index.html` 即可本地预览。
 
+> ⚠️ 当前环境无法访问 GitHub（403），因此数据层仅保留抽取后的占位字段（标记为 TODO）。如需完整内容，请在可访问 GitHub 的环境中运行抽取脚本。
 
-本目录为静态教程站点（HTML/CSS/JS），数据由 `tools/extract\_mushenji\_docs.py` 从代码中自动抽取。
+## 内容审查（天道）
 
+出于合规要求，本仓库已**移除并屏蔽**所有与“天道”相关的教程内容。抽取脚本会过滤“天道”条目，前端也有 UI 级过滤兜底。请不要在 JSON 中重新添加相关条目。
 
+## 目录结构
 
-\## 使用方式
+```
+docs/
+  index.html
+  styles.css
+  app.js
+  data/
+    commands.json
+    features.json
+    errors.json
+tools/
+  extract_mushenji_docs.py
+```
 
+## 数据层（JSON）说明
 
+### commands.json
+每条命令包含以下字段（必须存在）：
 
-\### 1) 运行抽取器
+```json
+{
+  "name": "命令名",
+  "aliases": [],
+  "usage": [],
+  "examples": [],
+  "category": "Quick Start",
+  "description": "TODO: 待从 mushenji_bot.py 补充说明",
+  "pitfalls": [],
+  "related": [],
+  "details": {
+    "parameters": [],
+    "preconditions": [],
+    "outcomes": []
+  },
+  "references": [
+    { "file": "mushenji_bot.py", "function": "handle_cmd" }
+  ],
+  "source": {
+    "file": "mushenji_bot.py",
+    "line_start": 123,
+    "line_end": 145,
+    "registry": "handle_cmd"
+  }
+}
+```
 
+### features.json / errors.json
+* `features.json`：系统常量（例如指令前缀、冷却时间等）。
+* `errors.json`：失败提示或冷却提示信息。
 
+## 如何更新 JSON 数据
+
+1. 获取 `zhanjie78/mushenji` 仓库（需确保网络可访问 GitHub）。
+2. 运行抽取脚本：
 
 ```bash
-
-python tools/extract\_mushenji\_docs.py
-
+python tools/extract_mushenji_docs.py --repo /path/to/mushenji
 ```
 
-
-
-输出位置：
-
-
-
+3. 产出会覆盖以下文件：
+```
+docs/data/commands.json
+docs/data/features.json
+docs/data/errors.json
 ```
 
-tutorial\_site/data/commands.json
+> 抽取器使用正则扫描 `mushenji_bot.py` 中的命令分支，目前只会生成命令骨架（description / examples 等仍需补充）。如需更精确的字段，请补充脚本解析逻辑。
 
-tutorial\_site/data/features.json
+### 需要补充的源位置（TODO）
 
-tutorial\_site/data/errors.json
+由于抽取器尚未解析完整逻辑，以下字段需要从 `mushenji_bot.py` 或配置表补齐：
 
-```
+- 命令说明/示例/别名：`mushenji_bot.py` 中的 `handle_cmd` 分支逻辑。
+- 系统常量/机制：`mushenji_bot.py` 顶层常量与配置表（PREFIX、冷却、掉落表等）。
+- 错误提示含义与修复策略：错误提示定义处（异常分支、提示表）。
 
+## 本地预览
 
-
-\### 2) 本地预览
-
-
+推荐使用本地静态服务（避免浏览器阻止读取 JSON）：
 
 ```bash
-
-cd tutorial\_site
-
+cd docs
 python -m http.server 8000
-
 ```
 
+访问：`http://localhost:8000/index.html`
 
+> 若直接打开 `docs/index.html`，浏览器可能拦截 `fetch`。站点已内嵌 JSON 作为 file:// 回退数据源，保持 `docs/data/*.json` 为主数据文件。
 
-浏览器访问：`http://localhost:8000/index.html`
+## GitHub Pages
 
-
-
-\### 3) 图片资源
-
-
-
-将下列资源替换为自定义图片：
-
-
-
-```
-
-tutorial\_site/assets/hero.jpg
-
-tutorial\_site/assets/chapters/\*.jpg
-
-```
-
-
-
-\## 覆盖性报告
-
-
-
-\- 抽取命令数量：`30`
-
-\- 文档渲染方式：
-
-&nbsp; - 每个命令都会进入「命令速查表」章节与系统速查分类。
-
-&nbsp; - 未能匹配到章节映射的命令依然会出现在速查表。
-
-
-
-\### 已覆盖命令（全量）
-
-
-
-```
-
-检测灵体 / 我的灵体 / 我的配方 / 闭关修炼 / 突破 / 深度闭关 / 查看闭关 / 强行出关 / 储物袋
-
-前往 / 拜访 / 出售 / 喂食 / 鬼市 / 堵门 / 试药 / 服用 / 炼制 / 图鉴 / 道门
-
-宗门 / 任务 / 榜单 / 传闻 / 世界观 / 人物 / 势力 / 地名 / 天道 / 帮助
-
-```
-
-
-
-\### 未覆盖或无法定位章节
-
-
-
-无。若新增指令未出现在章节，请在 `tutorial\_site/app.js` 的 `sectionMappings` 中追加映射。
-
-
-
-\## 数据来源说明
-
-
-
-\- 所有指令、系统、参数、冷却与错误提示均从 `mushenji\_bot.py` 解析得出。
-
-\- 若解析失败，页面会标注 `Unknown`，并保留代码引用位置作为溯源。
-
-
-
+本仓库以 `/docs` 作为 GitHub Pages 根目录，启用后即可访问站点。
