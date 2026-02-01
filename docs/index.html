@@ -3,48 +3,128 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>牧神记 · 修行指引</title>
+  <title>牧神记 · 新手修行指南</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="app">
-    <aside class="sidebar" id="sidebar">
-      <div class="brand">
-        <div class="brand-title">牧神记·修行指引</div>
-        <div class="brand-subtitle">Mushenji Codex</div>
+  <div class="page">
+    <header class="topbar">
+      <div class="topbar-brand">
+        <div class="brand-title">牧神记 · 新手修行指南</div>
+        <div class="brand-subtitle">Mushenji Codex · 静态指引</div>
       </div>
-      <button class="drawer-toggle" id="drawerToggle">☰ 目录</button>
-      <nav class="nav" id="nav"></nav>
-      <div class="sidebar-footer">
-        <div>指令前缀：<span id="prefix">.</span></div>
-        <div class="small">数据源：tutorial_site/data/*.json</div>
+      <nav class="topbar-nav" id="topNav"></nav>
+      <div class="topbar-meta">
+        <span class="prefix-label">指令前缀</span>
+        <span class="prefix-value" id="prefixValue">.</span>
       </div>
-    </aside>
+    </header>
 
-    <main class="content">
-      <section class="hero" id="hero">
-        <div class="hero-bg"></div>
-        <div class="hero-content">
-          <h1>牧神记 · 全量教程与系统图鉴</h1>
-          <p>由代码自动抽取：指令、系统、冷却、掉落、丹毒与宗门事务一网打尽。</p>
-          <div class="hero-meta">
-            <span class="chip">暗色玄幻</span>
-            <span class="chip">轻量级</span>
-            <span class="chip">全量覆盖</span>
+    <div class="layout">
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-section">
+          <h3>章节导航</h3>
+          <nav class="sidebar-nav" id="sidebarNav"></nav>
+        </div>
+        <div class="sidebar-section">
+          <h3>命令速查</h3>
+          <div class="sidebar-note">
+            数据来自 mushenji_bot.py 的抽取结果。若字段标记 TODO，请补充解析。
           </div>
         </div>
-      </section>
+      </aside>
 
-      <section id="systemQuick" class="section">
-        <header class="section-header">
-          <h2>按系统速查</h2>
-          <p>按核心玩法归类所有指令，快速定位与检索。</p>
-        </header>
-        <div class="glass-card" id="systemQuickContent"></div>
-      </section>
+      <main class="content">
+        <section class="hero" id="hero">
+          <div class="hero-text">
+            <h1>从初入仙途到秘境试炼</h1>
+            <p>本教程站点以代码为准，所有命令、冷却与错误提示来自 mushenji_bot.py 的抽取数据。</p>
+            <div class="hero-tags" id="heroTags"></div>
+          </div>
+          <div class="hero-panel">
+            <div class="panel-title">系统速览</div>
+            <div class="panel-content" id="systemSnapshot"></div>
+          </div>
+        </section>
 
-      <section id="chapters" class="section"></section>
-    </main>
+        <section class="section" id="quick-start">
+          <div class="section-header">
+            <h2>Quick Start</h2>
+            <p>新手最常用的入口指令与系统说明。</p>
+          </div>
+          <div class="section-grid" id="quickStartContent"></div>
+        </section>
+
+        <section class="section" id="movement">
+          <div class="section-header">
+            <h2>Movement and Exploration</h2>
+            <p>探索与拜访相关的指令集合。</p>
+          </div>
+          <div class="section-grid" id="movementContent"></div>
+        </section>
+
+        <section class="section" id="combat">
+          <div class="section-header">
+            <h2>Combat and Survival</h2>
+            <p>与战斗、生存或风险控制相关的指令。</p>
+          </div>
+          <div class="section-grid" id="combatContent"></div>
+        </section>
+
+        <section class="section" id="inventory">
+          <div class="section-header">
+            <h2>Inventory and Gear</h2>
+            <p>物品、炼制与配方相关的指令。</p>
+          </div>
+          <div class="section-grid" id="inventoryContent"></div>
+        </section>
+
+        <section class="section" id="trading">
+          <div class="section-header">
+            <h2>Trading and Economy</h2>
+            <p>交易与市场相关的指令。</p>
+          </div>
+          <div class="section-grid" id="tradingContent"></div>
+        </section>
+
+        <section class="section" id="progression">
+          <div class="section-header">
+            <h2>Quests and Progression</h2>
+            <p>修行节奏、宗门事务与成长路径。</p>
+          </div>
+          <div class="section-grid" id="progressionContent"></div>
+        </section>
+
+        <section class="section" id="troubleshooting">
+          <div class="section-header">
+            <h2>Troubleshooting</h2>
+            <p>来自 errors.json 的失败提示与冷却提示。</p>
+          </div>
+          <div class="glass-card" id="errorContent"></div>
+        </section>
+
+        <section class="section" id="command-library">
+          <div class="section-header">
+            <h2>Command Library</h2>
+            <p>可检索的命令库。点击命令查看详情，支持 hash 路由。</p>
+          </div>
+          <div class="command-library">
+            <div class="command-controls">
+              <input type="search" id="commandSearch" placeholder="搜索命令 / 别名 / 关键词" />
+              <select id="categoryFilter">
+                <option value="all">全部分类</option>
+              </select>
+            </div>
+            <div class="command-layout">
+              <div class="command-list" id="commandList"></div>
+              <div class="command-detail" id="commandDetail">
+                <div class="detail-empty">选择一个命令查看详细说明。</div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
   </div>
 
   <script src="app.js"></script>
