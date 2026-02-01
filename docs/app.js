@@ -1,221 +1,290 @@
-const taxonomy = [
-  "卷首语",
-  "壹 · 初入仙途",
-  "贰 · 吐纳筑基",
-  "叁 · 寻师访友",
-  "肆 · 洞天法宝",
-  "伍 · 宗门事务",
-  "陆 · 黄枫谷秘境",
-  "柒 · 太一门秘法",
-  "捌 · 星宫秘法（含：牵星引灵之术）",
-  "玖 · 魔道禁术",
-  "拾 · 万灵秘术",
-  "元婴宗密卷",
-  "落云宗秘典",
-  "拾壹 · 神通对决",
-  "拾贰 · 夺宝奇缘",
-  "拾叁 · 试炼古塔",
-  "拾肆 · 合欢宗秘法",
-  "终章：天道法则",
-  "乱星海秘闻",
-  "虚天殿副本",
-  "万宝楼",
-  "洞天福地",
-  "灵根法则",
-  "风雷翅",
-  "丹魔之咒",
-  "宗门外交",
-  "神魂陨落",
-  "黑煞教修行",
-  "七焰扇",
-  "落云宗灵树涅槃",
-  "命令速查表",
+const SECTIONS = [
+  { id: "quick-start", title: "Quick Start", category: "Quick Start", contentId: "quickStartContent" },
+  {
+    id: "movement",
+    title: "Movement and Exploration",
+    category: "Movement and Exploration",
+    contentId: "movementContent",
+  },
+  { id: "combat", title: "Combat and Survival", category: "Combat and Survival", contentId: "combatContent" },
+  { id: "inventory", title: "Inventory and Gear", category: "Inventory and Gear", contentId: "inventoryContent" },
+  { id: "trading", title: "Trading and Economy", category: "Trading and Economy", contentId: "tradingContent" },
+  { id: "progression", title: "Quests and Progression", category: "Quests and Progression", contentId: "progressionContent" },
 ];
 
-const systemGroups = {
-  "宗门系统": ["宗门", "道门"],
-  "物品炼制": ["图鉴", "炼制", "服用", "出售"],
-  "斗法系统": ["突破", "堵门"],
-  "洞府系统": ["闭关修炼", "深度闭关", "查看闭关", "强行出关"],
-  "万宝楼交易市场": ["鬼市"],
-  "副本与活动": ["任务", "试药", "拜访"],
-  "突破与渡劫": ["突破"],
-  "其他（来自代码）": ["检测灵体", "我的灵体", "我的配方", "储物袋", "前往", "榜单", "传闻", "世界观", "人物", "势力", "地名", "天道", "帮助", "喂食"],
+const HERO_TAGS = ["代码驱动", "新手到进阶", "静态指引", "GitHub Pages"];
+
+const safeJsonParse = (text, fallback) => {
+  try {
+    return JSON.parse(text);
+  } catch (error) {
+    return fallback;
+  }
 };
 
-const sectionMappings = {
-  "卷首语": ["帮助", "检测灵体", "我的灵体"],
-  "壹 · 初入仙途": ["检测灵体", "我的灵体", "储物袋"],
-  "贰 · 吐纳筑基": ["闭关修炼", "深度闭关", "查看闭关", "强行出关", "突破"],
-  "叁 · 寻师访友": ["拜访", "宗门", "道门"],
-  "肆 · 洞天法宝": ["图鉴", "炼制", "服用", "出售", "储物袋"],
-  "伍 · 宗门事务": ["宗门", "任务", "宗门"],
-  "陆 · 黄枫谷秘境": ["任务", "鬼市"],
-  "柒 · 太一门秘法": ["宗门", "突破"],
-  "捌 · 星宫秘法（含：牵星引灵之术）": ["图鉴", "炼制"],
-  "玖 · 魔道禁术": ["鬼市", "试药"],
-  "拾 · 万灵秘术": ["服用", "喂食"],
-  "元婴宗密卷": ["宗门"],
-  "落云宗秘典": ["宗门"],
-  "拾壹 · 神通对决": ["堵门", "突破"],
-  "拾贰 · 夺宝奇缘": ["鬼市", "任务"],
-  "拾叁 · 试炼古塔": ["试药", "闭关修炼"],
-  "拾肆 · 合欢宗秘法": ["服用"],
-  "终章：天道法则": ["天道"],
-  "乱星海秘闻": ["传闻"],
-  "虚天殿副本": ["任务", "鬼市"],
-  "万宝楼": ["鬼市", "出售"],
-  "洞天福地": ["前往", "拜访"],
-  "灵根法则": ["检测灵体"],
-  "风雷翅": ["图鉴"],
-  "丹魔之咒": ["服用", "试药"],
-  "宗门外交": ["堵门"],
-  "神魂陨落": ["突破", "试药"],
-  "黑煞教修行": ["宗门", "鬼市"],
-  "七焰扇": ["图鉴"],
-  "落云宗灵树涅槃": ["任务"],
-  "命令速查表": [],
+const loadJson = async (path, fallback = []) => {
+  try {
+    const response = await fetch(path);
+    if (response.ok) {
+      return await response.json();
+    }
+  } catch (error) {
+    // Ignore fetch errors and try XHR fallback.
+  }
+  try {
+    const request = new XMLHttpRequest();
+    request.open("GET", path, false);
+    request.send(null);
+    if (request.status === 0 || request.status === 200) {
+      return safeJsonParse(request.responseText, fallback);
+    }
+  } catch (error) {
+    return fallback;
+  }
+  return fallback;
 };
 
-const systemFeatureMapping = {
-  "卷首语": ["PREFIX"],
-  "壹 · 初入仙途": ["REALM_TIERS", "STAGES_PER_TIER"],
-  "贰 · 吐纳筑基": ["TRAIN_CD_MIN", "TRAIN_CD_MAX", "DEEP_DURATION", "DEEP_COOLDOWN", "PASSIVE_CD", "PASSIVE_GAIN", "PASSIVE_MIN_LEN"],
-  "叁 · 寻师访友": ["SECTS", "DAO_MEN_QUIZ_COOLDOWN"],
-  "肆 · 洞天法宝": ["PILLS", "WEAPONS", "ARMORS", "ITEMS", "RECIPES", "SUPER_RARE"],
-  "伍 · 宗门事务": ["SECT_TASK_COOLDOWN", "SECT_SIGNIN_COOLDOWN"],
-  "陆 · 黄枫谷秘境": ["LOW_TIER_LOOT", "HIGH_TIER_LOOT", "TRAIN_LOOT_CHANCE"],
-  "柒 · 太一门秘法": ["SUPER_RARE_PILLS"],
-  "捌 · 星宫秘法（含：牵星引灵之术）": ["LIMITED_WEAPONS", "LIMITED_ARMORS"],
-  "玖 · 魔道禁术": ["TEST_DRUG_COOLDOWN"],
-  "拾 · 万灵秘术": ["DRAGON_BUFF_DURATION"],
-  "终章：天道法则": ["GHOST_MARKET_COST", "BLOCK_GATE_CD", "TASK_COOLDOWN"],
+const slugify = (text) => text.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9\-]/g, "");
+
+const buildNavLinks = (container, items) => {
+  if (!container) return;
+  container.innerHTML = items.map((item) => `<a href="#${item.id}">${item.title}</a>`).join("");
 };
 
-const commandLookup = (commands, names) => commands.filter((cmd) => names.includes(cmd.name));
+const renderHeroTags = () => {
+  const container = document.getElementById("heroTags");
+  container.innerHTML = HERO_TAGS.map((tag) => `<span class="tag">${tag}</span>`).join("");
+};
 
-const sectionId = (name, index) => `section-${index}`;
-
-const renderCommandCard = (cmd) => {
-  const usage = cmd.usage.length ? cmd.usage : ["Unknown"];
-  const parameters = cmd.parameters.length ? cmd.parameters : ["Unknown"];
-  const preconditions = cmd.preconditions.length ? cmd.preconditions : ["Unknown"];
-  const outcomes = cmd.outcomes.length ? cmd.outcomes : ["Unknown"];
-  const examples = cmd.examples.length ? cmd.examples : ["Unknown"];
-  return `
-    <div class="command-card">
-      <h4>${cmd.name}</h4>
-      <div class="tag">指令</div>
-      <div><strong>用法：</strong>${usage.map((u) => `<div>${u}</div>`).join("")}</div>
-      <div><strong>参数：</strong>${parameters.map((p) => `<div>${p}</div>`).join("")}</div>
-      <div><strong>前置：</strong>${preconditions.map((p) => `<div>${p}</div>`).join("")}</div>
-      <div><strong>结果：</strong>${outcomes.map((o) => `<div>${o}</div>`).join("")}</div>
-      <div><strong>示例：</strong>${examples.map((e) => `<div>${e}</div>`).join("")}</div>
-      <div class="ref">代码参考：${cmd.references.map((r) => `${r.file}#${r.function}`).join(", ")}</div>
-    </div>
+const renderSnapshot = (commands, features) => {
+  const container = document.getElementById("systemSnapshot");
+  const prefix = features.find((feature) => feature.name === "PREFIX");
+  const totalCommands = commands.length;
+  const categories = [...new Set(commands.map((cmd) => cmd.category))].filter(Boolean).length;
+  container.innerHTML = `
+    <div>指令前缀：<code>${prefix?.details ?? "."}</code></div>
+    <div>已收录命令：${totalCommands}</div>
+    <div>已覆盖分类：${categories}</div>
   `;
 };
 
-const renderFeature = (feature) => {
-  const detail = typeof feature.details === "string" ? feature.details : JSON.stringify(feature.details, null, 2);
-  return `
-    <details class="collapsible">
-      <summary>${feature.name}</summary>
-      <div class="content"><pre>${detail}</pre><div class="ref">代码参考：${feature.references.map((r) => `${r.file}#${r.function}`).join(", ")}</div></div>
-    </details>
-  `;
-};
-
-const renderSystemQuick = (commands) => {
-  const container = document.getElementById("systemQuickContent");
-  const sections = Object.entries(systemGroups)
-    .map(([system, names]) => {
-      const items = commandLookup(commands, names)
-        .map((cmd) => `<li>${cmd.name}</li>`)
-        .join("");
-      return `
-        <details class="collapsible">
-          <summary>${system}</summary>
-          <div class="content">
-            <ul>${items || "<li>Unknown</li>"}</ul>
-          </div>
-        </details>
-      `;
-    })
-    .join("");
-  container.innerHTML = sections;
-};
-
-const renderNav = () => {
-  const nav = document.getElementById("nav");
-  nav.innerHTML = `
-    <div class="nav-section">
-      <h4>目录导航</h4>
-      ${taxonomy
-        .map((title, index) => `<a href="#${sectionId(title, index)}">${title}</a>`)
-        .join("")}
-    </div>
-  `;
-};
-
-const renderSections = (commands, features, errors) => {
-  const container = document.getElementById("chapters");
-  container.innerHTML = taxonomy
-    .map((title, index) => {
-      const mappedCommands = commandLookup(commands, sectionMappings[title] || []);
-      const mappedFeatures = (systemFeatureMapping[title] || []).map((key) =>
-        features.find((feature) => feature.name === key) || { name: key, details: "Unknown", references: [] }
-      );
-      const isQuickTable = title === "命令速查表";
-      const errorSection = title === "终章：天道法则" ? errors : [];
-
-      return `
-        <section class="section" id="${sectionId(title, index)}">
-          <header class="section-header">
-            <h2>${title}</h2>
-            <p>${isQuickTable ? "全量指令清单与系统速查。" : "根据代码抽取的系统与指令说明。"}</p>
-          </header>
-          <img class="section-banner" src="assets/chapters/${String(index + 1).padStart(2, "0")}.jpg" alt="${title}" />
-          <div class="glass-card">
-            ${mappedFeatures.length ? mappedFeatures.map(renderFeature).join("") : "<div>Unknown</div>"}
-            ${mappedCommands.length ? `<div class=\"card-grid\">${mappedCommands
-              .map(renderCommandCard)
-              .join("")}</div>` : "<div>Unknown</div>"}
-            ${isQuickTable ? `<div class=\"card-grid\">${commands.map(renderCommandCard).join("")}</div>` : ""}
-            ${errorSection.length ? `<details class=\"collapsible\"><summary>常见错误与失败提示</summary><div class=\"content\"><ul>${errorSection
-              .map((err) => `<li>${err.message}</li>`)
-              .join("")}</ul></div></details>` : ""}
-          </div>
-        </section>
-      `;
-    })
+const renderSectionCards = (commands, sectionId, category) => {
+  const container = document.getElementById(sectionId);
+  const scoped = commands.filter((cmd) => cmd.category === category);
+  if (!container) return;
+  if (!scoped.length) {
+    container.innerHTML = `<div class="card"><h3>待补充</h3><div class="card-meta">此分类暂无命令，请从 mushenji_bot.py 抽取后更新。</div></div>`;
+    return;
+  }
+  container.innerHTML = scoped
+    .map(
+      (cmd) => `
+        <article class="card">
+          <h3>${cmd.name}</h3>
+          <div class="card-meta">分类：${cmd.category}</div>
+          <div class="card-meta">描述：${cmd.description || "TODO"}</div>
+        </article>
+      `
+    )
     .join("");
 };
 
-const loadData = async () => {
-  const [commands, features, errors] = await Promise.all([
-    fetch("data/commands.json").then((res) => res.json()),
-    fetch("data/features.json").then((res) => res.json()),
-    fetch("data/errors.json").then((res) => res.json()),
-  ]);
+const renderErrors = (errors) => {
+  const container = document.getElementById("errorContent");
+  if (!container) return;
+  const listItems = errors.map((error) => `<li>${error.message}</li>`).join("");
+  container.innerHTML = `<ul class="error-list">${listItems || "<li>暂无错误数据</li>"}</ul>`;
+};
 
-  const prefixFeature = features.find((feature) => feature.name === "PREFIX");
-  if (prefixFeature && typeof prefixFeature.details === "string") {
-    document.getElementById("prefix").textContent = prefixFeature.details;
+const buildCommandIndex = (commands) => {
+  const map = new Map();
+  commands.forEach((command) => {
+    const slug = slugify(command.name);
+    map.set(slug, command);
+  });
+  return map;
+};
+
+const renderCommandList = (commands) => {
+  const container = document.getElementById("commandList");
+  if (!container) return;
+  container.innerHTML = commands
+    .map(
+      (command) => `
+      <div class="command-item" data-command="${slugify(command.name)}">
+        <h4>${command.name}</h4>
+        <p>${command.description || "TODO: 待补充说明"}</p>
+      </div>
+    `
+    )
+    .join("");
+};
+
+const renderCommandDetail = (command) => {
+  const container = document.getElementById("commandDetail");
+  if (!container) return;
+  if (!command) {
+    container.innerHTML = `<div class="detail-empty">选择一个命令查看详细说明。</div>`;
+    return;
   }
 
-  renderNav();
-  renderSystemQuick(commands);
-  renderSections(commands, features, errors);
+  const listOrEmpty = (items) =>
+    items && items.length ? `<ul>${items.map((item) => `<li>${item}</li>`).join("")}</ul>` : "<div class=\"detail-inline\">暂无</div>";
+
+  const detail = `
+    <div class="detail-block">
+      <h5>${command.name}</h5>
+      <div class="detail-inline">分类：${command.category || "未分类"}</div>
+    </div>
+    <div class="detail-block">
+      <h5>使用方法</h5>
+      ${listOrEmpty(command.usage)}
+    </div>
+    <div class="detail-block">
+      <h5>示例</h5>
+      ${listOrEmpty(command.examples)}
+    </div>
+    <div class="detail-block">
+      <h5>参数</h5>
+      ${listOrEmpty(command.details?.parameters || [])}
+    </div>
+    <div class="detail-block">
+      <h5>前置条件</h5>
+      ${listOrEmpty(command.details?.preconditions || [])}
+    </div>
+    <div class="detail-block">
+      <h5>结果/提示</h5>
+      ${listOrEmpty(command.details?.outcomes || [])}
+    </div>
+    <div class="detail-block">
+      <h5>注意事项</h5>
+      ${listOrEmpty(command.pitfalls || [])}
+    </div>
+    <div class="detail-block">
+      <h5>相关命令</h5>
+      ${listOrEmpty(command.related || [])}
+    </div>
+    <div class="detail-block">
+      <h5>引用位置</h5>
+      ${command.references && command.references.length ? `<ul>${command.references
+        .map((ref) => `<li>${ref.file}#${ref.function}</li>`)
+        .join("")}</ul>` : "<div class=\"detail-inline\">暂无</div>"}
+    </div>
+  `;
+  container.innerHTML = detail;
 };
 
-const setupDrawer = () => {
-  const toggle = document.getElementById("drawerToggle");
-  const sidebar = document.getElementById("sidebar");
-  toggle.addEventListener("click", () => {
-    sidebar.classList.toggle("open");
+const highlightActiveNav = () => {
+  const hash = window.location.hash.replace("#", "");
+  const navLinks = document.querySelectorAll(".topbar-nav a, .sidebar-nav a");
+  navLinks.forEach((link) => {
+    const target = link.getAttribute("href")?.replace("#", "");
+    link.classList.toggle("active", target === hash);
   });
 };
 
-loadData();
-setupDrawer();
+const setupCommandInteractions = (commands) => {
+  const commandIndex = buildCommandIndex(commands);
+  const listContainer = document.getElementById("commandList");
+  const searchInput = document.getElementById("commandSearch");
+  const categorySelect = document.getElementById("categoryFilter");
+
+  const renderFiltered = () => {
+    const query = searchInput.value.trim().toLowerCase();
+    const category = categorySelect.value;
+    const filtered = commands.filter((command) => {
+      const matchCategory = category === "all" || command.category === category;
+      const keywords = [
+        command.name,
+        ...(command.aliases || []),
+        command.description,
+        ...(command.usage || []),
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+      return matchCategory && (!query || keywords.includes(query));
+    });
+    renderCommandList(filtered);
+    handleHashChange(commandIndex);
+  };
+
+  const categories = [...new Set(commands.map((command) => command.category))].filter(Boolean);
+  categorySelect.innerHTML =
+    `<option value="all">全部分类</option>` +
+    categories.map((category) => `<option value="${category}">${category}</option>`).join("");
+
+  searchInput.addEventListener("input", renderFiltered);
+  categorySelect.addEventListener("change", renderFiltered);
+
+  renderFiltered();
+
+  window.addEventListener("hashchange", () => handleHashChange(commandIndex));
+  handleHashChange(commandIndex);
+
+  if (listContainer) {
+    listContainer.addEventListener("click", (event) => {
+      const target = event.target.closest(".command-item");
+      if (!target) return;
+      const slug = target.dataset.command;
+      if (slug) {
+        window.location.hash = `command-${slug}`;
+      }
+    });
+  }
+};
+
+const handleHashChange = (commandIndex) => {
+  const hash = window.location.hash.replace("#", "");
+  if (hash.startsWith("command-")) {
+    const slug = hash.replace("command-", "");
+    const command = commandIndex.get(slug);
+    renderCommandDetail(command);
+    document.querySelectorAll(".command-item").forEach((item) => {
+      item.classList.toggle("active", item.dataset.command === slug);
+    });
+  }
+  highlightActiveNav();
+};
+
+const init = async () => {
+  const [commands, features, errors] = await Promise.all([
+    loadJson("data/commands.json", []),
+    loadJson("data/features.json", []),
+    loadJson("data/errors.json", []),
+  ]);
+
+  renderHeroTags();
+  renderSnapshot(commands, features);
+  buildNavLinks(document.getElementById("topNav"), [
+    { id: "quick-start", title: "Quick Start" },
+    { id: "movement", title: "Movement" },
+    { id: "combat", title: "Combat" },
+    { id: "inventory", title: "Inventory" },
+    { id: "trading", title: "Trading" },
+    { id: "progression", title: "Progression" },
+    { id: "troubleshooting", title: "Troubleshooting" },
+    { id: "command-library", title: "Command Library" },
+  ]);
+  buildNavLinks(document.getElementById("sidebarNav"), [
+    { id: "hero", title: "概览" },
+    ...SECTIONS.map((section) => ({ id: section.id, title: section.title })),
+    { id: "troubleshooting", title: "Troubleshooting" },
+    { id: "command-library", title: "Command Library" },
+  ]);
+
+  const prefixFeature = features.find((feature) => feature.name === "PREFIX");
+  if (prefixFeature) {
+    document.getElementById("prefixValue").textContent = prefixFeature.details;
+  }
+
+  SECTIONS.forEach((section) => {
+    renderSectionCards(commands, section.contentId, section.category);
+  });
+
+  renderErrors(errors);
+  setupCommandInteractions(commands);
+  highlightActiveNav();
+};
+
+init();
