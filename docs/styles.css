@@ -19,12 +19,31 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   font-family: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
   background: radial-gradient(circle at top, #121622, #090a0e 55%);
   color: var(--mist-100);
   line-height: 1.6;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: -20%;
+  background: radial-gradient(circle at 20% 30%, rgba(215, 180, 106, 0.08), transparent 45%),
+    radial-gradient(circle at 80% 70%, rgba(132, 110, 180, 0.08), transparent 50%);
+  opacity: 0.6;
+  filter: blur(8px);
+  animation: mist-flow 18s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
 }
 
 a {
@@ -36,6 +55,8 @@ a {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  position: relative;
+  z-index: 1;
 }
 
 .topbar {
@@ -130,6 +151,36 @@ a {
   gap: 20px;
 }
 
+.sidebar-search {
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  background: rgba(12, 14, 20, 0.85);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.sidebar-search input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(215, 180, 106, 0.35);
+  background: rgba(7, 8, 12, 0.9);
+  color: var(--gold-200);
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  outline: none;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sidebar-search input::placeholder {
+  color: rgba(225, 200, 137, 0.6);
+}
+
+.sidebar-search input:focus {
+  border-color: rgba(225, 200, 137, 0.9);
+  box-shadow: 0 0 12px rgba(225, 200, 137, 0.25);
+}
+
 .sidebar-section {
   padding: 16px;
   border-radius: var(--radius-md);
@@ -155,12 +206,15 @@ a {
 .sidebar-nav a {
   padding: 6px 8px;
   border-radius: var(--radius-sm);
+  border: 1px solid transparent;
 }
 
 .sidebar-nav a:hover,
 .sidebar-nav a.active {
   background: var(--ink-700);
   color: var(--gold-200);
+  border-color: rgba(215, 180, 106, 0.4);
+  box-shadow: 0 0 12px rgba(215, 180, 106, 0.15);
 }
 
 .sidebar-note {
@@ -426,6 +480,11 @@ a {
 
 .command-card {
   gap: 12px;
+  animation: rise-in 0.9s ease both;
+}
+
+.glass-card {
+  animation: rise-in 1s ease both;
 }
 
 .card-field {
@@ -541,5 +600,31 @@ a {
 
   .topbar-nav {
     justify-content: flex-start;
+  }
+}
+
+@keyframes rise-in {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes mist-flow {
+  0% {
+    opacity: 0.45;
+    transform: translate3d(-2%, -1%, 0);
+  }
+  50% {
+    opacity: 0.65;
+    transform: translate3d(2%, 1%, 0);
+  }
+  100% {
+    opacity: 0.45;
+    transform: translate3d(-2%, -1%, 0);
   }
 }
