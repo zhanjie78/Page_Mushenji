@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>牧神记 · 修行指引</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-title">牧神记·修行指引</div>
+        <div class="brand-subtitle">Mushenji Codex</div>
+      </div>
+      <button class="drawer-toggle" id="drawerToggle">☰ 目录</button>
+      <nav class="nav" id="nav"></nav>
+      <div class="sidebar-footer">
+        <div>指令前缀：<span id="prefix">.</span></div>
+        <div class="small">数据源：tutorial_site/data/*.json</div>
+      </div>
+    </aside>
+
+    <main class="content">
+      <section class="hero" id="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+          <h1>牧神记 · 全量教程与系统图鉴</h1>
+          <p>由代码自动抽取：指令、系统、冷却、掉落、丹毒与宗门事务一网打尽。</p>
+          <div class="hero-meta">
+            <span class="chip">暗色玄幻</span>
+            <span class="chip">轻量级</span>
+            <span class="chip">全量覆盖</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="systemQuick" class="section">
+        <header class="section-header">
+          <h2>按系统速查</h2>
+          <p>按核心玩法归类所有指令，快速定位与检索。</p>
+        </header>
+        <div class="glass-card" id="systemQuickContent"></div>
+      </section>
+
+      <section id="chapters" class="section"></section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
