@@ -4,6 +4,10 @@
 
 > ⚠️ 当前环境无法访问 GitHub（403），因此数据层仅保留抽取后的占位字段（标记为 TODO）。如需完整内容，请在可访问 GitHub 的环境中运行抽取脚本。
 
+## 内容审查（天道）
+
+出于合规要求，本仓库已**移除并屏蔽**所有与“天道”相关的教程内容。抽取脚本会过滤“天道”条目，前端也有 UI 级过滤兜底。请不要在 JSON 中重新添加相关条目。
+
 ## 目录结构
 
 ```
@@ -41,7 +45,13 @@ tools/
   },
   "references": [
     { "file": "mushenji_bot.py", "function": "handle_cmd" }
-  ]
+  ],
+  "source": {
+    "file": "mushenji_bot.py",
+    "line_start": 123,
+    "line_end": 145,
+    "registry": "handle_cmd"
+  }
 }
 ```
 
@@ -67,6 +77,14 @@ docs/data/errors.json
 
 > 抽取器使用正则扫描 `mushenji_bot.py` 中的命令分支，目前只会生成命令骨架（description / examples 等仍需补充）。如需更精确的字段，请补充脚本解析逻辑。
 
+### 需要补充的源位置（TODO）
+
+由于抽取器尚未解析完整逻辑，以下字段需要从 `mushenji_bot.py` 或配置表补齐：
+
+- 命令说明/示例/别名：`mushenji_bot.py` 中的 `handle_cmd` 分支逻辑。
+- 系统常量/机制：`mushenji_bot.py` 顶层常量与配置表（PREFIX、冷却、掉落表等）。
+- 错误提示含义与修复策略：错误提示定义处（异常分支、提示表）。
+
 ## 本地预览
 
 推荐使用本地静态服务（避免浏览器阻止读取 JSON）：
@@ -78,7 +96,7 @@ python -m http.server 8000
 
 访问：`http://localhost:8000/index.html`
 
-> 若直接打开 `docs/index.html`，浏览器可能拦截 `fetch`。站点已加入 XHR 回退，但仍建议使用本地静态服务。
+> 若直接打开 `docs/index.html`，浏览器可能拦截 `fetch`。站点已内嵌 JSON 作为 file:// 回退数据源，保持 `docs/data/*.json` 为主数据文件。
 
 ## GitHub Pages
 

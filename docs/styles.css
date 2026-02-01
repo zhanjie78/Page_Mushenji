@@ -195,6 +195,12 @@ a {
   color: var(--mist-200);
 }
 
+.hero-note {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--mist-200);
+}
+
 .hero-tags {
   display: flex;
   flex-wrap: wrap;

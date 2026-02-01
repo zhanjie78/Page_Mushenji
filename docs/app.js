@@ -13,6 +13,7 @@ const SECTIONS = [
 ];
 
 const HERO_TAGS = ["代码驱动", "新手到进阶", "静态指引", "GitHub Pages"];
+const REDACT_KEYWORD = "天道";
 
 const safeJsonParse = (text, fallback) => {
   try {
@@ -22,7 +23,19 @@ const safeJsonParse = (text, fallback) => {
   }
 };
 
-const loadJson = async (path, fallback = []) => {
+const getInlineJson = (id, fallback) => {
+  const element = document.getElementById(id);
+  if (!element) return fallback;
+  return safeJsonParse(element.textContent || "", fallback);
+};
+
+const loadJson = async (path, fallback = [], inlineId) => {
+  if (inlineId) {
+    const inlineData = getInlineJson(inlineId, null);
+    if (inlineData) {
+      return inlineData;
+    }
+  }
   try {
     const response = await fetch(path);
     if (response.ok) {
@@ -46,6 +59,46 @@ const loadJson = async (path, fallback = []) => {
 
 const slugify = (text) => text.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9\-]/g, "");
 
+const isRedacted = (value) => typeof value === "string" && value.includes(REDACT_KEYWORD);
+
+const sanitizeText = (value) => (typeof value === "string" ? value.replaceAll(REDACT_KEYWORD, "已移除") : value);
+
+const sanitizeArray = (items) => (items || []).map(sanitizeText).filter((item) => !isRedacted(item));
+
+const filterCommands = (commands) =>
+  commands.filter((command) => !isRedacted(command.name)).map((command) => ({
+    ...command,
+    description: sanitizeText(command.description),
+    usage: sanitizeArray(command.usage),
+    examples: sanitizeArray(command.examples),
+    pitfalls: sanitizeArray(command.pitfalls),
+    related: sanitizeArray(command.related),
+    details: {
+      parameters: sanitizeArray(command.details?.parameters || []),
+      preconditions: sanitizeArray(command.details?.preconditions || []),
+      outcomes: sanitizeArray(command.details?.outcomes || []),
+    },
+  }));
+
+const filterFeatures = (features) =>
+  features
+    .filter((feature) => !isRedacted(feature.name) && !isRedacted(feature.description))
+    .map((feature) => ({
+      ...feature,
+      description: sanitizeText(feature.description),
+    }));
+
+const filterErrors = (errors) =>
+  errors
+    .filter((error) => !isRedacted(error.message) && !isRedacted(error.meaning))
+    .map((error) => ({
+      ...error,
+      message: sanitizeText(error.message),
+      meaning: sanitizeText(error.meaning),
+      causes: sanitizeArray(error.causes || []),
+      fixes: sanitizeArray(error.fixes || []),
+    }));
+
 const buildNavLinks = (container, items) => {
   if (!container) return;
   container.innerHTML = items.map((item) => `<a href="#${item.id}">${item.title}</a>`).join("");
@@ -58,7 +111,7 @@ const renderHeroTags = () => {
 
 const renderSnapshot = (commands, features) => {
   const container = document.getElementById("systemSnapshot");
-  const prefix = features.find((feature) => feature.name === "PREFIX");
+  const prefix = features.find((feature) => feature.name === "PREFIX" || feature.id === "PREFIX");
   const totalCommands = commands.length;
   const categories = [...new Set(commands.map((cmd) => cmd.category))].filter(Boolean).length;
   container.innerHTML = `
@@ -92,8 +145,22 @@ const renderSectionCards = (commands, sectionId, category) => {
 const renderErrors = (errors) => {
   const container = document.getElementById("errorContent");
   if (!container) return;
-  const listItems = errors.map((error) => `<li>${error.message}</li>`).join("");
-  container.innerHTML = `<ul class="error-list">${listItems || "<li>暂无错误数据</li>"}</ul>`;
+  if (!errors.length) {
+    container.innerHTML = "<div class=\"detail-inline\">暂无错误数据</div>";
+    return;
+  }
+  container.innerHTML = errors
+    .map(
+      (error) => `
+      <div class="card">
+        <h3>${error.message}</h3>
+        <div class="card-meta">含义：${error.meaning || "TODO"}</div>
+        <div class="card-meta">常见原因：${(error.causes || []).length ? (error.causes || []).join(" / ") : "暂无"}</div>
+        <div class="card-meta">解决方式：${(error.fixes || []).length ? (error.fixes || []).join(" / ") : "暂无"}</div>
+      </div>
+    `
+    )
+    .join("");
 };
 
 const buildCommandIndex = (commands) => {
@@ -124,7 +191,7 @@ const renderCommandDetail = (command) => {
   const container = document.getElementById("commandDetail");
   if (!container) return;
   if (!command) {
-    container.innerHTML = `<div class="detail-empty">选择一个命令查看详细说明。</div>`;
+    container.innerHTML = `<div class="detail-empty">未找到该命令或已被移除。</div>`;
     return;
   }
 
@@ -166,9 +233,7 @@ const renderCommandDetail = (command) => {
     </div>
     <div class="detail-block">
       <h5>引用位置</h5>
-      ${command.references && command.references.length ? `<ul>${command.references
-        .map((ref) => `<li>${ref.file}#${ref.function}</li>`)
-        .join("")}</ul>` : "<div class=\"detail-inline\">暂无</div>"}
+      ${command.source ? `<ul><li>${command.source.file}${command.source.line_start ? `:${command.source.line_start}` : ""}${command.source.line_end ? `-${command.source.line_end}` : ""}</li></ul>` : "<div class=\"detail-inline\">暂无</div>"}
     </div>
   `;
   container.innerHTML = detail;
@@ -248,11 +313,15 @@ const handleHashChange = (commandIndex) => {
 };
 
 const init = async () => {
-  const [commands, features, errors] = await Promise.all([
-    loadJson("data/commands.json", []),
-    loadJson("data/features.json", []),
-    loadJson("data/errors.json", []),
+  const [commandsRaw, featuresRaw, errorsRaw] = await Promise.all([
+    loadJson("data/commands.json", [], "inline-commands"),
+    loadJson("data/features.json", [], "inline-features"),
+    loadJson("data/errors.json", [], "inline-errors"),
   ]);
+
+  const commands = filterCommands(commandsRaw);
+  const features = filterFeatures(featuresRaw);
+  const errors = filterErrors(errorsRaw);
 
   renderHeroTags();
   renderSnapshot(commands, features);
@@ -273,7 +342,7 @@ const init = async () => {
     { id: "command-library", title: "Command Library" },
   ]);
 
-  const prefixFeature = features.find((feature) => feature.name === "PREFIX");
+  const prefixFeature = features.find((feature) => feature.name === "PREFIX" || feature.id === "PREFIX");
   if (prefixFeature) {
     document.getElementById("prefixValue").textContent = prefixFeature.details;
   }

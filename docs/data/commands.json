@@ -21,7 +21,14 @@
         "file": "mushenji_bot.py",
         "function": "handle_cmd"
       }
-    ]
+    ],
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "handle_cmd",
+      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+    }
   },
   {
     "name": "人物",
@@ -45,7 +52,14 @@
         "file": "mushenji_bot.py",
         "function": "handle_cmd"
       }
-    ]
+    ],
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "handle_cmd",
+      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+    }
   },
   {
     "name": "任务",
@@ -83,7 +97,14 @@
         "file": "mushenji_bot.py",
         "function": "handle_cmd"
       }
-    ]
+    ],
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "handle_cmd",
+      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+    }
   },
   {
     "name": "传闻",
@@ -107,7 +128,14 @@
         "file": "mushenji_bot.py",
         "function": "handle_cmd"
       }
-    ]
+    ],
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "handle_cmd",
+      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+    }
   },
   {
     "name": "储物袋",
@@ -133,7 +161,14 @@
         "file": "mushenji_bot.py",
         "function": "handle_cmd"
       }
-    ]
+    ],
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "handle_cmd",
+      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+    }
   },
   {
     "name": "出售",
@@ -169,7 +204,14 @@
         "file": "mushenji_bot.py",
         "function": "handle_cmd"
       }
-    ]
+    ],
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "handle_cmd",
+      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+    }
   },
   {
     "name": "前往",
@@ -200,7 +242,14 @@
         "file": "mushenji_bot.py",
         "function": "handle_cmd"
       }
-    ]
+    ],
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "handle_cmd",
+      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+    }
   },
   {
     "name": "势力",
@@ -224,7 +273,14 @@
         "file": "mushenji_bot.py",
         "function": "handle_cmd"
       }
-    ]
+    ],
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "handle_cmd",
+      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+    }
   },
   {
     "name": "喂食",
@@ -258,7 +314,14 @@
         "file": "mushenji_bot.py",
         "function": "handle_cmd"
       }
-    ]
+    ],
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "handle_cmd",
+      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+    }
   },
   {
     "name": "图鉴",
@@ -276,7 +339,7 @@
       "preconditions": [],
       "outcomes": [
         "图鉴",
-        "提示：天道可用 .天道 发放 发放物品。",
+        "提示：已移除可用 .已移除 发放 发放物品。",
         "可选分类：丹药、武器、护具、材料、丹方、武器方、护具方、限量武器、限量防具、超稀有丹药、限量道具",
         "示例：.图鉴 丹药"
       ]
@@ -286,7 +349,14 @@
         "file": "mushenji_bot.py",
         "function": "handle_cmd"
       }
-    ]
+    ],
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "handle_cmd",
+      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+    }
   },
   {
     "name": "地名",
@@ -310,7 +380,14 @@
         "file": "mushenji_bot.py",
         "function": "handle_cmd"
       }
-    ]
+    ],
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "handle_cmd",
+      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+    }
   },
   {
     "name": "堵门",
@@ -348,99 +425,14 @@
         "file": "mushenji_bot.py",
         "function": "handle_cmd"
       }
-    ]
-  },
-  {
-    "name": "天道",
-    "aliases": [],
-    "usage": [
-      "用法：.天道 查档 用户ID",
-      "用法：.天道 设置修为 用户ID 修为值",
-      "用法：.天道 境界 用户ID 境界序号 阶段(1-3)",
-      "用法：.天道 设置灵石 用户ID 数量",
-      "用法：.天道 加灵石 用户ID 数量",
-      "用法：.天道 扣灵石 用户ID 数量",
-      "用法：.天道 设置道号 用户ID 道号",
-      "用法：.天道 设置灵体 用户ID 灵体",
-      "用法：.天道 查包 用户ID",
-      "用法：.天道 发放 用户ID 物品名 数量",
-      "用法：.天道",
-      "用法：.天道 清丹毒 用户ID",
-      "用法：.天道 重置闭关 用户ID"
     ],
-    "examples": [],
-    "category": "Quick Start",
-    "description": "TODO: 待从 mushenji_bot.py 补充说明",
-    "pitfalls": [],
-    "related": [],
-    "details": {
-      "parameters": [
-        ".天道 查档 用户ID",
-        ".天道 设置修为 用户ID 修为值",
-        ".天道 境界 用户ID 境界序号 阶段(1-3)",
-        ".天道 设置灵石 用户ID 数量",
-        ".天道 加灵石 用户ID 数量",
-        ".天道 扣灵石 用户ID 数量",
-        ".天道 设置道号 用户ID 道号",
-        ".天道 设置灵体 用户ID 灵体",
-        ".天道 查包 用户ID",
-        ".天道 发放 用户ID 物品名 数量",
-        ".天道",
-        ".天道 清丹毒 用户ID",
-        ".天道 重置闭关 用户ID"
-      ],
-      "preconditions": [
-        "此指令仅天道可用。",
-        "已重置闭关与冷却。",
-        "目标尚未入道。",
-        "道号不能为空。",
-        "灵体不能为空。",
-        "数量必须为正整数。",
-        "物品名不能为空。",
-        "修为值必须是整数。",
-        "境界序号与阶段必须是整数。",
-        "数量必须是整数。",
-        "限量库存不足：",
-        "数量必须为非负整数。"
-      ],
-      "outcomes": [
-        "天道指令：\n.天道 查档 用户ID\n.天道 设置修为 用户ID 修为值\n.天道 境界 用户ID 境界序号 阶段(1-3)\n.天道 设置灵石 用户ID 数量\n.天道 加灵石 用户ID 数量\n.天道 扣灵石 用户ID 数量\n.天道 设置道号 用户ID 道号\n.天道 设置灵体 用户ID 灵体\n.天道 查包 用户ID\n.天道 发放 用户ID 物品名 数量\n.天道 限量库存\n.天道 设置限量 物品名 数量\n.天道 加限量 物品名 数量\n.天道 扣限量 物品名 数量\n.天道 清丹毒 用户ID\n.天道 重置闭关 用户ID",
-        "道友：",
-        "道号：",
-        "灵体：",
-        "境界：",
-        "当前修为：",
-        "/",
-        "灵石：",
-        "丹毒层数：",
-        "已调整修为。",
-        "已调整境界为：",
-        "已调整灵石。",
-        "已调整道号。",
-        "已调整灵体。",
-        "储物袋：",
-        "×",
-        "已发放",
-        "。",
-        "已扣减",
-        "限量库存，当前",
-        "已清除丹毒。",
-        "储物袋空空如也。",
-        "暂无限量库存数据。",
-        "物品名 数量",
-        "该物品不是限量物品：",
-        "已设置",
-        "限量库存为",
-        "已增加",
-        "当前剩余"
-      ]
-    },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ]
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "handle_cmd",
+      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+    }
   },
   {
     "name": "宗门",
@@ -525,7 +517,14 @@
         "file": "mushenji_bot.py",
         "function": "handle_cmd"
       }
-    ]
+    ],
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "handle_cmd",
+      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+    }
   },
   {
     "name": "帮助",
@@ -555,7 +554,7 @@
       ".榜单 灵石/修为",
       ".传闻",
       ".世界观 / .人物 / .势力 / .地名",
-      ".天道 帮助（管理员）"
+      ".已移除 帮助（管理员）"
     ],
     "category": "Quick Start",
     "description": "TODO: 待从 mushenji_bot.py 补充说明",
@@ -589,7 +588,7 @@
         ".榜单 灵石/修为",
         ".传闻",
         ".世界观 / .人物 / .势力 / .地名",
-        ".天道 帮助（管理员）"
+        ".已移除 帮助（管理员）"
       ]
     },
     "references": [
@@ -597,7 +596,14 @@
         "file": "mushenji_bot.py",
         "function": "handle_cmd"
       }
-    ]
+    ],
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "handle_cmd",
+      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+    }
   },
   {
     "name": "强行出关",
@@ -618,7 +624,14 @@
         "file": "mushenji_bot.py",
         "function": "handle_cmd"
       }
-    ]
+    ],
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "handle_cmd",
+      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+    }
   },
   {
     "name": "我的灵体",
@@ -656,7 +669,14 @@
         "file": "mushenji_bot.py",
         "function": "handle_cmd"
       }
-    ]
+    ],
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "handle_cmd",
+      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+    }
   },
   {
     "name": "我的配方",
@@ -675,7 +695,7 @@
       ],
       "outcomes": [
         "我的配方",
-        "提示：可通过宗门/任务/天道获取配方。"
+        "提示：可通过宗门/任务/已移除获取配方。"
       ]
     },
     "references": [
@@ -683,7 +703,14 @@
         "file": "mushenji_bot.py",
         "function": "handle_cmd"
       }
-    ]
+    ],
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "handle_cmd",
+      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+    }
   },
   {
     "name": "拜访",
@@ -733,7 +760,14 @@
         "file": "mushenji_bot.py",
         "function": "handle_cmd"
       }
-    ]
+    ],
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "handle_cmd",
+      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+    }
   },
   {
     "name": "服用",
@@ -777,7 +811,14 @@
         "file": "mushenji_bot.py",
         "function": "handle_cmd"
       }
-    ]
+    ],
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "handle_cmd",
+      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+    }
   },
   {
     "name": "查看闭关",
@@ -798,7 +839,14 @@
         "file": "mushenji_bot.py",
         "function": "handle_cmd"
       }
-    ]
+    ],
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "handle_cmd",
+      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+    }
   },
   {
     "name": "检测灵体",
@@ -817,7 +865,7 @@
         "身处大墟，万象皆险。",
         "初始资助：大丰币100、灵石10。",
         "道友：",
-        "先天道灵体：",
+        "先已移除灵体：",
         "当前境界：",
         "你已检测过灵体，可发送 .我的灵体 查看档案。"
       ]
@@ -827,7 +875,14 @@
         "file": "mushenji_bot.py",
         "function": "handle_cmd"
       }
-    ]
+    ],
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "handle_cmd",
+      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+    }
   },
   {
     "name": "榜单",
@@ -855,7 +910,14 @@
         "file": "mushenji_bot.py",
         "function": "handle_cmd"
       }
-    ]
+    ],
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "handle_cmd",
+      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+    }
   },
   {
     "name": "深度闭关",
@@ -876,7 +938,14 @@
         "file": "mushenji_bot.py",
         "function": "handle_cmd"
       }
-    ]
+    ],
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "handle_cmd",
+      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+    }
   },
   {
     "name": "炼制",
@@ -895,7 +964,7 @@
       ],
       "preconditions": [
         "你尚未入道，请先发送 .检测灵体。",
-        "你尚未获得该配方，可通过宗门/任务/天道获取。",
+        "你尚未获得该配方，可通过宗门/任务/已移除获取。",
         "境界不足，需达到",
         "材料不足：",
         "灵石不足，需要"
@@ -911,7 +980,7 @@
         "请输入阁下想要炼制的物品",
         "提示：可用 .我的配方 查看已学配方。",
         "才可炼制。",
-        "配方缺少材料配置，请联系天道修正。",
+        "配方缺少材料配置，请联系已移除修正。",
         "灵石。",
         "存在多个配方，请直接填写配方名。"
       ]
@@ -921,7 +990,14 @@
         "file": "mushenji_bot.py",
         "function": "handle_cmd"
       }
-    ]
+    ],
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "handle_cmd",
+      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+    }
   },
   {
     "name": "突破",
@@ -951,7 +1027,14 @@
         "file": "mushenji_bot.py",
         "function": "handle_cmd"
       }
-    ]
+    ],
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "handle_cmd",
+      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+    }
   },
   {
     "name": "试药",
@@ -984,7 +1067,14 @@
         "file": "mushenji_bot.py",
         "function": "handle_cmd"
       }
-    ]
+    ],
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "handle_cmd",
+      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+    }
   },
   {
     "name": "道门",
@@ -1023,7 +1113,14 @@
         "file": "mushenji_bot.py",
         "function": "handle_cmd"
       }
-    ]
+    ],
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "handle_cmd",
+      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+    }
   },
   {
     "name": "闭关修炼",
@@ -1044,7 +1141,14 @@
         "file": "mushenji_bot.py",
         "function": "handle_cmd"
       }
-    ]
+    ],
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "handle_cmd",
+      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+    }
   },
   {
     "name": "鬼市",
@@ -1081,6 +1185,13 @@
         "file": "mushenji_bot.py",
         "function": "handle_cmd"
       }
-    ]
+    ],
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "handle_cmd",
+      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+    }
   }
 ]
