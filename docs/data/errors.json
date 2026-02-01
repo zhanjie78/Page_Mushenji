@@ -1,8 +1,8 @@
 [
   {
-    "id": "error-todo",
-    "message": "TODO: 从 mushenji_bot.py 抽取错误提示文本",
-    "meaning": "TODO: 解释该错误含义",
+    "id": "error-1",
+    "message": "你尚未入道，请先发送 .检测灵体。",
+    "meaning": "TODO: 解释该错误的含义。",
     "causes": [],
     "fixes": [],
     "related": {
@@ -14,7 +14,1123 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位错误提示文本来源。"
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-2",
+    "message": "灵气尚未平复，无法立即再次闭关。请在",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-3",
+    "message": "【大墟惊变】\n天黑了，黑暗从四面八方涌来！\n你没有【火把】，黑暗中的怪物撕扯着你的肉体！\n闭关失败，生命减少",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-5",
+    "message": "突破失败，修为回落",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-6",
+    "message": "用法：.宗门 查看/加入 宗门名/信息/任务/签到/兑换",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-7",
+    "message": "未知榜单。可选：灵石/修为",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-9",
+    "message": "已重置闭关与冷却。",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-10",
+    "message": "目前尚未学会任何配方。",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-11",
+    "message": "尚未到达瓶颈，无法突破。",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-12",
+    "message": "突破失败，元气大伤！修为回落",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-13",
+    "message": "用法：.前往 延康/大墟/宗门名",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-14",
+    "message": "未知目的地。可用：延康/大墟/宗门名",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-15",
+    "message": "你尚未入道。",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-16",
+    "message": "用法：.拜访 村长/屠夫/药师...",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-17",
+    "message": "用法：.出售 物品名*数量",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-18",
+    "message": "该物品不可出售。可出售：常见材料与部分异兽战利品。",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-19",
+    "message": "储物袋中不足（拥有",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-20",
+    "message": "用法：.堵门 宗门名",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-21",
+    "message": "未知宗门。可用：道门/天魔教/大雷音寺/延康",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-22",
+    "message": "不可堵自己的宗门。",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-23",
+    "message": "试药必须在延康进行。",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-24",
+    "message": "试药冷却中，请在",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-25",
+    "message": "未知分类。可选：丹药/武器/护具/材料/丹方/武器方/护具方/限量武器/限量防具/超稀有丹药/限量道具",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-26",
+    "message": "用法：.喂食 赤火灵丹/灵石*数量",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-27",
+    "message": "用法：.鬼市 淘宝",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-28",
+    "message": "大丰币不足，需要",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-29",
+    "message": "用法：.道门 解题 [答案]",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-30",
+    "message": "用法：.道门 解题 你的答案",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-31",
+    "message": "用法：.宗门 加入 宗门名 / .宗门 信息 / .宗门 签到",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-32",
+    "message": "提示：宗门任务冷却为8小时。",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-33",
+    "message": "任务冷却中，请在",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-34",
+    "message": "用法：.炼制 配方名/目标物品*数量",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-35",
+    "message": "未知配方或目标物品。可先用 .图鉴 丹方/武器方/护具方 查询。",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-37",
+    "message": "境界不足，需达到",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-38",
+    "message": "炼制失败",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-39",
+    "message": "材料不足：",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-40",
+    "message": "灵石不足，需要",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-41",
+    "message": "用法：.服用 丹药名*数量",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-42",
+    "message": "服用失败",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-43",
+    "message": "未知丹药：",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-44",
+    "message": "境界不足，无法承受药力。",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-46",
+    "message": "目标尚未入道。",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-48",
+    "message": "用户ID无效。",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-54",
+    "message": "道号不能为空。",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-56",
+    "message": "灵体不能为空。",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-59",
+    "message": "数量必须为正整数。",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-60",
+    "message": "物品名不能为空。",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-64",
+    "message": "前往大墟需要火把。可在延康任务或宗门兑换获取。",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-65",
+    "message": "你尚未加入宗门。可用：.宗门 查看",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-66",
+    "message": "你尚未加入宗门。可用：.宗门 加入 宗门名",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-67",
+    "message": "宗门任务冷却中，请在",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-68",
+    "message": "宗门签到冷却中，请在",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-69",
+    "message": "用法：.宗门 兑换 物品名",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-70",
+    "message": "未知兑换物品。可用：.宗门 兑换",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-71",
+    "message": "宗门贡献不足，需要",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-72",
+    "message": "用法：.宗门 加入 宗门名",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-73",
+    "message": "未知宗门。可用：延康/道门/天魔教/大雷音寺",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-74",
+    "message": "修为值必须是整数。",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-75",
+    "message": "境界序号与阶段必须是整数。",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-76",
+    "message": "数量必须是整数。",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-77",
+    "message": "限量库存不足：",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-78",
+    "message": "数量必须为非负整数。",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
+    }
+  },
+  {
+    "id": "error-79",
+    "message": "你资质平平（无信物）且囊中羞涩（灵石不足）。请先在延康打工，或去大墟碰碰运气。",
+    "meaning": "TODO: 解释该错误的含义。",
+    "causes": [],
+    "fixes": [],
+    "related": {
+      "commands": [],
+      "features": []
+    },
+    "source": {
+      "file": "mushenji_bot.py",
+      "line_start": null,
+      "line_end": null,
+      "registry": "module",
+      "note": "TODO: 定位该错误提示的定义位置与行号。"
     }
   }
 ]
