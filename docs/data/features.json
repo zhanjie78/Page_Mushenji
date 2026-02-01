@@ -1,10 +1,476 @@
 [
   {
+    "name": "PREFIX",
+    "details": ".",
+    "references": [
+      {
+        "file": "mushenji_bot.py",
+        "function": "module"
+      }
+    ]
+  },
+  {
+    "name": "TRAIN_CD_MIN",
+    "details": 600,
+    "references": [
+      {
+        "file": "mushenji_bot.py",
+        "function": "module"
+      }
+    ]
+  },
+  {
+    "name": "TRAIN_CD_MAX",
+    "details": 900,
+    "references": [
+      {
+        "file": "mushenji_bot.py",
+        "function": "module"
+      }
+    ]
+  },
+  {
+    "name": "DEEP_DURATION",
+    "details": 28800,
+    "references": [
+      {
+        "file": "mushenji_bot.py",
+        "function": "module"
+      }
+    ]
+  },
+  {
+    "name": "DEEP_COOLDOWN",
+    "details": 79200,
+    "references": [
+      {
+        "file": "mushenji_bot.py",
+        "function": "module"
+      }
+    ]
+  },
+  {
+    "name": "PASSIVE_CD",
+    "details": 60,
+    "references": [
+      {
+        "file": "mushenji_bot.py",
+        "function": "module"
+      }
+    ]
+  },
+  {
+    "name": "PASSIVE_MIN_LEN",
+    "details": 6,
+    "references": [
+      {
+        "file": "mushenji_bot.py",
+        "function": "module"
+      }
+    ]
+  },
+  {
+    "name": "PASSIVE_GAIN",
+    "details": 1,
+    "references": [
+      {
+        "file": "mushenji_bot.py",
+        "function": "module"
+      }
+    ]
+  },
+  {
+    "name": "TASK_COOLDOWN",
+    "details": 21600,
+    "references": [
+      {
+        "file": "mushenji_bot.py",
+        "function": "module"
+      }
+    ]
+  },
+  {
+    "name": "SECT_TASK_COOLDOWN",
+    "details": 28800,
+    "references": [
+      {
+        "file": "mushenji_bot.py",
+        "function": "module"
+      }
+    ]
+  },
+  {
+    "name": "SECT_SIGNIN_COOLDOWN",
+    "details": 86400,
+    "references": [
+      {
+        "file": "mushenji_bot.py",
+        "function": "module"
+      }
+    ]
+  },
+  {
+    "name": "DAO_MEN_QUIZ_COOLDOWN",
+    "details": 600,
+    "references": [
+      {
+        "file": "mushenji_bot.py",
+        "function": "module"
+      }
+    ]
+  },
+  {
+    "name": "DRAGON_BUFF_DURATION",
+    "details": 7200,
+    "references": [
+      {
+        "file": "mushenji_bot.py",
+        "function": "module"
+      }
+    ]
+  },
+  {
+    "name": "GHOST_MARKET_COST",
+    "details": 500,
+    "references": [
+      {
+        "file": "mushenji_bot.py",
+        "function": "module"
+      }
+    ]
+  },
+  {
+    "name": "BLOCK_GATE_CD",
+    "details": 3600,
+    "references": [
+      {
+        "file": "mushenji_bot.py",
+        "function": "module"
+      }
+    ]
+  },
+  {
+    "name": "TEST_DRUG_COOLDOWN",
+    "details": 86400,
+    "references": [
+      {
+        "file": "mushenji_bot.py",
+        "function": "module"
+      }
+    ]
+  },
+  {
+    "name": "TRAIN_LOOT_CHANCE",
+    "details": 0.12,
+    "references": [
+      {
+        "file": "mushenji_bot.py",
+        "function": "module"
+      }
+    ]
+  },
+  {
+    "name": "DEEP_LOOT_CHANCE",
+    "details": 0.25,
+    "references": [
+      {
+        "file": "mushenji_bot.py",
+        "function": "module"
+      }
+    ]
+  },
+  {
+    "name": "REALM_TIERS",
+    "details": [
+      "灵胎",
+      "五曜",
+      "六合",
+      "七星",
+      "天人",
+      "生死",
+      "神桥"
+    ],
+    "references": [
+      {
+        "file": "mushenji_bot.py",
+        "function": "module"
+      }
+    ]
+  },
+  {
+    "name": "STAGES_PER_TIER",
+    "details": 3,
+    "references": [
+      {
+        "file": "mushenji_bot.py",
+        "function": "module"
+      }
+    ]
+  },
+  {
+    "name": "SELL_PRICES",
+    "details": {
+      "灵木": {
+        "coin": 40
+      },
+      "星砂": {
+        "coin": 80
+      },
+      "玄铁矿": {
+        "coin": 60
+      },
+      "黑曜石": {
+        "coin": 70
+      },
+      "灵泉露": {
+        "coin": 90
+      },
+      "玄玉": {
+        "coin": 100
+      },
+      "赤金": {
+        "coin": 120
+      },
+      "天蚕丝": {
+        "coin": 140
+      },
+      "玄金": {
+        "coin": 160
+      },
+      "魂玉": {
+        "coin": 200
+      },
+      "龙鳞": {
+        "stone": 15
+      },
+      "四灵血": {
+        "stone": 35
+      },
+      "妖丹": {
+        "stone": 12
+      },
+      "异兽骨": {
+        "stone": 50
+      },
+      "破碎的瓦片": {
+        "coin": 5
+      },
+      "不知名的骨头": {
+        "coin": 5
+      }
+    },
+    "references": [
+      {
+        "file": "mushenji_bot.py",
+        "function": "module"
+      }
+    ]
+  },
+  {
+    "name": "SECTS",
+    "details": {
+      "延康": {
+        "desc": "国师变法，有教无类。新手默认归属。",
+        "req_tier": 0,
+        "req_stone": 0,
+        "type": "starter",
+        "starter_kind": "武器方"
+      },
+      "道门": {
+        "desc": "术数穷理。入门需交千金，或解出算题。",
+        "req_tier": 2,
+        "req_stone": 1000,
+        "waiver_cmd": "解题",
+        "join_msg": "你通过了考核，道主微微颔首：'数算可通神'。",
+        "starter_kind": "丹方"
+      },
+      "天魔教": {
+        "desc": "率性而为。入门看缘分（或杀气）。",
+        "req_tier": 1,
+        "req_stone": 500,
+        "waiver_item": "杀猪刀",
+        "join_msg": "你亮出杀猪刀，教主大笑：'好刀法！你是我们兄弟了！'",
+        "starter_kind": "武器方"
+      },
+      "大雷音寺": {
+        "desc": "佛门圣地。不仅要钱，还要缘。",
+        "req_tier": 3,
+        "req_stone": 2000,
+        "waiver_item": "佛珠",
+        "join_msg": "你献上香火钱与佛珠，长老颔首：'你与我佛有缘'。",
+        "starter_kind": "护具方"
+      }
+    },
+    "references": [
+      {
+        "file": "mushenji_bot.py",
+        "function": "module"
+      }
+    ]
+  },
+  {
+    "name": "LORE",
+    "details": {
+      "世界观": [
+        "大墟风沙如海，延康的灯火却从未熄灭。",
+        "延康变法方兴未艾，诸教暗流涌动。",
+        "古神低语回荡在黑暗中，谁也说不清是福是祸。",
+        "太虚深处偶现神桥残影，疑是上古遗泽。"
+      ],
+      "人物": [
+        "有游侠踏入大墟，誓要解开古神之谜。",
+        "有人自称来自延康，口口声声要重塑旧日秩序。"
+      ],
+      "势力": [
+        "延康",
+        "道门",
+        "天魔教",
+        "大雷音寺"
+      ],
+      "地名": [
+        "大墟",
+        "太虚",
+        "延康"
+      ],
+      "传闻": [
+        "旧日遗迹重现，传闻有神兵出世。",
+        "黑暗中传来钟声，似在召唤沉睡的古神。",
+        "有人在风沙中见到不该存在的城池。"
+      ]
+    },
+    "references": [
+      {
+        "file": "mushenji_bot.py",
+        "function": "module"
+      }
+    ]
+  },
+  {
+    "name": "LOW_TIER_LOOT",
+    "details": [
+      [
+        "灵木",
+        35
+      ],
+      [
+        "星砂",
+        30
+      ],
+      [
+        "玄铁矿",
+        25
+      ],
+      [
+        "黑曜石",
+        20
+      ],
+      [
+        "灵泉露",
+        18
+      ],
+      [
+        "玄玉",
+        12
+      ],
+      [
+        "天蚕丝",
+        8
+      ],
+      [
+        "龙鳞",
+        4
+      ],
+      [
+        "四灵血",
+        2
+      ]
+    ],
+    "references": [
+      {
+        "file": "mushenji_bot.py",
+        "function": "module"
+      }
+    ]
+  },
+  {
+    "name": "HIGH_TIER_LOOT",
+    "details": [
+      [
+        "灵木",
+        15
+      ],
+      [
+        "星砂",
+        15
+      ],
+      [
+        "玄铁矿",
+        12
+      ],
+      [
+        "黑曜石",
+        10
+      ],
+      [
+        "玄玉",
+        8
+      ],
+      [
+        "赤金",
+        10
+      ],
+      [
+        "玄金",
+        8
+      ],
+      [
+        "魂玉",
+        8
+      ],
+      [
+        "龙血晶",
+        6
+      ],
+      [
+        "凤羽",
+        6
+      ],
+      [
+        "玄星铁",
+        6
+      ],
+      [
+        "天罡石",
+        4
+      ],
+      [
+        "四灵血",
+        2
+      ]
+    ],
+    "references": [
+      {
+        "file": "mushenji_bot.py",
+        "function": "module"
+      }
+    ]
+  },
+  {
     "name": "REALM_TIERS",
     "details": "Unknown",
     "references": [
       {
-        "file": "tools\\extract_mushenji_docs.py",
+        "file": "test/test_basic.py",
+        "function": "module"
+      }
+    ]
+  },
+  {
+    "name": "REALM_TIERS",
+    "details": "Unknown",
+    "references": [
+      {
+        "file": "tools/extract_mushenji_docs.py",
         "function": "module"
       }
     ]
