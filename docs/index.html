@@ -22,8 +22,11 @@
 
     <div class="layout">
       <aside class="sidebar" id="sidebar">
+        <div class="sidebar-search">
+          <input type="search" id="searchInput" placeholder="神识检索 · Divine Sense" aria-label="Divine Sense Search" />
+        </div>
         <div class="sidebar-section">
-          <h3>章节导航</h3>
+          <h3>大墟地理图</h3>
           <nav class="sidebar-nav" id="sidebarNav"></nav>
         </div>
         <div class="sidebar-section">
@@ -37,9 +40,9 @@
       <main class="content">
         <section class="hero" id="hero">
           <div class="hero-text">
-            <h1>从初入仙途到秘境试炼</h1>
-            <p>本教程站点以代码为准，所有命令、冷却与错误提示来自 mushenji_bot.py 的抽取数据。</p>
-            <p class="hero-note">已移除受限主题内容与引用，确保数据与 UI 均不会显示该主题。</p>
+            <h1>天黑别出门，除非你是霸体。</h1>
+            <p>由残老村九位长老联手编写的生存指南。打破心中之神，便是牧神。</p>
+            <p class="hero-note">石像守夜，火种不灭，黑暗终将退散。</p>
             <div class="hero-tags" id="heroTags"></div>
           </div>
           <div class="hero-panel">
@@ -48,52 +51,84 @@
           </div>
         </section>
 
-        <section class="section" id="quick-start">
+        <section class="section" id="preface">
           <div class="section-header">
-            <h2>快速入门</h2>
-            <p>新手最常用的入口指令与系统说明。</p>
+            <h2>卷首语</h2>
+            <p>霸体启示与九老口传心授的要诀。</p>
           </div>
-          <div class="section-grid" id="quickStartContent"></div>
+          <div class="section-grid" id="prefaceContent"></div>
         </section>
 
-        <section class="section" id="movement">
+        <section class="section" id="great-ruins">
           <div class="section-header">
-            <h2>探索与移动</h2>
-            <p>探索与拜访相关的指令集合。</p>
+            <h2>壹 · 大墟残老村</h2>
+            <p>检测灵体、村长吩咐与夜行规矩。</p>
           </div>
-          <div class="section-grid" id="movementContent"></div>
+          <div class="section-grid" id="great-ruinsContent"></div>
         </section>
 
-        <section class="section" id="combat">
+        <section class="section" id="overlord-foundation">
           <div class="section-header">
-            <h2>战斗与生存</h2>
-            <p>与战斗、生存或风险控制相关的指令。</p>
+            <h2>贰 · 霸体筑基</h2>
+            <p>闭关磨炼，突破体魄根基。</p>
           </div>
-          <div class="section-grid" id="combatContent"></div>
+          <div class="section-grid" id="overlord-foundationContent"></div>
         </section>
 
-        <section class="section" id="inventory">
+        <section class="section" id="imperial-reform">
           <div class="section-header">
-            <h2>背包与装备</h2>
-            <p>物品、炼制与配方相关的指令。</p>
+            <h2>叁 · 延康国师变法</h2>
+            <p>宗门往来与任务更替。</p>
           </div>
-          <div class="section-grid" id="inventoryContent"></div>
+          <div class="section-grid" id="imperial-reformContent"></div>
         </section>
 
-        <section class="section" id="trading">
+        <section class="section" id="heavenly-devil">
           <div class="section-header">
-            <h2>交易与经济</h2>
-            <p>交易与市场相关的指令。</p>
+            <h2>肆 · 天魔教主</h2>
+            <p>炼制与丹药，炉火中见真章。</p>
           </div>
-          <div class="section-grid" id="tradingContent"></div>
+          <div class="section-grid" id="heavenly-devilContent"></div>
         </section>
 
-        <section class="section" id="progression">
+        <section class="section" id="fengdu">
           <div class="section-header">
-            <h2>任务与成长</h2>
-            <p>修行节奏、宗门事务与成长路径。</p>
+            <h2>伍 · 酆都鬼城</h2>
+            <p>鬼市交易与暗夜买卖。</p>
           </div>
-          <div class="section-grid" id="progressionContent"></div>
+          <div class="section-grid" id="fengduContent"></div>
+        </section>
+
+        <section class="section" id="jade-thunder">
+          <div class="section-header">
+            <h2>陆 · 小玉京与大雷音</h2>
+            <p>宗门事务与秘闻集结。</p>
+          </div>
+          <div class="section-grid" id="jade-thunderContent"></div>
+        </section>
+
+        <section class="section" id="upper-realm">
+          <div class="section-header">
+            <h2>柒 · 上苍虚界</h2>
+            <p>副本试炼与强敌之境。</p>
+          </div>
+          <div class="section-grid" id="upper-realmContent"></div>
+        </section>
+
+        <section class="section" id="butcher-blade">
+          <div class="section-header">
+            <h2>捌 · 屠夫的一刀</h2>
+            <p>堵门争锋，刀锋与血色的试炼。</p>
+          </div>
+          <div class="section-grid" id="butcher-bladeContent"></div>
+        </section>
+
+        <section class="section" id="herding-gods">
+          <div class="section-header">
+            <h2>终章 · 牧神之道</h2>
+            <p>破心中之神，踏上牧神之路。</p>
+          </div>
+          <div class="section-grid" id="herding-godsContent"></div>
         </section>
 
         <section class="section" id="troubleshooting">
