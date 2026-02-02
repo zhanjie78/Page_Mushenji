@@ -51,17 +51,19 @@ const TAXONOMY = [
   },
 ];
 
+const SCROLL_OFFSET = 100;
+
 const sectionMappings = {
-  preface: ["Quick Start"],
-  "great-ruins": ["Movement and Exploration"],
-  "overlord-foundation": [],
-  "imperial-reform": ["Quests and Progression"],
-  "heavenly-devil": ["Inventory and Gear"],
-  fengdu: ["Trading and Economy"],
-  "jade-thunder": [],
-  "upper-realm": [],
-  "butcher-blade": ["Combat and Survival"],
-  "herding-gods": [],
+  preface: ["卷首语"],
+  "great-ruins": ["大墟残老村"],
+  "overlord-foundation": ["霸体筑基"],
+  "imperial-reform": ["延康国师变法"],
+  "heavenly-devil": ["天魔教主"],
+  fengdu: ["酆都鬼城"],
+  "jade-thunder": ["小玉京与大雷音"],
+  "upper-realm": ["上苍虚界"],
+  "butcher-blade": ["屠夫的一刀"],
+  "herding-gods": ["牧神之道"],
 };
 
 const SECTIONS = TAXONOMY.map((section) => ({
@@ -74,13 +76,17 @@ const HERO_TAGS = ["大墟夜行", "霸体修行", "九老叮嘱", "牧神之道
 const REDACT_KEYWORD = "天道";
 const UNKNOWN_TEXT = "大墟的黑暗掩盖了真相...";
 const CATEGORY_LABELS = {
-  "Quick Start": "卷首语",
-  "Movement and Exploration": "壹 · 大墟残老村",
-  "Combat and Survival": "捌 · 屠夫的一刀",
-  "Inventory and Gear": "肆 · 天魔教主",
-  "Trading and Economy": "伍 · 酆都鬼城",
-  "Quests and Progression": "叁 · 延康国师变法",
-  Uncategorized: "未分类",
+  卷首语: "卷首语",
+  大墟残老村: "壹 · 大墟残老村",
+  霸体筑基: "贰 · 霸体筑基",
+  延康国师变法: "叁 · 延康国师变法",
+  天魔教主: "肆 · 天魔教主",
+  酆都鬼城: "伍 · 酆都鬼城",
+  小玉京与大雷音: "陆 · 小玉京与大雷音",
+  上苍虚界: "柒 · 上苍虚界",
+  屠夫的一刀: "捌 · 屠夫的一刀",
+  牧神之道: "终章 · 牧神之道",
+  未分类: "未分类",
 };
 
 const safeJsonParse = (text, fallback) => {
@@ -125,7 +131,7 @@ const loadJson = async (path, fallback = [], inlineId) => {
   return fallback;
 };
 
-const slugify = (text) => text.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9\-]/g, "");
+const slugify = (text) => encodeURIComponent(text.trim().toLowerCase().replace(/\s+/g, "-"));
 
 const isRedacted = (value) => typeof value === "string" && value.includes(REDACT_KEYWORD);
 
@@ -243,6 +249,16 @@ const renderSnapshot = (commands, features) => {
     <div>指令前缀：<code>${prefixText}</code></div>
     <div>已收录命令：${totalCommands}</div>
     <div>已覆盖分类：${categories}</div>
+    <div class="portal-actions" style="margin-top: 24px; display: flex; gap: 12px; flex-wrap: wrap;">
+      <a href="https://t.me/mushenjixx" target="_blank" class="btn-portal" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 24px; border-radius: 8px; text-decoration: none; color: #000;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+        <span>踏入大墟（加入群组）</span>
+      </a>
+      <a href="https://t.me/Ssn047" target="_blank" class="btn-portal-ghost" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 24px; border-radius: 8px; text-decoration: none; border: 1px solid #d7b46a; color: #d7b46a;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        <span>联系掌灯人</span>
+      </a>
+    </div>
   `;
 };
 
@@ -261,7 +277,7 @@ const renderSectionCards = (commands, sectionId, categories) => {
         <article class="card command-card">
           <h3>${cmd.name}</h3>
           <div class="card-meta">分类：${getCategoryLabel(cmd.category)}</div>
-          <div class="card-meta">描述：${cmd.description || "TODO"}</div>
+          <div class="card-meta">描述：${cmd.description || "暂无说明"}</div>
           <div class="card-field">
             <span class="field-label">用法</span>
             <div class="cmd-lines">
@@ -286,7 +302,7 @@ const renderErrors = (errors) => {
       (error) => `
       <div class="card">
         <h3>${error.message}</h3>
-        <div class="card-meta">含义：${error.meaning || "TODO"}</div>
+        <div class="card-meta">含义：${error.meaning || "暂无说明"}</div>
         <div class="card-meta">常见原因：${(error.causes || []).length ? (error.causes || []).join(" / ") : "暂无"}</div>
         <div class="card-meta">解决方式：${(error.fixes || []).length ? (error.fixes || []).join(" / ") : "暂无"}</div>
       </div>
@@ -312,7 +328,7 @@ const renderCommandList = (commands) => {
       (command) => `
       <div class="command-item" data-command="${slugify(command.name)}">
         <h4>${command.name}</h4>
-        <p>${getCategoryLabel(command.category)} · ${command.description || "TODO: 待补充说明"}</p>
+        <p>${getCategoryLabel(command.category)} · ${command.description || "暂无说明"}</p>
         ${command.usage && command.usage.length ? `<div class="cmd-lines">${command.usage
           .map((usage) => `<code class="cmd-code">${usage}</code>`)
           .join("")}</div>` : ""}
@@ -380,6 +396,32 @@ const setActiveNav = (sectionId) => {
   });
 };
 
+const scrollToSection = (sectionId, behavior = "smooth") => {
+  if (!sectionId) return;
+  const targetElement = document.getElementById(sectionId);
+  if (!targetElement) return;
+  window.scrollTo({
+    top: targetElement.offsetTop - SCROLL_OFFSET,
+    behavior,
+  });
+};
+
+const setupNavScroll = () => {
+  const navContainers = document.querySelectorAll(".topbar-nav, .sidebar-nav");
+  navContainers.forEach((container) => {
+    container.addEventListener("click", (event) => {
+      const link = event.target.closest("a");
+      if (!link) return;
+      const targetId = link.getAttribute("href")?.replace("#", "");
+      if (!targetId) return;
+      event.preventDefault();
+      scrollToSection(targetId);
+      window.history.pushState(null, "", `#${targetId}`);
+      setActiveNav(targetId);
+    });
+  });
+};
+
 const highlightActiveNav = () => {
   const hash = window.location.hash.replace("#", "");
   if (!hash) return;
@@ -423,31 +465,31 @@ const setupSidebarSearch = () => {
 const setupScrollSpy = () => {
   const sections = Array.from(document.querySelectorAll(".section, .hero"));
   if (!sections.length) return;
+  let ticking = false;
 
-  if (!("IntersectionObserver" in window)) {
-    return;
-  }
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      const visibleEntries = entries.filter((entry) => entry.isIntersecting);
-      if (!visibleEntries.length) return;
-      const topEntry = visibleEntries.reduce((best, entry) =>
-        entry.intersectionRatio > best.intersectionRatio ? entry : best
-      );
-      const targetId = topEntry.target.getAttribute("id");
-      if (targetId) {
-        setActiveNav(targetId);
+  const updateActiveSection = () => {
+    const scrollPosition = window.scrollY + SCROLL_OFFSET + 1;
+    let currentSection = sections[0]?.id;
+    sections.forEach((section) => {
+      if (section.offsetTop <= scrollPosition) {
+        currentSection = section.getAttribute("id");
       }
-    },
-    {
-      root: null,
-      rootMargin: "-30% 0px -55% 0px",
-      threshold: [0, 0.25, 0.5, 0.75, 1],
+    });
+    if (currentSection) {
+      setActiveNav(currentSection);
     }
-  );
+    ticking = false;
+  };
 
-  sections.forEach((section) => observer.observe(section));
+  const onScroll = () => {
+    if (!ticking) {
+      window.requestAnimationFrame(updateActiveSection);
+      ticking = true;
+    }
+  };
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  updateActiveSection();
 };
 
 const setupCommandInteractions = (commands) => {
@@ -510,6 +552,8 @@ const handleHashChange = (commandIndex) => {
     document.querySelectorAll(".command-item").forEach((item) => {
       item.classList.toggle("active", item.dataset.command === slug);
     });
+  } else if (hash) {
+    scrollToSection(hash, "auto");
   }
   highlightActiveNav();
 };
@@ -552,6 +596,7 @@ const init = async () => {
   setupCommandInteractions(commands);
   highlightActiveNav();
   setupSidebarSearch();
+  setupNavScroll();
   setupScrollSpy();
 };
 

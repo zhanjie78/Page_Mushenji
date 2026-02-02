@@ -4,30 +4,31 @@
     "aliases": [],
     "usage": [],
     "examples": [],
-    "category": "Quick Start",
-    "description": "TODO: 待从 mushenji_bot.py 补充说明",
+    "category": "卷首语",
+    "description": "翻开残卷，延康灯火与大墟黑夜交错成一幅长画卷。",
     "pitfalls": [],
-    "related": [],
+    "related": [
+      "人物",
+      "势力",
+      "地名",
+      "传闻"
+    ],
     "details": {
       "parameters": [],
-      "preconditions": [],
+      "preconditions": [
+        "心神安定，方能听见古神远古的喘息。"
+      ],
       "outcomes": [
-        "暂无世界观条目。",
-        "世界观"
+        "卷中写下牧神旧事与延康变法的因果，提醒你莫忘黑暗的来处。"
       ]
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
+    "references": [],
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
@@ -35,30 +36,29 @@
     "aliases": [],
     "usage": [],
     "examples": [],
-    "category": "Quick Start",
-    "description": "TODO: 待从 mushenji_bot.py 补充说明",
+    "category": "卷首语",
+    "description": "大墟风沙里，总有人背着灯火赶路，他们的名字像星子一样跳动。",
     "pitfalls": [],
-    "related": [],
+    "related": [
+      "世界观",
+      "势力"
+    ],
     "details": {
       "parameters": [],
-      "preconditions": [],
+      "preconditions": [
+        "记住残老村九老的叮嘱，别轻信来客的笑。"
+      ],
       "outcomes": [
-        "暂无人物条目。",
-        "人物"
+        "你听见游侠、国师、教主的传说，仿佛在夜里看见他们的影子。"
       ]
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
+    "references": [],
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
@@ -66,44 +66,30 @@
     "aliases": [],
     "usage": [],
     "examples": [],
-    "category": "Quests and Progression",
-    "description": "TODO: 待从 mushenji_bot.py 补充说明",
+    "category": "延康国师变法",
+    "description": "国师的命令随风而来，像一张张征召令，催你踏出残老村。",
     "pitfalls": [],
-    "related": [],
+    "related": [
+      "宗门",
+      "榜单"
+    ],
     "details": {
       "parameters": [],
       "preconditions": [
-        "你尚未入道，请先发送 .检测灵体。",
-        "任务冷却中，请在"
+        "先让村长为你摸骨，确认灵体，再接任务。",
+        "命令已下达，请耐心等待冷却。"
       ],
       "outcomes": [
-        "任务完成",
-        "提示：任务奖励周期为6小时。",
-        "奖励：",
-        "、",
-        "分",
-        "秒 后再试。",
-        "延康任务完成",
-        "提示：国家任务稳定发薪。",
-        "任务：",
-        "奖励：大丰币×",
-        "、灵石×",
-        "、修为×",
-        "、火把×1"
+        "完成任务后，延康会发放薪俸与火把，照亮你下次远行。"
       ]
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
+    "references": [],
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
@@ -111,30 +97,29 @@
     "aliases": [],
     "usage": [],
     "examples": [],
-    "category": "Movement and Exploration",
-    "description": "TODO: 待从 mushenji_bot.py 补充说明",
+    "category": "大墟残老村",
+    "description": "夜色里总有异象，风沙把古神的旧事吹进村中。",
     "pitfalls": [],
-    "related": [],
+    "related": [
+      "世界观",
+      "地名"
+    ],
     "details": {
       "parameters": [],
-      "preconditions": [],
+      "preconditions": [
+        "守夜时侧耳，传闻才会靠近。"
+      ],
       "outcomes": [
-        "暂无传闻。",
-        "传闻"
+        "你听见城池出没、神兵现世的传言，像黑夜里的微光。"
       ]
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
+    "references": [],
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
@@ -142,32 +127,29 @@
     "aliases": [],
     "usage": [],
     "examples": [],
-    "category": "Inventory and Gear",
-    "description": "TODO: 待从 mushenji_bot.py 补充说明",
+    "category": "天魔教主",
+    "description": "摸开储物袋，听见灵石滚落的清响，像心跳在掌心回荡。",
     "pitfalls": [],
-    "related": [],
+    "related": [
+      "出售",
+      "炼制"
+    ],
     "details": {
       "parameters": [],
       "preconditions": [
-        "你尚未入道，请先发送 .检测灵体。"
+        "先检测灵体，才有资格动用随身袋。"
       ],
       "outcomes": [
-        "储物袋",
-        "储物袋空空如也。"
+        "你清点行囊，记住每一件战利品的来处与血色。"
       ]
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
+    "references": [],
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
@@ -177,40 +159,34 @@
       "用法：.出售 物品名*数量"
     ],
     "examples": [],
-    "category": "Trading and Economy",
-    "description": "TODO: 待从 mushenji_bot.py 补充说明",
-    "pitfalls": [],
-    "related": [],
+    "category": "酆都鬼城",
+    "description": "鬼市里银钱翻涌，你将战利品换成灵石与大丰币。",
+    "pitfalls": [
+      "别拿祖传信物去换钱，换来的只有霉运。"
+    ],
+    "related": [
+      "鬼市",
+      "储物袋"
+    ],
     "details": {
       "parameters": [
         ".出售 物品名*数量"
       ],
       "preconditions": [
-        "你尚未入道，请先发送 .检测灵体。",
-        "该物品不可出售。可出售：常见材料与部分异兽战利品。",
-        "储物袋中不足（拥有"
+        "先入道，才有资格进鬼市叫卖。",
+        "并非所有猎物都能上架，谨慎挑选。"
       ],
       "outcomes": [
-        "出售完成",
-        "出售：",
-        "×",
-        "获得：",
-        "、",
-        "）。"
+        "交易完成，面具摊主递来灵石，你的手心却有些发凉。"
       ]
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
+    "references": [],
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
@@ -220,35 +196,34 @@
       "用法：.前往 延康/大墟/宗门名"
     ],
     "examples": [],
-    "category": "Movement and Exploration",
-    "description": "TODO: 待从 mushenji_bot.py 补充说明",
-    "pitfalls": [],
-    "related": [],
+    "category": "大墟残老村",
+    "description": "你提起火把，踏出村口，脚下的风沙像在指路。",
+    "pitfalls": [
+      "没有火把，就别进大墟黑夜。"
+    ],
+    "related": [
+      "传闻",
+      "宗门"
+    ],
     "details": {
       "parameters": [
         ".前往 延康/大墟/宗门名"
       ],
       "preconditions": [
-        "你尚未入道，请先发送 .检测灵体。",
-        "前往大墟需要火把。可在延康任务或宗门兑换获取。"
+        "灵体已定，才可远行。",
+        "前往大墟需准备火把。"
       ],
       "outcomes": [
-        "你已前往",
-        "。"
+        "你抵达目的地，风声里传来守夜人的低语。"
       ]
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
+    "references": [],
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
@@ -256,30 +231,29 @@
     "aliases": [],
     "usage": [],
     "examples": [],
-    "category": "Quick Start",
-    "description": "TODO: 待从 mushenji_bot.py 补充说明",
+    "category": "卷首语",
+    "description": "宗门与王朝并立，教主与国师隔着黑暗相望。",
     "pitfalls": [],
-    "related": [],
+    "related": [
+      "宗门",
+      "世界观"
+    ],
     "details": {
       "parameters": [],
-      "preconditions": [],
+      "preconditions": [
+        "知晓诸派来历，才知道该向谁借火。"
+      ],
       "outcomes": [
-        "暂无势力条目。",
-        "势力"
+        "你记下延康、道门、天魔教、大雷音寺的名号。"
       ]
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
+    "references": [],
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
@@ -289,38 +263,34 @@
       "用法：.喂食 赤火灵丹/灵石*数量"
     ],
     "examples": [],
-    "category": "Combat and Survival",
-    "description": "TODO: 待从 mushenji_bot.py 补充说明",
-    "pitfalls": [],
-    "related": [],
+    "category": "屠夫的一刀",
+    "description": "给龙麒麟喂食赤火灵丹，不然这头惫懒的家伙根本不肯动弹。",
+    "pitfalls": [
+      "它只认丹药与灵石，别拿野果去糊弄。"
+    ],
+    "related": [
+      "前往",
+      "储物袋"
+    ],
     "details": {
       "parameters": [
         ".喂食 赤火灵丹/灵石*数量"
       ],
       "preconditions": [
-        "你尚未入道，请先发送 .检测灵体。",
-        "灵石不足，需要",
-        "储物袋中不足（拥有"
+        "先入道，才能召唤龙麒麟。",
+        "灵石不够时，它会冷冷一瞥。"
       ],
       "outcomes": [
-        "龙麒麟吞下丹药，舒服地打了个饱嗝，慢吞吞地站了起来：'教主，去哪？'",
-        "。",
-        "龙麒麟只吃赤火灵丹或灵石。",
-        "）。"
+        "龙麒麟吞下丹药，打着饱嗝问你要去哪里，背上的火纹亮起。"
       ]
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
+    "references": [],
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
@@ -330,32 +300,31 @@
     "examples": [
       "示例：.图鉴 丹药"
     ],
-    "category": "Inventory and Gear",
-    "description": "TODO: 待从 mushenji_bot.py 补充说明",
-    "pitfalls": [],
-    "related": [],
+    "category": "天魔教主",
+    "description": "图鉴像一面旧铜镜，照出兵器与丹药的前世。",
+    "pitfalls": [
+      "看得太久，会被器灵反噬心神。"
+    ],
+    "related": [
+      "炼制",
+      "服用"
+    ],
     "details": {
       "parameters": [],
-      "preconditions": [],
+      "preconditions": [
+        "入道后方可翻阅图鉴。"
+      ],
       "outcomes": [
-        "图鉴",
-        "提示：已移除可用 .已移除 发放 发放物品。",
-        "可选分类：丹药、武器、护具、材料、丹方、武器方、护具方、限量武器、限量防具、超稀有丹药、限量道具",
-        "示例：.图鉴 丹药"
+        "你记下丹药、武器、护具与材料的名册，仿佛抚摸它们的故事。"
       ]
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
+    "references": [],
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
@@ -363,30 +332,29 @@
     "aliases": [],
     "usage": [],
     "examples": [],
-    "category": "Quick Start",
-    "description": "TODO: 待从 mushenji_bot.py 补充说明",
+    "category": "卷首语",
+    "description": "地图上的每一个地名，都像黑夜里一点篝火。",
     "pitfalls": [],
-    "related": [],
+    "related": [
+      "前往",
+      "传闻"
+    ],
     "details": {
       "parameters": [],
-      "preconditions": [],
+      "preconditions": [
+        "在风沙里先记住方向，才不至迷路。"
+      ],
       "outcomes": [
-        "暂无地名条目。",
-        "地名"
+        "你听见大墟、延康与太虚的名字，在胸腔里回响。"
       ]
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
+    "references": [],
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
@@ -396,42 +364,35 @@
       "用法：.堵门 宗门名"
     ],
     "examples": [],
-    "category": "Combat and Survival",
-    "description": "TODO: 待从 mushenji_bot.py 补充说明",
-    "pitfalls": [],
-    "related": [],
+    "category": "屠夫的一刀",
+    "description": "你持刀立于山门前，风声里都是弟子脚步声。",
+    "pitfalls": [
+      "同门相向，最伤心神。"
+    ],
+    "related": [
+      "宗门",
+      "榜单"
+    ],
     "details": {
       "parameters": [
         ".堵门 宗门名"
       ],
       "preconditions": [
-        "你尚未入道，请先发送 .检测灵体。",
-        "不可堵自己的宗门。",
-        "你需在延康或目标宗门所在地才能堵门。"
+        "先入道，再谈堵门之事。",
+        "不可堵自己宗门。",
+        "需在延康或目标宗门所在地。"
       ],
       "outcomes": [
-        "你被宗门弟子击退，获得称号：被堵门的手下败将（1小时）。",
-        "教主说了，要叫天圣教！扣除 10 点贡献！",
-        "你需在延康或目标宗门所在地才能堵门。",
-        "你还在堵门败将的阴影中，",
-        "分",
-        "秒 后再试。",
-        "宗门派出弟子迎战，你大胜！获得声望×",
-        "。"
+        "或败或胜，声望与屈辱都会刻在你名号之上。"
       ]
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
+    "references": [],
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
@@ -444,10 +405,15 @@
       "用法：.宗门 加入 宗门名"
     ],
     "examples": [],
-    "category": "Quests and Progression",
-    "description": "TODO: 待从 mushenji_bot.py 补充说明",
-    "pitfalls": [],
-    "related": [],
+    "category": "延康国师变法",
+    "description": "宗门像夜色中的灯塔，或冷峻，或狂放，但都有一条门规。",
+    "pitfalls": [
+      "每次签到与任务都有冷却，别让长老久等。"
+    ],
+    "related": [
+      "任务",
+      "道门"
+    ],
     "details": {
       "parameters": [
         ".宗门 查看/加入 宗门名/信息/任务/签到/兑换",
@@ -456,74 +422,20 @@
         ".宗门 加入 宗门名"
       ],
       "preconditions": [
-        "提示：宗门任务冷却为8小时。",
-        "你尚未入道，请先发送 .检测灵体。",
-        "你尚未加入宗门。可用：.宗门 查看",
-        "你尚未加入宗门。可用：.宗门 加入 宗门名",
-        "宗门任务冷却中，请在",
-        "宗门签到冷却中，请在",
-        "宗门贡献不足，需要",
-        "你资质平平（无信物）且囊中羞涩（灵石不足）。请先在延康打工，或去大墟碰碰运气。"
+        "入道后方可择宗门。",
+        "贡献不足时，兑换会被长老摇头拒绝。"
       ],
       "outcomes": [
-        "宗门一览",
-        "宗门信息",
-        "提示：.宗门 任务 / .宗门 签到 / .宗门 兑换",
-        "宗门：",
-        "宗门描述：",
-        "宗门贡献：",
-        "desc",
-        "暂无",
-        "宗门任务完成",
-        "任务：",
-        "提交：",
-        "奖励：",
-        "title",
-        "、",
-        "×",
-        "requirements",
-        "宗门签到",
-        "提示：每日可签到一次。",
-        "获得宗门贡献×",
-        "兑换成功",
-        "物品：",
-        "消耗贡献：",
-        "qty",
-        "cost",
-        "宗门加入成功",
-        "入门奖励：",
-        "分",
-        "秒 后再试。",
-        "宗门任务",
-        "可通过 .储物袋 查看库存。",
-        "需求：",
-        "缺少：",
-        "-",
-        "小时",
-        "分 后再试。",
-        "宗门兑换",
-        "查看配方：.宗门 兑换 配方",
-        "查看材料：.宗门 兑换 材料",
-        "查看信物：.宗门 兑换 信物",
-        "配方可兑换数量：",
-        "信物可兑换数量：",
-        "暂无可兑换物品。",
-        "点。",
-        "你已加入宗门："
+        "你听见宗门石阶上的回声，接下任务、签到领赏、兑换心仪之物。"
       ]
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
+    "references": [],
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
@@ -553,56 +465,31 @@
       ".任务",
       ".榜单 灵石/修为",
       ".传闻",
-      ".世界观 / .人物 / .势力 / .地名",
-      ".已移除 帮助（管理员）"
+      ".世界观 / .人物 / .势力 / .地名"
     ],
-    "category": "Quick Start",
-    "description": "TODO: 待从 mushenji_bot.py 补充说明",
+    "category": "卷首语",
+    "description": "九老合力写下的指引，像一盏灯，帮你在黑暗中辨路。",
     "pitfalls": [],
-    "related": [],
+    "related": [
+      "检测灵体",
+      "任务"
+    ],
     "details": {
       "parameters": [],
-      "preconditions": [],
+      "preconditions": [
+        "先记住生存要诀，再踏上修行之途。"
+      ],
       "outcomes": [
-        "指令一览",
-        ".检测灵体",
-        ".我的灵体",
-        ".我的配方",
-        ".闭关修炼",
-        ".突破",
-        ".深度闭关 / .查看闭关 / .强行出关",
-        ".储物袋",
-        ".前往 延康/大墟/宗门名",
-        ".拜访 村长/药师",
-        ".出售 物品名*数量",
-        ".喂食 赤火灵丹/灵石*数量",
-        ".鬼市 淘宝",
-        ".堵门 宗门名",
-        ".试药",
-        ".服用 丹药名*数量",
-        ".炼制 配方名/目标物品*数量",
-        ".图鉴 丹药/武器/护具/材料/丹方/武器方/护具方/限量武器/限量防具/超稀有丹药/限量道具",
-        ".道门 解题 [答案]",
-        ".宗门 查看/加入 宗门名/信息/任务/签到/兑换",
-        ".任务",
-        ".榜单 灵石/修为",
-        ".传闻",
-        ".世界观 / .人物 / .势力 / .地名",
-        ".已移除 帮助（管理员）"
+        "你手握一册命令清单，知道该向哪一条路迈步。"
       ]
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
+    "references": [],
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
@@ -610,27 +497,31 @@
     "aliases": [],
     "usage": [],
     "examples": [],
-    "category": "Quests and Progression",
-    "description": "TODO: 待从 mushenji_bot.py 补充说明",
-    "pitfalls": [],
-    "related": [],
+    "category": "霸体筑基",
+    "description": "闭关未满便出关，如同破门而出，难免气血翻涌。",
+    "pitfalls": [
+      "强行出关会惊动守关长老。"
+    ],
+    "related": [
+      "闭关修炼",
+      "查看闭关"
+    ],
     "details": {
       "parameters": [],
-      "preconditions": [],
-      "outcomes": []
+      "preconditions": [
+        "闭关中方可执行，切记衡量代价。"
+      ],
+      "outcomes": [
+        "你提前破关而出，体内气机未稳，但眼神更冷。"
+      ]
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
+    "references": [],
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
@@ -638,44 +529,28 @@
     "aliases": [],
     "usage": [],
     "examples": [],
-    "category": "Quick Start",
-    "description": "TODO: 待从 mushenji_bot.py 补充说明",
+    "category": "大墟残老村",
+    "description": "像在夜色里照镜，你终于看清自己的灵体与境界。",
     "pitfalls": [],
-    "related": [],
+    "related": [
+      "检测灵体"
+    ],
     "details": {
       "parameters": [],
       "preconditions": [
-        "你尚未入道，请先发送 .检测灵体。"
+        "尚未摸骨前，档案不会开启。"
       ],
       "outcomes": [
-        "道友档案",
-        "道友：",
-        "道号：",
-        "灵体：",
-        "境界：",
-        "当前修为：",
-        "/",
-        "灵石：",
-        "大丰币：",
-        "所在地：",
-        "声望：",
-        "生命：",
-        "临时灵体：",
-        "无"
+        "道号、灵体、境界与灵石都浮现出来，像旧日的命定。"
       ]
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
+    "references": [],
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
@@ -683,33 +558,31 @@
     "aliases": [],
     "usage": [],
     "examples": [],
-    "category": "Inventory and Gear",
-    "description": "TODO: 待从 mushenji_bot.py 补充说明",
-    "pitfalls": [],
-    "related": [],
+    "category": "天魔教主",
+    "description": "你摊开配方卷轴，字里行间都是炉火与血色的记忆。",
+    "pitfalls": [
+      "没有配方时，炉火只会吞噬灵石。"
+    ],
+    "related": [
+      "炼制",
+      "图鉴"
+    ],
     "details": {
       "parameters": [],
       "preconditions": [
-        "你尚未入道，请先发送 .检测灵体。",
-        "目前尚未学会任何配方。"
+        "入道后方可识得配方纹路。"
       ],
       "outcomes": [
-        "我的配方",
-        "提示：可通过宗门/任务/已移除获取配方。"
+        "配方清单落在掌心，提醒你去宗门与任务寻更强之法。"
       ]
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
+    "references": [],
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
@@ -719,54 +592,33 @@
       "用法：.拜访 村长/屠夫/药师..."
     ],
     "examples": [],
-    "category": "Movement and Exploration",
-    "description": "TODO: 待从 mushenji_bot.py 补充说明",
-    "pitfalls": [],
-    "related": [],
+    "category": "大墟残老村",
+    "description": "踏过石像守夜的阴影，去敲九老的门。",
+    "pitfalls": [
+      "只有在大墟才能拜访长者。"
+    ],
+    "related": [
+      "检测灵体",
+      "试药"
+    ],
     "details": {
       "parameters": [
         ".拜访 村长/屠夫/药师..."
       ],
       "preconditions": [
-        "你尚未入道。"
+        "尚未入道时，长者可能闭门不见。"
       ],
       "outcomes": [
-        "似乎不在家。",
-        "你四顾茫然，这里不是残老村（大墟）。只有在大墟才能拜访各位长者。",
-        "村长看着你的",
-        "：'资质尚可。但若想成为举世无双的霸体，需寻来【四灵血】，我可为你逆天改命。'",
-        "药师失手：'糟了！' 你被毒翻倒地，生命归1，并获得临时抗性：",
-        "（6小时）。",
-        "村长上下打量你，眼中闪过一丝惊讶：\n'没想到世间真有天生的霸体……咳咳，我是说，霸体已成，去战斗吧！不要辜负了这无敌的体质！'",
-        "霸体觉醒",
-        "村长面色凝重，丢掉手中的拐杖，死死盯着你。",
-        "村长：'少年，你以为你是凡体？错！大错特错！'",
-        "村长：'你是万古无一的苍天霸体！只不过神光内敛，被凡俗蒙尘！'",
-        "你听得热血沸腾，感觉体内充满了力量！",
-        "灵体变更为：苍天霸体",
-        "获得被动：信心爆棚（修炼速度小幅提升）",
-        "村长：'去吧，霸体无敌。'",
-        "你献上【四灵血】。",
-        "村长为你逆天改命，重塑根基！",
-        "获得被动：信心爆棚",
-        "药师：'你体内清净，无需配药。'",
-        "药师：'配药要花灵石",
-        "，你这点家当不够。'",
-        "药师捻须：'此药可解丹毒。' 你的丹毒已清空。"
+        "村长为你摸骨改命，药师试药翻车也能让你见识大墟凶险。"
       ]
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
+    "references": [],
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
@@ -776,48 +628,34 @@
       "用法：.服用 丹药名*数量"
     ],
     "examples": [],
-    "category": "Inventory and Gear",
-    "description": "TODO: 待从 mushenji_bot.py 补充说明",
-    "pitfalls": [],
-    "related": [],
+    "category": "天魔教主",
+    "description": "丹药入口如火，药力穿经脉，像雷霆劈开关隘。",
+    "pitfalls": [
+      "境界不足时，药力会反噬。"
+    ],
+    "related": [
+      "炼制",
+      "图鉴"
+    ],
     "details": {
       "parameters": [
         ".服用 丹药名*数量"
       ],
       "preconditions": [
-        "你尚未入道，请先发送 .检测灵体。",
-        "储物袋中不足（拥有",
-        "境界不足，无法承受药力。"
+        "先入道，且储物袋中有足够丹药。",
+        "境界需能承受药力。"
       ],
       "outcomes": [
-        "服用成功",
-        "丹药：",
-        "×",
-        "修为变化：+",
-        "当前境界：",
-        "当前修为：",
-        "/",
-        "丹毒层数：",
-        "）。",
-        "肉身强度：+",
-        "最大生命",
-        "(大幅增加)",
-        "洗髓丹入腹，丹毒尽消，道心澄明。",
-        "(已降低)"
+        "修为或暴涨或受挫，丹毒在体内翻滚，心神更需坚韧。"
       ]
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
+    "references": [],
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
@@ -825,27 +663,29 @@
     "aliases": [],
     "usage": [],
     "examples": [],
-    "category": "Quests and Progression",
-    "description": "TODO: 待从 mushenji_bot.py 补充说明",
+    "category": "霸体筑基",
+    "description": "静室里一灯如豆，你伸手探向闭关的时辰。",
     "pitfalls": [],
-    "related": [],
+    "related": [
+      "闭关修炼",
+      "强行出关"
+    ],
     "details": {
       "parameters": [],
-      "preconditions": [],
-      "outcomes": []
+      "preconditions": [
+        "已开始闭关才能窥见剩余时间。"
+      ],
+      "outcomes": [
+        "你看见自身气机的倒计时，心中生出耐性。"
+      ]
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
+    "references": [],
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
@@ -853,35 +693,31 @@
     "aliases": [],
     "usage": [],
     "examples": [],
-    "category": "Quick Start",
-    "description": "TODO: 待从 mushenji_bot.py 补充说明",
-    "pitfalls": [],
-    "related": [],
+    "category": "大墟残老村",
+    "description": "请残老村村长为你摸骨，查看你是否是万古无一的霸体。",
+    "pitfalls": [
+      "别在夜里冒进，大墟的黑暗会试探你。"
+    ],
+    "related": [
+      "我的灵体",
+      "拜访"
+    ],
     "details": {
       "parameters": [],
-      "preconditions": [],
+      "preconditions": [
+        "踏进残老村，向村长行礼。"
+      ],
       "outcomes": [
-        "检测灵体",
-        "身处大墟，万象皆险。",
-        "初始资助：大丰币100、灵石10。",
-        "道友：",
-        "先已移除灵体：",
-        "当前境界：",
-        "你已检测过灵体，可发送 .我的灵体 查看档案。"
+        "村长宣布你的灵体与境界，还赠你些许灵石作为启程资助。"
       ]
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
+    "references": [],
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
@@ -889,34 +725,31 @@
     "aliases": [],
     "usage": [],
     "examples": [],
-    "category": "Quests and Progression",
-    "description": "TODO: 待从 mushenji_bot.py 补充说明",
-    "pitfalls": [],
-    "related": [],
+    "category": "延康国师变法",
+    "description": "榜单像铜钟悬于城门，敲响众人的名号。",
+    "pitfalls": [
+      "排名只是风声，别被虚名迷了眼。"
+    ],
+    "related": [
+      "任务",
+      "堵门"
+    ],
     "details": {
       "parameters": [],
-      "preconditions": [],
+      "preconditions": [
+        "延康要统计修为与灵石之时，榜单才会更新。"
+      ],
       "outcomes": [
-        "灵石榜",
-        "统计范围：当前玩家灵石总量",
-        "修为榜",
-        "统计范围：当前玩家修为总量",
-        "暂无灵石榜数据。",
-        "暂无修为榜数据。"
+        "你看到修为与灵石的排名，明白自己离宗门之巅还有多远。"
       ]
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
+    "references": [],
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
@@ -924,27 +757,31 @@
     "aliases": [],
     "usage": [],
     "examples": [],
-    "category": "Quests and Progression",
-    "description": "TODO: 待从 mushenji_bot.py 补充说明",
-    "pitfalls": [],
-    "related": [],
+    "category": "霸体筑基",
+    "description": "深度闭关是把自己锁进黑暗，听见体内骨骼的回响。",
+    "pitfalls": [
+      "深闭耗时极久，需备足心力。"
+    ],
+    "related": [
+      "闭关修炼",
+      "查看闭关"
+    ],
     "details": {
       "parameters": [],
-      "preconditions": [],
-      "outcomes": []
+      "preconditions": [
+        "心境稳固，否则容易走火入魔。"
+      ],
+      "outcomes": [
+        "长久沉潜后，你像新铸的刀，锋芒更盛。"
+      ]
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
+    "references": [],
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
@@ -954,49 +791,35 @@
       "用法：.炼制 配方名/目标物品*数量"
     ],
     "examples": [],
-    "category": "Inventory and Gear",
-    "description": "TODO: 待从 mushenji_bot.py 补充说明",
-    "pitfalls": [],
-    "related": [],
+    "category": "天魔教主",
+    "description": "炉火一燃，配方在火中化作一道道血色纹路。",
+    "pitfalls": [
+      "材料不足时贸然开炉，会被反噬。"
+    ],
+    "related": [
+      "我的配方",
+      "图鉴"
+    ],
     "details": {
       "parameters": [
         ".炼制 配方名/目标物品*数量"
       ],
       "preconditions": [
-        "你尚未入道，请先发送 .检测灵体。",
-        "你尚未获得该配方，可通过宗门/任务/已移除获取。",
-        "境界不足，需达到",
-        "材料不足：",
-        "灵石不足，需要"
+        "先入道并掌握对应配方。",
+        "材料与灵石需备齐。",
+        "境界需达到配方所求。"
       ],
       "outcomes": [
-        "炼制成功",
-        "配方：",
-        "产物：",
-        "×",
-        "消耗灵石：",
-        "材料：",
-        "炼制",
-        "请输入阁下想要炼制的物品",
-        "提示：可用 .我的配方 查看已学配方。",
-        "才可炼制。",
-        "配方缺少材料配置，请联系已移除修正。",
-        "灵石。",
-        "存在多个配方，请直接填写配方名。"
+        "炼制成功时，器物或丹药出炉，如同在黑夜里捧起新星。"
       ]
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
+    "references": [],
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
@@ -1004,36 +827,31 @@
     "aliases": [],
     "usage": [],
     "examples": [],
-    "category": "Quests and Progression",
-    "description": "TODO: 待从 mushenji_bot.py 补充说明",
-    "pitfalls": [],
-    "related": [],
+    "category": "霸体筑基",
+    "description": "你以血肉撞开瓶颈，像在黑暗中推开一扇门。",
+    "pitfalls": [
+      "强行突破可能损伤元气。"
+    ],
+    "related": [
+      "闭关修炼",
+      "服用"
+    ],
     "details": {
       "parameters": [],
       "preconditions": [
-        "你尚未入道，请先发送 .检测灵体。",
-        "尚未到达瓶颈，无法突破。"
+        "先检测灵体并积攒到瓶颈之处。"
       ],
       "outcomes": [
-        "。请调息后再试。",
-        "你凝聚心神，强行破壁成功！当前境界：",
-        "。",
-        "，生命受损。请调息后再试。",
-        "破境丹药力化开，你强行冲破瓶颈！当前境界："
+        "成功时境界跃迁，失败时气血翻涌，需要调息再战。"
       ]
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
+    "references": [],
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
@@ -1041,39 +859,32 @@
     "aliases": [],
     "usage": [],
     "examples": [],
-    "category": "Combat and Survival",
-    "description": "TODO: 待从 mushenji_bot.py 补充说明",
-    "pitfalls": [],
-    "related": [],
+    "category": "霸体筑基",
+    "description": "药师递来一碗热药，你咽下去，笑与泪都难分。",
+    "pitfalls": [
+      "试药仅在延康进行，且有冷却。"
+    ],
+    "related": [
+      "拜访",
+      "服用"
+    ],
     "details": {
       "parameters": [],
       "preconditions": [
-        "你尚未入道，请先发送 .检测灵体。",
-        "试药必须在延康进行。",
-        "试药冷却中，请在"
+        "入道后方能试药。",
+        "需在延康城内。"
       ],
       "outcomes": [
-        "你感觉体内充满了神兽之力！临时灵体：",
-        "（24小时）。",
-        "小时",
-        "分 后再试。",
-        "脸都绿了！药有毒！你生命降到1，1小时内无法闭关。",
-        "味道有点甜，没啥反应。",
-        "药力洗刷全身，你的皮膜更加坚韧了！最大生命+10。"
+        "你可能觉醒临时灵体，也可能被毒翻倒地，血色教会你谨慎。"
       ]
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
+    "references": [],
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
@@ -1084,42 +895,34 @@
       "用法：.道门 解题 你的答案"
     ],
     "examples": [],
-    "category": "Quests and Progression",
-    "description": "TODO: 待从 mushenji_bot.py 补充说明",
-    "pitfalls": [],
-    "related": [],
+    "category": "延康国师变法",
+    "description": "道门以术数问心，一道算题便是入门的门槛。",
+    "pitfalls": [
+      "题目过期便需重新解答。"
+    ],
+    "related": [
+      "宗门",
+      "任务"
+    ],
     "details": {
       "parameters": [
         ".道门 解题 [答案]",
         ".道门 解题 你的答案"
       ],
       "preconditions": [
-        "你尚未入道，请先发送 .检测灵体。"
+        "先入道，才有资格参与道门试题。"
       ],
       "outcomes": [
-        "解题成功，你已获得道门免试资格！",
-        "你已获得道门免试资格，可直接申请加入。",
-        "道门解题",
-        "请计算：",
-        "+",
-        "= ?",
-        "题目已过期，请重新发送 .道门 解题 获取新题。",
-        "回答错误，请重新发送 .道门 解题 获取新题。",
-        "答案需为整数。"
+        "解题成功便可免试入门，道主一句“数算可通神”随风入耳。"
       ]
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
+    "references": [],
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
@@ -1127,27 +930,31 @@
     "aliases": [],
     "usage": [],
     "examples": [],
-    "category": "Quests and Progression",
-    "description": "TODO: 待从 mushenji_bot.py 补充说明",
-    "pitfalls": [],
-    "related": [],
+    "category": "霸体筑基",
+    "description": "闭关如同守夜，灯火不灭，筋骨自会淬炼。",
+    "pitfalls": [
+      "频繁闭关会遭遇冷却。"
+    ],
+    "related": [
+      "突破",
+      "查看闭关"
+    ],
     "details": {
       "parameters": [],
-      "preconditions": [],
-      "outcomes": []
+      "preconditions": [
+        "心神安稳时再入关。"
+      ],
+      "outcomes": [
+        "修为稳步增长，偶有意外战利品随之而来。"
+      ]
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
+    "references": [],
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
@@ -1157,41 +964,35 @@
       "用法：.鬼市 淘宝"
     ],
     "examples": [],
-    "category": "Trading and Economy",
-    "description": "TODO: 待从 mushenji_bot.py 补充说明",
-    "pitfalls": [],
-    "related": [],
+    "category": "酆都鬼城",
+    "description": "夜幕降临，手持大丰币进入酆都，与鬼神交易，黑布下藏着福祸。",
+    "pitfalls": [
+      "白日无鬼市，别白跑一趟。"
+    ],
+    "related": [
+      "出售",
+      "储物袋"
+    ],
     "details": {
       "parameters": [
         ".鬼市 淘宝"
       ],
       "preconditions": [
-        "你尚未入道，请先发送 .检测灵体。",
-        "鬼市只在夜晚（20:00-06:00）开放。",
-        "大丰币不足，需要"
+        "入道后才能踏入鬼市。",
+        "夜晚才有门路。"
       ],
       "outcomes": [
-        "你在鬼市中捡到稀罕物：",
-        "！",
-        "鬼市只在夜晚（20:00-06:00）开放。",
-        "鬼市只会在延康或大墟现身。",
-        "。",
-        "你在鬼市的摊位前蹲下，摊主戴着面具，阴森地看着你……\n你买到了一个看起来很厉害的……垃圾：",
-        "鬼市摊主掀开黑布，你淘到了："
+        "你在鬼市摊位间穿行，铜铃作响，宝物与陷阱同在。",
+        "交易成功后，掌心留下寒意，亦可能换得罕见机缘。"
       ]
     },
-    "references": [
-      {
-        "file": "mushenji_bot.py",
-        "function": "handle_cmd"
-      }
-    ],
+    "references": [],
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "handle_cmd",
-      "note": "TODO: 在 mushenji_bot.py 中定位该命令分支的具体行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   }
 ]
