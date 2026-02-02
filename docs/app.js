@@ -498,6 +498,34 @@ const setupScrollSpy = () => {
   updateActiveSection();
 };
 
+const setupCommandCardSpotlight = () => {
+  const cards = Array.from(document.querySelectorAll(".command-card"));
+  if (!cards.length) return;
+  const supportsHover = window.matchMedia("(hover: hover)").matches;
+  if (!supportsHover) return;
+  let rafId = null;
+  let lastEvent = null;
+
+  const updateSpotlight = () => {
+    if (!lastEvent) return;
+    cards.forEach((card) => {
+      const rect = card.getBoundingClientRect();
+      const x = lastEvent.clientX - rect.left;
+      const y = lastEvent.clientY - rect.top;
+      card.style.setProperty("--mouse-x", `${x}px`);
+      card.style.setProperty("--mouse-y", `${y}px`);
+    });
+    rafId = null;
+  };
+
+  document.addEventListener("mousemove", (event) => {
+    lastEvent = event;
+    if (!rafId) {
+      rafId = window.requestAnimationFrame(updateSpotlight);
+    }
+  });
+};
+
 const setupCommandInteractions = (commands) => {
   const commandIndex = buildCommandIndex(commands);
   const listContainer = document.getElementById("commandList");
@@ -587,6 +615,7 @@ const init = async () => {
   });
 
   renderErrors(errors);
+  setupCommandCardSpotlight();
   setupCommandInteractions(commands);
   highlightActiveNav();
   setupSidebarSearch();

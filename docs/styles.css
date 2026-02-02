@@ -322,6 +322,23 @@ body::-webkit-scrollbar-thumb:hover,
   background-position: center;
   box-shadow: var(--shadow);
   backdrop-filter: blur(16px);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+  opacity: 0.3;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero > * {
+  position: relative;
+  z-index: 1;
 }
 
 .portal-actions {
@@ -651,6 +668,12 @@ pre {
   }
 }
 
+@media (hover: none) {
+  .command-card::before {
+    display: none;
+  }
+}
+
 .command-item p {
   margin: 0;
   font-size: 12px;
@@ -666,6 +689,40 @@ pre {
   -webkit-backdrop-filter: blur(20px);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   animation: slideUpFade 0.6s ease-out both;
+  position: relative;
+  overflow: hidden;
+}
+
+.command-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(215, 180, 106, 0.06),
+    transparent 40%
+  );
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.command-card:hover::before {
+  opacity: 1;
+}
+
+.command-card h3,
+.command-card .card-meta,
+.command-card .card-field {
+  position: relative;
+  z-index: 1;
+}
+
+.command-card:hover {
+  border-color: #d7b46a;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(215, 180, 106, 0.05);
+  transform: translateY(-5px) scale(1.01);
 }
 
 .command-card:hover {
@@ -849,11 +906,12 @@ h1,
 h2,
 .brand-title {
   background: linear-gradient(120deg, #f8e5ad 0%, #f2bf6d 35%, #f5d27e 65%, #d59a52 100%);
-  background-size: 200% 200%;
+  background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   animation: liquid-gold 6s ease-in-out infinite;
+  text-shadow: 0 0 30px rgba(242, 191, 109, 0.2);
 }
 
 .command-card,
