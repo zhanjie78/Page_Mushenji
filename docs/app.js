@@ -614,6 +614,17 @@ const init = async () => {
     renderSectionCards(commands, section.contentId, section.categories);
   });
 
+  const sections = Array.from(document.querySelectorAll(".section"));
+  sections.forEach((section, index) => {
+    if (index === 0) return;
+    const previous = section.previousElementSibling;
+    if (previous && previous.classList.contains("section-banner")) return;
+    const banner = document.createElement("div");
+    banner.className = "section-banner";
+    banner.setAttribute("aria-hidden", "true");
+    section.insertAdjacentElement("beforebegin", banner);
+  });
+
   renderErrors(errors);
   setupCommandCardSpotlight();
   setupCommandInteractions(commands);
@@ -629,3 +640,19 @@ const init = async () => {
 };
 
 init();
+
+document.addEventListener("click", (event) => {
+  const ripple = document.createElement("div");
+  ripple.className = "click-ripple";
+  document.body.appendChild(ripple);
+
+  const size = Math.max(window.innerWidth, window.innerHeight) * 0.1;
+  ripple.style.width = `${size}px`;
+  ripple.style.height = `${size}px`;
+  ripple.style.left = `${event.pageX - size / 2}px`;
+  ripple.style.top = `${event.pageY - size / 2}px`;
+
+  ripple.addEventListener("animationend", () => {
+    ripple.remove();
+  });
+});
