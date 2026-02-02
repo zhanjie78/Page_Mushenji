@@ -165,6 +165,8 @@ const filterCommands = (commands) =>
 
 const getCategoryLabel = (category) => CATEGORY_LABELS[category] || category || "未分类";
 
+const hasItems = (items) => Array.isArray(items) && items.length > 0;
+
 const renderTagCloud = (items, className = "tag-pill") =>
   `<div class="tag-cloud">${items
     .map((item) => `<span class="${className}">${item}</span>`)
@@ -173,7 +175,7 @@ const renderTagCloud = (items, className = "tag-pill") =>
 const renderPropsList = (data) => {
   const entries = Object.entries(data || {});
   if (!entries.length) {
-    return "<div class=\"detail-inline\">暂无</div>";
+    return "";
   }
   return `
     <div class="props-list">
@@ -193,22 +195,21 @@ const renderPropsList = (data) => {
 
 const renderDetailContent = (data) => {
   if (Array.isArray(data)) {
-    if (!data.length) return "<div class=\"detail-inline\">暂无</div>";
-    return renderTagCloud(data);
+    return hasItems(data) ? renderTagCloud(data) : "";
   }
   if (data && typeof data === "object") {
     return renderPropsList(data);
   }
   if (!data) {
-    return "<div class=\"detail-inline\">暂无</div>";
+    return "";
   }
   return `<div class="detail-text">${data}</div>`;
 };
 
-const renderCommandCloud = (items) => {
-  if (!items || !items.length) return "<div class=\"detail-inline\">暂无</div>";
-  return renderTagCloud(items.map((item) => `<code class="cmd-code">${item}</code>`), "tag-pill cmd-pill");
-};
+const renderCommandCloud = (items) =>
+  hasItems(items)
+    ? renderTagCloud(items.map((item) => `<code class="cmd-code">${item}</code>`), "tag-pill cmd-pill")
+    : "";
 
 const filterFeatures = (features) =>
   features
@@ -277,13 +278,18 @@ const renderSectionCards = (commands, sectionId, categories) => {
         <article class="card command-card">
           <h3>${cmd.name}</h3>
           <div class="card-meta">分类：${getCategoryLabel(cmd.category)}</div>
-          <div class="card-meta">描述：${cmd.description || "暂无说明"}</div>
+          ${cmd.description ? `<div class="card-meta">描述：${cmd.description}</div>` : ""}
+          ${
+            hasItems(cmd.usage)
+              ? `
           <div class="card-field">
             <span class="field-label">用法</span>
             <div class="cmd-lines">
-              ${cmd.usage && cmd.usage.length ? cmd.usage.map((usage) => `<code class="cmd-code">${usage}</code>`).join("") : "<span class=\"detail-inline\">暂无</span>"}
+              ${cmd.usage.map((usage) => `<code class="cmd-code">${usage}</code>`).join("")}
             </div>
-          </div>
+          </div>`
+              : ""
+          }
         </article>
       `
     )
@@ -294,7 +300,7 @@ const renderErrors = (errors) => {
   const container = document.getElementById("errorContent");
   if (!container) return;
   if (!errors.length) {
-    container.innerHTML = "<div class=\"detail-inline\">暂无错误数据</div>";
+    container.innerHTML = "<div class=\"detail-inline\">尚未收录错误数据</div>";
     return;
   }
   container.innerHTML = errors
@@ -302,9 +308,9 @@ const renderErrors = (errors) => {
       (error) => `
       <div class="card">
         <h3>${error.message}</h3>
-        <div class="card-meta">含义：${error.meaning || "暂无说明"}</div>
-        <div class="card-meta">常见原因：${(error.causes || []).length ? (error.causes || []).join(" / ") : "暂无"}</div>
-        <div class="card-meta">解决方式：${(error.fixes || []).length ? (error.fixes || []).join(" / ") : "暂无"}</div>
+        ${error.meaning ? `<div class="card-meta">含义：${error.meaning}</div>` : ""}
+        ${hasItems(error.causes) ? `<div class="card-meta">常见原因：${error.causes.join(" / ")}</div>` : ""}
+        ${hasItems(error.fixes) ? `<div class="card-meta">解决方式：${error.fixes.join(" / ")}</div>` : ""}
       </div>
     `
     )
@@ -328,8 +334,8 @@ const renderCommandList = (commands) => {
       (command) => `
       <div class="command-item" data-command="${slugify(command.name)}">
         <h4>${command.name}</h4>
-        <p>${getCategoryLabel(command.category)} · ${command.description || "暂无说明"}</p>
-        ${command.usage && command.usage.length ? `<div class="cmd-lines">${command.usage
+        <p>${getCategoryLabel(command.category)}${command.description ? ` · ${command.description}` : ""}</p>
+        ${hasItems(command.usage) ? `<div class="cmd-lines">${command.usage
           .map((usage) => `<code class="cmd-code">${usage}</code>`)
           .join("")}</div>` : ""}
       </div>
@@ -337,6 +343,9 @@ const renderCommandList = (commands) => {
     )
     .join("");
 };
+
+const buildDetailBlock = (title, content) =>
+  content ? `<div class="detail-block"><h5>${title}</h5>${content}</div>` : "";
 
 const renderCommandDetail = (command) => {
   const container = document.getElementById("commandDetail");
@@ -346,45 +355,28 @@ const renderCommandDetail = (command) => {
     return;
   }
 
-  const detail = `
+  const parameterContent = renderDetailContent(command.details?.parameters || []);
+  const preconditionContent = renderDetailContent(command.details?.preconditions || []);
+  const outcomeContent = renderDetailContent(command.details?.outcomes || []);
+  const pitfallContent = renderDetailContent(command.pitfalls || []);
+  const relatedContent = renderDetailContent(command.related || []);
+
+  const blocks = [
+    `
     <div class="detail-block">
       <h5>${command.name}</h5>
       <div class="detail-inline">分类：${getCategoryLabel(command.category)}</div>
     </div>
-    <div class="detail-block">
-      <h5>使用方法</h5>
-      ${renderCommandCloud(command.usage)}
-    </div>
-    <div class="detail-block">
-      <h5>示例</h5>
-      ${renderCommandCloud(command.examples)}
-    </div>
-    <div class="detail-block">
-      <h5>参数</h5>
-      ${renderDetailContent(command.details?.parameters || [])}
-    </div>
-    <div class="detail-block">
-      <h5>前置条件</h5>
-      ${renderDetailContent(command.details?.preconditions || [])}
-    </div>
-    <div class="detail-block">
-      <h5>结果/提示</h5>
-      ${renderDetailContent(command.details?.outcomes || [])}
-    </div>
-    <div class="detail-block">
-      <h5>注意事项</h5>
-      ${renderDetailContent(command.pitfalls || [])}
-    </div>
-    <div class="detail-block">
-      <h5>相关命令</h5>
-      ${renderDetailContent(command.related || [])}
-    </div>
-    <div class="detail-block">
-      <h5>引用位置</h5>
-      ${command.source ? `<ul><li>${command.source.file}${command.source.line_start ? `:${command.source.line_start}` : ""}${command.source.line_end ? `-${command.source.line_end}` : ""}</li></ul>` : "<div class=\"detail-inline\">暂无</div>"}
-    </div>
-  `;
-  container.innerHTML = detail;
+  `,
+    buildDetailBlock("使用方法", renderCommandCloud(command.usage)),
+    buildDetailBlock("示例", renderCommandCloud(command.examples)),
+    buildDetailBlock("参数", parameterContent),
+    buildDetailBlock("前置条件", preconditionContent),
+    buildDetailBlock("结果/提示", outcomeContent),
+    buildDetailBlock("注意事项", pitfallContent),
+    buildDetailBlock("相关命令", relatedContent),
+  ];
+  container.innerHTML = blocks.filter(Boolean).join("");
 };
 
 const setActiveNav = (sectionId) => {
@@ -400,10 +392,10 @@ const scrollToSection = (sectionId, behavior = "smooth") => {
   if (!sectionId) return;
   const targetElement = document.getElementById(sectionId);
   if (!targetElement) return;
-  window.scrollTo({
-    top: targetElement.offsetTop - SCROLL_OFFSET,
-    behavior,
-  });
+  const headerOffset = SCROLL_OFFSET;
+  const elementPosition = targetElement.getBoundingClientRect().top;
+  const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+  window.scrollTo({ top: offsetPosition, behavior });
 };
 
 const setupNavScroll = () => {
