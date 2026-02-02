@@ -160,9 +160,12 @@ a {
 .sidebar-search {
   padding: 14px 16px;
   border-radius: var(--radius-md);
-  background: rgba(12, 14, 20, 0.85);
+  background: rgba(12, 14, 20, 0.95);
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .sidebar-search input {

@@ -431,6 +431,8 @@ const setupSidebarSearch = () => {
     const query = searchInput.value.trim().toLowerCase();
     const cards = Array.from(document.querySelectorAll(".command-card"));
     const detailsBlocks = Array.from(document.querySelectorAll("details"));
+    const commandItems = Array.from(document.querySelectorAll(".command-item"));
+    const commandLibrary = document.getElementById("command-library");
 
     const shouldShow = (element) => !query || element.textContent.toLowerCase().includes(query);
 
@@ -442,13 +444,25 @@ const setupSidebarSearch = () => {
       detail.style.display = shouldShow(detail) ? "" : "none";
     });
 
+    commandItems.forEach((item) => {
+      item.style.display = shouldShow(item) ? "" : "none";
+    });
+
     document.querySelectorAll(".section").forEach((section) => {
       const sectionCards = Array.from(section.querySelectorAll(".command-card"));
       const sectionDetails = Array.from(section.querySelectorAll("details"));
-      if (!sectionCards.length && !sectionDetails.length) return;
-      const hasVisible = [...sectionCards, ...sectionDetails].some((element) => element.style.display !== "none");
+      const sectionCommandItems = Array.from(section.querySelectorAll(".command-item"));
+      if (!sectionCards.length && !sectionDetails.length && !sectionCommandItems.length) return;
+      const hasVisible = [...sectionCards, ...sectionDetails, ...sectionCommandItems].some(
+        (element) => element.style.display !== "none"
+      );
       section.style.display = hasVisible ? "" : "none";
     });
+
+    if (commandLibrary) {
+      const hasVisibleCommands = commandItems.some((item) => item.style.display !== "none");
+      commandLibrary.style.display = hasVisibleCommands ? "" : "none";
+    }
   };
 
   searchInput.addEventListener("input", applyFilter);
@@ -487,24 +501,13 @@ const setupScrollSpy = () => {
 const setupCommandInteractions = (commands) => {
   const commandIndex = buildCommandIndex(commands);
   const listContainer = document.getElementById("commandList");
-  const searchInput = document.getElementById("commandSearch");
   const categorySelect = document.getElementById("categoryFilter");
 
   const renderFiltered = () => {
-    const query = searchInput.value.trim().toLowerCase();
     const category = categorySelect.value;
     const filtered = commands.filter((command) => {
       const matchCategory = category === "all" || command.category === category;
-      const keywords = [
-        command.name,
-        ...(command.aliases || []),
-        command.description,
-        ...(command.usage || []),
-      ]
-        .filter(Boolean)
-        .join(" ")
-        .toLowerCase();
-      return matchCategory && (!query || keywords.includes(query));
+      return matchCategory;
     });
     renderCommandList(filtered);
     handleHashChange(commandIndex);
@@ -515,7 +518,6 @@ const setupCommandInteractions = (commands) => {
     `<option value="all">全部分类</option>` +
     categories.map((category) => `<option value="${category}">${getCategoryLabel(category)}</option>`).join("");
 
-  searchInput.addEventListener("input", renderFiltered);
   categorySelect.addEventListener("change", renderFiltered);
 
   renderFiltered();
