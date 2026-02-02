@@ -35,12 +35,14 @@ html {
 
 body {
   font-family: "Noto Serif SC", "Songti SC", "STSong", serif;
-  background-color: #0b0d13;
+  background-color: #020305;
   background-image:
-    radial-gradient(circle at 50% 0%, rgba(215, 180, 106, 0.15), transparent 70%),
-    linear-gradient(to bottom, #0b0d13 0%, #050608 100%);
+    radial-gradient(circle at 15% 50%, rgba(76, 29, 29, 0.08), transparent 25%),
+    radial-gradient(circle at 85% 30%, rgba(215, 180, 106, 0.05), transparent 25%),
+    linear-gradient(125deg, #0b0d13 0%, #050608 40%, #0f1116 100%);
+  background-size: 200% 200%;
+  animation: dark-breath 20s ease infinite;
   background-attachment: fixed;
-  background-size: cover;
   color: var(--mist-100);
   line-height: 1.6;
   position: relative;
@@ -118,6 +120,13 @@ a {
   justify-content: center;
   font-size: 13px;
   color: var(--mist-200);
+}
+
+.topbar-nav a,
+.sidebar-nav a,
+.command-card,
+.command-item {
+  will-change: transform;
 }
 
 .topbar-nav a {
@@ -207,8 +216,8 @@ a {
 }
 
 .sidebar-search input:focus {
-  border-color: rgba(225, 200, 137, 0.9);
-  box-shadow: 0 0 12px rgba(225, 200, 137, 0.25);
+  border-color: #d7b46a;
+  box-shadow: 0 0 15px rgba(215, 180, 106, 0.3);
 }
 
 .sidebar-section {
@@ -243,11 +252,12 @@ a {
 
 .sidebar-nav a:hover,
 .sidebar-nav a.active {
-  border-left: 3px solid #d7b46a;
-  background: linear-gradient(90deg, rgba(215, 180, 106, 0.15), transparent);
+  border-left: 4px solid #d7b46a;
+  background: linear-gradient(90deg, rgba(215, 180, 106, 0.2) 0%, transparent 90%);
   color: #d7b46a;
   font-weight: bold;
   padding-left: 12px;
+  box-shadow: 0 0 15px rgba(215, 180, 106, 0.1);
 }
 
 .sidebar-note {
@@ -288,14 +298,14 @@ body::-webkit-scrollbar-track,
 
 body::-webkit-scrollbar-thumb,
 .sidebar::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #f2bf6d, #b87a36);
+  background: linear-gradient(to bottom, #d7b46a, #8f6b35);
   border-radius: 999px;
   border: 2px solid #14151b;
 }
 
 body::-webkit-scrollbar-thumb:hover,
 .sidebar::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #ffd98a, #d59a52);
+  background: linear-gradient(to bottom, #f2bf6d, #b87a36);
 }
 
 .hero {
@@ -324,6 +334,11 @@ body::-webkit-scrollbar-thumb:hover,
   color: var(--gold-200);
   font-family: "Noto Serif SC", "Songti SC", "STSong", serif;
   letter-spacing: 2px;
+  background-image: linear-gradient(120deg, #f2bf6d, #d59a52, #f7e0a0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 25px rgba(215, 180, 106, 0.3);
 }
 
 .hero-text p {
@@ -382,6 +397,10 @@ body::-webkit-scrollbar-thumb:hover,
   font-size: 22px;
   font-family: "Noto Serif SC", "Songti SC", "STSong", serif;
   letter-spacing: 2px;
+  background-image: linear-gradient(120deg, #f2bf6d, #d59a52, #f7e0a0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .section-header p {
@@ -625,6 +644,11 @@ pre {
   .command-layout {
     grid-template-columns: 1fr;
   }
+
+  .command-card:hover {
+    transform: none;
+    box-shadow: var(--shadow);
+  }
 }
 
 .command-item p {
@@ -635,15 +659,19 @@ pre {
 
 .command-card {
   gap: 12px;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E"), linear-gradient(135deg, rgba(20, 22, 28, 0.9), rgba(10, 12, 16, 0.95));
-  background-repeat: repeat;
-  background-size: 200px 200px, cover;
+  background: linear-gradient(145deg, rgba(25, 27, 35, 0.7), rgba(15, 17, 22, 0.8));
   border: 1px solid rgba(215, 180, 106, 0.15);
   box-shadow: var(--shadow);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   animation: slideUpFade 0.6s ease-out both;
+}
+
+.command-card:hover {
+  border-color: #d7b46a;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(215, 180, 106, 0.05);
+  transform: translateY(-5px) scale(1.01);
 }
 
 .glass-card {
@@ -744,6 +772,10 @@ h4,
 h5,
 h6 {
   font-family: "Noto Serif SC", "Songti SC", "STSong", serif;
+  background-image: linear-gradient(120deg, #f2bf6d, #d59a52, #f7e0a0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .site-footer {
@@ -786,6 +818,18 @@ h6 {
   }
 }
 
+@keyframes dark-breath {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 @keyframes mist-flow {
   0% {
     opacity: 0.45;
@@ -817,9 +861,15 @@ h2,
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.command-card:hover,
+.command-card:hover {
+  transform: translateY(-5px) scale(1.01);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(215, 180, 106, 0.05);
+  border-color: #d7b46a;
+  z-index: 10;
+}
+
 .glass-card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-5px);
   box-shadow: 0 15px 35px rgba(215, 180, 106, 0.3);
   border-color: #d7b46a;
   z-index: 10;
@@ -850,11 +900,11 @@ h2,
 }
 
 ::-webkit-scrollbar-track {
-  background: #0b0d13;
+  background: #050608;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #d7b46a;
+  background: linear-gradient(to bottom, #d7b46a, #8f6b35);
   border-radius: 999px;
 }
 
