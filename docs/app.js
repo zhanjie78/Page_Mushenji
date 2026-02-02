@@ -592,6 +592,11 @@ const init = async () => {
   setupSidebarSearch();
   setupNavScroll();
   setupScrollSpy();
+
+  const footer = document.getElementById("siteFooter");
+  if (footer && !footer.textContent.trim()) {
+    footer.textContent = "大墟残老村 · 牧神记指南 | 天黑别出门";
+  }
 };
 
 init();
