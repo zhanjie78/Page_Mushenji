@@ -144,7 +144,7 @@ a {
 
 .layout {
   display: grid;
-  grid-template-columns: 260px 1fr;
+  grid-template-columns: 260px minmax(0, 1fr);
   gap: 24px;
   padding: 24px 28px 40px;
 }
@@ -293,6 +293,10 @@ body::-webkit-scrollbar-thumb:hover,
   backdrop-filter: blur(16px);
 }
 
+.portal-actions {
+  flex-wrap: wrap;
+}
+
 .hero-text h1 {
   margin: 0 0 12px;
   font-size: 28px;
@@ -384,6 +388,8 @@ body::-webkit-scrollbar-thumb:hover,
   font-size: 16px;
   color: var(--gold-200);
   font-family: "Noto Serif SC", "Songti SC", "STSong", serif;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .card .card-meta {
@@ -527,6 +533,73 @@ body::-webkit-scrollbar-thumb:hover,
   margin: 0 0 6px;
   color: var(--gold-200);
   font-family: "Noto Serif SC", "Songti SC", "STSong", serif;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+img,
+pre {
+  max-width: 100%;
+}
+
+pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 1100px) {
+  .layout {
+    grid-template-columns: 220px minmax(0, 1fr);
+    padding: 20px;
+  }
+
+  .sidebar {
+    gap: 16px;
+  }
+
+  .sidebar-section,
+  .sidebar-search {
+    padding: 12px;
+  }
+
+  .sidebar-nav {
+    font-size: 12px;
+  }
+
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
+    height: auto;
+    margin-bottom: 20px;
+    border-right: none;
+    border-bottom: 1px solid #d7b46a;
+  }
+
+  .topbar {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .topbar-nav {
+    justify-content: flex-start;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .command-layout {
+    grid-template-columns: 1fr;
+  }
 }
 
 .command-item p {
@@ -656,35 +729,6 @@ body::-webkit-scrollbar-thumb:hover,
   color: var(--gold-200);
 }
 
-@media (max-width: 1080px) {
-  .layout {
-    grid-template-columns: 1fr;
-  }
-
-  .sidebar {
-    position: static;
-    order: 2;
-  }
-
-  .hero {
-    grid-template-columns: 1fr;
-  }
-
-  .command-layout {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 720px) {
-  .topbar {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-
-  .topbar-nav {
-    justify-content: flex-start;
-  }
-}
 
 @keyframes slideUpFade {
   0% {
