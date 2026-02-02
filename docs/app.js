@@ -499,7 +499,7 @@ const setupScrollSpy = () => {
 };
 
 const setupCommandCardSpotlight = () => {
-  const cards = Array.from(document.querySelectorAll(".command-card"));
+  const cards = Array.from(document.querySelectorAll(".command-card, .glass-card"));
   if (!cards.length) return;
   const supportsHover = window.matchMedia("(hover: hover)").matches;
   if (!supportsHover) return;

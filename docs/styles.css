@@ -37,8 +37,8 @@ body {
   font-family: "Noto Serif SC", "Songti SC", "STSong", serif;
   background-color: #020305;
   background-image:
-    radial-gradient(circle at 15% 50%, rgba(76, 29, 29, 0.08), transparent 25%),
-    radial-gradient(circle at 85% 30%, rgba(215, 180, 106, 0.05), transparent 25%),
+    radial-gradient(circle at 15% 50%, rgba(76, 29, 29, 0.05), transparent 40%),
+    radial-gradient(circle at 85% 30%, rgba(215, 180, 106, 0.04), transparent 40%),
     linear-gradient(125deg, #0b0d13 0%, #050608 40%, #0f1116 100%);
   background-size: 200% 200%;
   animation: dark-breath 20s ease infinite;
@@ -328,6 +328,23 @@ body::-webkit-scrollbar-thumb:hover,
   backdrop-filter: blur(16px);
   position: relative;
   overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  background: rgba(215, 180, 106, 0.6);
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(215, 180, 106, 0.8);
+  animation: float-qi 10s ease-in-out infinite;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+  pointer-events: none;
 }
 
 .hero::after {
@@ -684,7 +701,8 @@ pre {
   color: var(--mist-200);
 }
 
-.command-card {
+.command-card,
+.glass-card {
   gap: 12px;
   background: linear-gradient(145deg, rgba(25, 27, 35, 0.7), rgba(15, 17, 22, 0.8));
   border: 1px solid rgba(215, 180, 106, 0.15);
@@ -697,13 +715,14 @@ pre {
   overflow: hidden;
 }
 
-.command-card::before {
+.command-card::before,
+.glass-card::before {
   content: "";
   position: absolute;
   inset: 0;
   background: radial-gradient(
-    800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    rgba(215, 180, 106, 0.06),
+    600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(215, 180, 106, 0.08),
     transparent 40%
   );
   z-index: 0;
@@ -712,13 +731,13 @@ pre {
   transition: opacity 0.5s;
 }
 
-.command-card:hover::before {
+.command-card:hover::before,
+.glass-card:hover::before {
   opacity: 1;
 }
 
-.command-card h3,
-.command-card .card-meta,
-.command-card .card-field {
+.command-card > *,
+.glass-card > * {
   position: relative;
   z-index: 1;
 }
@@ -903,6 +922,20 @@ h6 {
   }
 }
 
+@keyframes float-qi {
+  0% {
+    transform: translate(0, 0) scale(0.5);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-50px, -100px) scale(1.2);
+    opacity: 0;
+  }
+}
+
 h1,
 h2,
 .brand-title {
@@ -912,7 +945,7 @@ h2,
   background-clip: text;
   color: transparent;
   animation: liquid-gold 6s ease-in-out infinite;
-  text-shadow: 0 0 30px rgba(242, 191, 109, 0.2);
+  text-shadow: 0 0 30px rgba(242, 191, 109, 0.15);
 }
 
 .command-card,
