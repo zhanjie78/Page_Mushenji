@@ -614,6 +614,17 @@ const init = async () => {
     renderSectionCards(commands, section.contentId, section.categories);
   });
 
+  const sections = Array.from(document.querySelectorAll(".section"));
+  sections.forEach((section, index) => {
+    if (index === 0) return;
+    const previous = section.previousElementSibling;
+    if (previous && previous.classList.contains("section-banner")) return;
+    const banner = document.createElement("div");
+    banner.className = "section-banner";
+    banner.setAttribute("aria-hidden", "true");
+    section.insertAdjacentElement("beforebegin", banner);
+  });
+
   renderErrors(errors);
   setupCommandCardSpotlight();
   setupCommandInteractions(commands);
