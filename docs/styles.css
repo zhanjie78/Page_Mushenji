@@ -725,6 +725,12 @@ pre {
   transform: translateY(-5px) scale(1.01);
 }
 
+.command-card:hover {
+  border-color: #d7b46a;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(215, 180, 106, 0.05);
+  transform: translateY(-5px) scale(1.01);
+}
+
 .glass-card {
   animation: slideUpFade 0.7s ease-out both;
 }
