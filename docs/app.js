@@ -646,11 +646,11 @@ document.addEventListener("click", (event) => {
   ripple.className = "click-ripple";
   document.body.appendChild(ripple);
 
-  const size = Math.max(window.innerWidth, window.innerHeight) * 0.1;
+  const size = 60;
   ripple.style.width = `${size}px`;
   ripple.style.height = `${size}px`;
-  ripple.style.left = `${event.pageX - size / 2}px`;
-  ripple.style.top = `${event.pageY - size / 2}px`;
+  ripple.style.left = `${event.clientX - size / 2}px`;
+  ripple.style.top = `${event.clientY - size / 2}px`;
 
   ripple.addEventListener("animationend", () => {
     ripple.remove();
