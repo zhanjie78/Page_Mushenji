@@ -2,11 +2,19 @@
   {
     "id": "error-1",
     "message": "你尚未入道，请先发送 .检测灵体。",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "你的道途尚未点燃，九老仍未为你开门。",
+    "causes": [
+      "尚未检测灵体。",
+      "仍是凡身，未获修行资格。"
+    ],
+    "fixes": [
+      "先执行 .检测灵体，让村长为你摸骨。",
+      "完成入道后再尝试。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "检测灵体"
+      ],
       "features": []
     },
     "source": {
@@ -14,35 +22,53 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-2",
     "message": "灵气尚未平复，无法立即再次闭关。请在",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "你体内的灵气还在翻涌，强行入关只会走火。",
+    "causes": [
+      "刚结束闭关，气机未稳。"
+    ],
+    "fixes": [
+      "等待冷却结束后再闭关。",
+      "趁此调整心神或处理任务。"
+    ],
     "related": {
-      "commands": [],
-      "features": []
+      "commands": [
+        "闭关修炼"
+      ],
+      "features": [
+        "TRAIN_CD_MIN",
+        "TRAIN_CD_MAX"
+      ]
     },
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-3",
     "message": "【大墟惊变】\n天黑了，黑暗从四面八方涌来！\n你没有【火把】，黑暗中的怪物撕扯着你的肉体！\n闭关失败，生命减少",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "黑暗侵袭，火把熄灭时，大墟的怪物会撕裂你的血肉。",
+    "causes": [
+      "在大墟夜行时缺少火把。"
+    ],
+    "fixes": [
+      "先准备火把再入关。",
+      "在延康任务或宗门兑换获取火把。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "任务",
+        "宗门"
+      ],
       "features": []
     },
     "source": {
@@ -50,17 +76,26 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-5",
     "message": "突破失败，修为回落",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "你冲击瓶颈失败，修为反噬而退。",
+    "causes": [
+      "修为积累不足。",
+      "心神不稳，破境强行。"
+    ],
+    "fixes": [
+      "先闭关稳固根基。",
+      "准备丹药或等待状态恢复再尝试。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "突破",
+        "闭关修炼"
+      ],
       "features": []
     },
     "source": {
@@ -68,17 +103,23 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-6",
     "message": "用法：.宗门 查看/加入 宗门名/信息/任务/签到/兑换",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "宗门口令未按规矩书写。",
+    "causes": [
+      "缺少子命令或宗门名。"
+    ],
+    "fixes": [
+      "按提示补全命令格式。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "宗门"
+      ],
       "features": []
     },
     "source": {
@@ -86,17 +127,23 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-7",
     "message": "未知榜单。可选：灵石/修为",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "你询问的榜单不存在。",
+    "causes": [
+      "榜单名称输入错误。"
+    ],
+    "fixes": [
+      "改为灵石榜或修为榜。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "榜单"
+      ],
       "features": []
     },
     "source": {
@@ -104,17 +151,23 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-9",
     "message": "已重置闭关与冷却。",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "长老替你清空闭关状态，重置修行节奏。",
+    "causes": [
+      "管理操作触发重置。"
+    ],
+    "fixes": [
+      "重新安排闭关计划。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "闭关修炼"
+      ],
       "features": []
     },
     "source": {
@@ -122,17 +175,24 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-10",
     "message": "目前尚未学会任何配方。",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "你手中没有配方，炉火无从点燃。",
+    "causes": [
+      "尚未获得任何配方。"
+    ],
+    "fixes": [
+      "去宗门、任务或图鉴中寻找配方。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "我的配方",
+        "炼制"
+      ],
       "features": []
     },
     "source": {
@@ -140,17 +200,24 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-11",
     "message": "尚未到达瓶颈，无法突破。",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "你的修为尚未触及瓶颈，强行突破无门可破。",
+    "causes": [
+      "修为尚不足以触发瓶颈。"
+    ],
+    "fixes": [
+      "继续闭关修炼，积累修为。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "突破",
+        "闭关修炼"
+      ],
       "features": []
     },
     "source": {
@@ -158,17 +225,25 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-12",
     "message": "突破失败，元气大伤！修为回落",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "破境失败，元气受损，修为跌落。",
+    "causes": [
+      "强行突破。",
+      "状态不佳或丹药不足。"
+    ],
+    "fixes": [
+      "先闭关调息，必要时服用丹药。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "突破",
+        "服用"
+      ],
       "features": []
     },
     "source": {
@@ -176,17 +251,23 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-13",
     "message": "用法：.前往 延康/大墟/宗门名",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "远行口令未按规矩书写。",
+    "causes": [
+      "缺少目的地。"
+    ],
+    "fixes": [
+      "补全目的地名称。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "前往"
+      ],
       "features": []
     },
     "source": {
@@ -194,17 +275,24 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-14",
     "message": "未知目的地。可用：延康/大墟/宗门名",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "你所说的地名不在地图上。",
+    "causes": [
+      "目的地拼写错误。",
+      "目的地尚未开放。"
+    ],
+    "fixes": [
+      "使用延康、大墟或已知宗门名。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "前往"
+      ],
       "features": []
     },
     "source": {
@@ -212,17 +300,23 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-15",
     "message": "你尚未入道。",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "你仍是凡身，尚未踏上修行正途。",
+    "causes": [
+      "未完成灵体检测。"
+    ],
+    "fixes": [
+      "先执行 .检测灵体。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "检测灵体"
+      ],
       "features": []
     },
     "source": {
@@ -230,17 +324,23 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-16",
     "message": "用法：.拜访 村长/屠夫/药师...",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "拜访口令缺少对象。",
+    "causes": [
+      "没有指定要拜访的人。"
+    ],
+    "fixes": [
+      "补全要拜访的长者。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "拜访"
+      ],
       "features": []
     },
     "source": {
@@ -248,17 +348,23 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-17",
     "message": "用法：.出售 物品名*数量",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "出售口令未写清楚物品与数量。",
+    "causes": [
+      "缺少物品名或数量。"
+    ],
+    "fixes": [
+      "按格式补全物品名与数量。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "出售"
+      ],
       "features": []
     },
     "source": {
@@ -266,35 +372,49 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-18",
     "message": "该物品不可出售。可出售：常见材料与部分异兽战利品。",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "你想卖的物品在鬼市无人敢收。",
+    "causes": [
+      "物品属于禁售或无法流通。"
+    ],
+    "fixes": [
+      "换成可出售的材料或战利品。"
+    ],
     "related": {
-      "commands": [],
-      "features": []
+      "commands": [
+        "出售"
+      ],
+      "features": [
+        "SELL_PRICES"
+      ]
     },
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-19",
     "message": "储物袋中不足（拥有",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "储物袋里的数量不够支付本次操作。",
+    "causes": [
+      "库存不足。"
+    ],
+    "fixes": [
+      "先获取更多材料再尝试。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "储物袋"
+      ],
       "features": []
     },
     "source": {
@@ -302,17 +422,23 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-20",
     "message": "用法：.堵门 宗门名",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "堵门口令不完整。",
+    "causes": [
+      "缺少宗门名称。"
+    ],
+    "fixes": [
+      "补全要堵门的宗门名。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "堵门"
+      ],
       "features": []
     },
     "source": {
@@ -320,35 +446,49 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-21",
     "message": "未知宗门。可用：道门/天魔教/大雷音寺/延康",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "你喊出的宗门名无人回应。",
+    "causes": [
+      "宗门名拼写错误。"
+    ],
+    "fixes": [
+      "使用已知宗门名称。"
+    ],
     "related": {
-      "commands": [],
-      "features": []
+      "commands": [
+        "宗门"
+      ],
+      "features": [
+        "SECTS"
+      ]
     },
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-22",
     "message": "不可堵自己的宗门。",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "同门相向会被门规制止。",
+    "causes": [
+      "试图堵自己所属宗门。"
+    ],
+    "fixes": [
+      "换个目标，或在宗门内提升贡献。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "堵门"
+      ],
       "features": []
     },
     "source": {
@@ -356,17 +496,24 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-23",
     "message": "试药必须在延康进行。",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "药师只在延康开炉，不在外地试药。",
+    "causes": [
+      "不在延康城内试药。"
+    ],
+    "fixes": [
+      "前往延康后再试药。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "试药",
+        "前往"
+      ],
       "features": []
     },
     "source": {
@@ -374,35 +521,49 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-24",
     "message": "试药冷却中，请在",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "药炉尚未冷却，药师不再开方。",
+    "causes": [
+      "刚刚试药，冷却未结束。"
+    ],
+    "fixes": [
+      "等待冷却完成后再尝试。"
+    ],
     "related": {
-      "commands": [],
-      "features": []
+      "commands": [
+        "试药"
+      ],
+      "features": [
+        "TEST_DRUG_COOLDOWN"
+      ]
     },
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-25",
     "message": "未知分类。可选：丹药/武器/护具/材料/丹方/武器方/护具方/限量武器/限量防具/超稀有丹药/限量道具",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "图鉴分类不在可选列表中。",
+    "causes": [
+      "输入了不存在的分类名。"
+    ],
+    "fixes": [
+      "使用图鉴中列出的分类名称。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "图鉴"
+      ],
       "features": []
     },
     "source": {
@@ -410,17 +571,23 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-26",
     "message": "用法：.喂食 赤火灵丹/灵石*数量",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "喂食口令缺少指定食物或数量。",
+    "causes": [
+      "未写清楚喂食物品。"
+    ],
+    "fixes": [
+      "按格式填写丹药或灵石数量。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "喂食"
+      ],
       "features": []
     },
     "source": {
@@ -428,17 +595,23 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-27",
     "message": "用法：.鬼市 淘宝",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "鬼市指令缺少必要动作。",
+    "causes": [
+      "未填写淘宝等子命令。"
+    ],
+    "fixes": [
+      "补全鬼市的子命令。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "鬼市"
+      ],
       "features": []
     },
     "source": {
@@ -446,35 +619,51 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-28",
     "message": "大丰币不足，需要",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "你囊中大丰币不够，鬼市摊主不会点头。",
+    "causes": [
+      "大丰币不足。"
+    ],
+    "fixes": [
+      "完成任务或出售材料补足大丰币。"
+    ],
     "related": {
-      "commands": [],
-      "features": []
+      "commands": [
+        "任务",
+        "出售",
+        "鬼市"
+      ],
+      "features": [
+        "GHOST_MARKET_COST"
+      ]
     },
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-29",
     "message": "用法：.道门 解题 [答案]",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "道门解题口令不完整。",
+    "causes": [
+      "缺少答案或子命令。"
+    ],
+    "fixes": [
+      "按格式补全解题与答案。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "道门"
+      ],
       "features": []
     },
     "source": {
@@ -482,17 +671,23 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-30",
     "message": "用法：.道门 解题 你的答案",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "道门答案未按格式写出。",
+    "causes": [
+      "答案为空或格式错误。"
+    ],
+    "fixes": [
+      "用整数填写答案。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "道门"
+      ],
       "features": []
     },
     "source": {
@@ -500,17 +695,23 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-31",
     "message": "用法：.宗门 加入 宗门名 / .宗门 信息 / .宗门 签到",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "宗门口令缺少关键字段。",
+    "causes": [
+      "未写明加入或签到动作。"
+    ],
+    "fixes": [
+      "补全宗门子命令与宗门名。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "宗门"
+      ],
       "features": []
     },
     "source": {
@@ -518,53 +719,76 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-32",
     "message": "提示：宗门任务冷却为8小时。",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "宗门任务尚在冷却期，长老暂不派差。",
+    "causes": [
+      "刚完成宗门任务。"
+    ],
+    "fixes": [
+      "等待冷却结束再接任务。"
+    ],
     "related": {
-      "commands": [],
-      "features": []
+      "commands": [
+        "宗门"
+      ],
+      "features": [
+        "SECT_TASK_COOLDOWN"
+      ]
     },
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-33",
     "message": "任务冷却中，请在",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "延康的任务尚未刷新。",
+    "causes": [
+      "任务冷却时间未到。"
+    ],
+    "fixes": [
+      "稍后再领取任务。"
+    ],
     "related": {
-      "commands": [],
-      "features": []
+      "commands": [
+        "任务"
+      ],
+      "features": [
+        "TASK_COOLDOWN"
+      ]
     },
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-34",
     "message": "用法：.炼制 配方名/目标物品*数量",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "炼制口令缺少配方或数量。",
+    "causes": [
+      "未填写配方名。",
+      "数量格式错误。"
+    ],
+    "fixes": [
+      "按格式补全配方与数量。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "炼制"
+      ],
       "features": []
     },
     "source": {
@@ -572,17 +796,25 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-35",
     "message": "未知配方或目标物品。可先用 .图鉴 丹方/武器方/护具方 查询。",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "你尝试炼制的配方尚未被记录。",
+    "causes": [
+      "配方名拼写错误。",
+      "尚未解锁配方。"
+    ],
+    "fixes": [
+      "先用图鉴查询正确名称。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "炼制",
+        "图鉴"
+      ],
       "features": []
     },
     "source": {
@@ -590,35 +822,50 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-37",
     "message": "境界不足，需达到",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "你的境界不够高，无法承受配方之力。",
+    "causes": [
+      "境界未达到配方要求。"
+    ],
+    "fixes": [
+      "先闭关或突破提升境界。"
+    ],
     "related": {
-      "commands": [],
-      "features": []
+      "commands": [
+        "炼制",
+        "突破"
+      ],
+      "features": [
+        "REALM_TIERS"
+      ]
     },
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-38",
     "message": "炼制失败",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "炉火失控，炼制未能成功。",
+    "causes": [
+      "材料不齐或运势不佳。"
+    ],
+    "fixes": [
+      "检查材料与灵石后再试。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "炼制"
+      ],
       "features": []
     },
     "source": {
@@ -626,17 +873,24 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-39",
     "message": "材料不足：",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "炼制所需材料不够，炉火无法点燃。",
+    "causes": [
+      "材料库存不足。"
+    ],
+    "fixes": [
+      "先收集材料或前往鬼市购买。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "炼制",
+        "出售"
+      ],
       "features": []
     },
     "source": {
@@ -644,17 +898,25 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-40",
     "message": "灵石不足，需要",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "灵石如灯油不足，炉火与行囊都无法支撑。",
+    "causes": [
+      "灵石余额不足。"
+    ],
+    "fixes": [
+      "通过任务、出售战利品或鬼市交易补足灵石。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "任务",
+        "出售",
+        "鬼市"
+      ],
       "features": []
     },
     "source": {
@@ -662,17 +924,24 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-41",
     "message": "用法：.服用 丹药名*数量",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "服用口令缺少丹药名或数量。",
+    "causes": [
+      "未填写丹药名。",
+      "数量格式错误。"
+    ],
+    "fixes": [
+      "按格式补全丹药名与数量。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "服用"
+      ],
       "features": []
     },
     "source": {
@@ -680,17 +949,23 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-42",
     "message": "服用失败",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "丹药未能生效，可能药力被抵消。",
+    "causes": [
+      "状态异常或丹药有损。"
+    ],
+    "fixes": [
+      "确认丹药类型与数量，再次服用。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "服用"
+      ],
       "features": []
     },
     "source": {
@@ -698,17 +973,25 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-43",
     "message": "未知丹药：",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "你所报的丹药名不在图鉴之中。",
+    "causes": [
+      "丹药名拼写错误。",
+      "丹药尚未收录。"
+    ],
+    "fixes": [
+      "先用图鉴确认丹药名称。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "服用",
+        "图鉴"
+      ],
       "features": []
     },
     "source": {
@@ -716,35 +999,50 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-44",
     "message": "境界不足，无法承受药力。",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "你的境界太低，药力如雷会反噬。",
+    "causes": [
+      "境界未达丹药要求。"
+    ],
+    "fixes": [
+      "先突破或换更温和的丹药。"
+    ],
     "related": {
-      "commands": [],
-      "features": []
+      "commands": [
+        "服用",
+        "突破"
+      ],
+      "features": [
+        "REALM_TIERS"
+      ]
     },
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-46",
     "message": "目标尚未入道。",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "目标仍是凡身，无法进行相应操作。",
+    "causes": [
+      "目标未检测灵体。"
+    ],
+    "fixes": [
+      "先让对方入道。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "检测灵体"
+      ],
       "features": []
     },
     "source": {
@@ -752,15 +1050,19 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-48",
     "message": "用户ID无效。",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "你寻找的道友并不在名册之中。",
+    "causes": [
+      "ID输入错误或不存在。"
+    ],
+    "fixes": [
+      "确认用户ID后重试。"
+    ],
     "related": {
       "commands": [],
       "features": []
@@ -770,15 +1072,19 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-54",
     "message": "道号不能为空。",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "道号是修行者的名号，不可空缺。",
+    "causes": [
+      "未填写道号。"
+    ],
+    "fixes": [
+      "填写一个道号。"
+    ],
     "related": {
       "commands": [],
       "features": []
@@ -788,15 +1094,19 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-56",
     "message": "灵体不能为空。",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "灵体是修行根基，不可为空。",
+    "causes": [
+      "未填写灵体。"
+    ],
+    "fixes": [
+      "重新填写灵体名称。"
+    ],
     "related": {
       "commands": [],
       "features": []
@@ -806,15 +1116,19 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-59",
     "message": "数量必须为正整数。",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "数量格式有误，必须是正整数。",
+    "causes": [
+      "输入了负数或非整数。"
+    ],
+    "fixes": [
+      "改用正整数数量。"
+    ],
     "related": {
       "commands": [],
       "features": []
@@ -824,15 +1138,19 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-60",
     "message": "物品名不能为空。",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "物品名为空，无法识别目标。",
+    "causes": [
+      "未填写物品名。"
+    ],
+    "fixes": [
+      "补全物品名称后重试。"
+    ],
     "related": {
       "commands": [],
       "features": []
@@ -842,17 +1160,25 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-64",
     "message": "前往大墟需要火把。可在延康任务或宗门兑换获取。",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "黑夜压境，缺少火把就无法踏入大墟。",
+    "causes": [
+      "未携带火把。"
+    ],
+    "fixes": [
+      "完成延康任务或宗门兑换获取火把。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "前往",
+        "任务",
+        "宗门"
+      ],
       "features": []
     },
     "source": {
@@ -860,89 +1186,127 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-65",
     "message": "你尚未加入宗门。可用：.宗门 查看",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "你还没有归属宗门，无法领取门派事务。",
+    "causes": [
+      "未加入任何宗门。"
+    ],
+    "fixes": [
+      "先用 .宗门 查看 并加入宗门。"
+    ],
     "related": {
-      "commands": [],
-      "features": []
+      "commands": [
+        "宗门"
+      ],
+      "features": [
+        "SECTS"
+      ]
     },
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-66",
     "message": "你尚未加入宗门。可用：.宗门 加入 宗门名",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "宗门未接纳你，门规不会为你开启。",
+    "causes": [
+      "尚未加入宗门。"
+    ],
+    "fixes": [
+      "使用 .宗门 加入 宗门名 申请加入。"
+    ],
     "related": {
-      "commands": [],
-      "features": []
+      "commands": [
+        "宗门"
+      ],
+      "features": [
+        "SECTS"
+      ]
     },
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-67",
     "message": "宗门任务冷却中，请在",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "宗门任务尚在冷却期。",
+    "causes": [
+      "刚完成宗门任务。"
+    ],
+    "fixes": [
+      "等待冷却结束再接任务。"
+    ],
     "related": {
-      "commands": [],
-      "features": []
+      "commands": [
+        "宗门"
+      ],
+      "features": [
+        "SECT_TASK_COOLDOWN"
+      ]
     },
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-68",
     "message": "宗门签到冷却中，请在",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "今日已签到过，山门需要时间再开启。",
+    "causes": [
+      "签到冷却未结束。"
+    ],
+    "fixes": [
+      "等待冷却后再签到。"
+    ],
     "related": {
-      "commands": [],
-      "features": []
+      "commands": [
+        "宗门"
+      ],
+      "features": [
+        "SECT_SIGNIN_COOLDOWN"
+      ]
     },
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-69",
     "message": "用法：.宗门 兑换 物品名",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "兑换口令缺少物品名。",
+    "causes": [
+      "未填写物品名称。"
+    ],
+    "fixes": [
+      "补全要兑换的物品名。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "宗门"
+      ],
       "features": []
     },
     "source": {
@@ -950,17 +1314,23 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-70",
     "message": "未知兑换物品。可用：.宗门 兑换",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "该物品不在宗门兑换清单中。",
+    "causes": [
+      "物品名错误或未开放。"
+    ],
+    "fixes": [
+      "先查看可兑换清单再选择。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "宗门"
+      ],
       "features": []
     },
     "source": {
@@ -968,17 +1338,23 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-71",
     "message": "宗门贡献不足，需要",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "宗门贡献不足，无法换取宝物。",
+    "causes": [
+      "贡献值不足。"
+    ],
+    "fixes": [
+      "完成宗门任务或签到提升贡献。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "宗门"
+      ],
       "features": []
     },
     "source": {
@@ -986,17 +1362,23 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-72",
     "message": "用法：.宗门 加入 宗门名",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "加入口令未写明宗门。",
+    "causes": [
+      "缺少宗门名。"
+    ],
+    "fixes": [
+      "补全宗门名称后重试。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "宗门"
+      ],
       "features": []
     },
     "source": {
@@ -1004,33 +1386,45 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-73",
     "message": "未知宗门。可用：延康/道门/天魔教/大雷音寺",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "你所喊的宗门名不在已知势力之内。",
+    "causes": [
+      "宗门名称错误。"
+    ],
+    "fixes": [
+      "使用延康、道门、天魔教或大雷音寺。"
+    ],
     "related": {
-      "commands": [],
-      "features": []
+      "commands": [
+        "宗门"
+      ],
+      "features": [
+        "SECTS"
+      ]
     },
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-74",
     "message": "修为值必须是整数。",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "修为数字格式错误。",
+    "causes": [
+      "输入了非整数修为。"
+    ],
+    "fixes": [
+      "改为整数后重试。"
+    ],
     "related": {
       "commands": [],
       "features": []
@@ -1040,15 +1434,19 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-75",
     "message": "境界序号与阶段必须是整数。",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "境界序号或阶段的格式不正确。",
+    "causes": [
+      "输入了非整数的阶段信息。"
+    ],
+    "fixes": [
+      "使用整数输入境界序号与阶段。"
+    ],
     "related": {
       "commands": [],
       "features": []
@@ -1058,15 +1456,19 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-76",
     "message": "数量必须是整数。",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "数量格式不正确。",
+    "causes": [
+      "输入了非整数数量。"
+    ],
+    "fixes": [
+      "改用整数数量。"
+    ],
     "related": {
       "commands": [],
       "features": []
@@ -1076,17 +1478,23 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-77",
     "message": "限量库存不足：",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "限量物资已经告罄。",
+    "causes": [
+      "限量库存不足。"
+    ],
+    "fixes": [
+      "等待补货或选择其他物品。"
+    ],
     "related": {
-      "commands": [],
+      "commands": [
+        "宗门"
+      ],
       "features": []
     },
     "source": {
@@ -1094,15 +1502,19 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-78",
     "message": "数量必须为非负整数。",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "数量格式必须为非负整数。",
+    "causes": [
+      "输入了负数或小数。"
+    ],
+    "fixes": [
+      "使用非负整数数量。"
+    ],
     "related": {
       "commands": [],
       "features": []
@@ -1112,25 +1524,34 @@
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   },
   {
     "id": "error-79",
     "message": "你资质平平（无信物）且囊中羞涩（灵石不足）。请先在延康打工，或去大墟碰碰运气。",
-    "meaning": "TODO: 解释该错误的含义。",
-    "causes": [],
-    "fixes": [],
+    "meaning": "资质与灵石都不足，宗门暂不收你。",
+    "causes": [
+      "缺少信物且灵石不足。"
+    ],
+    "fixes": [
+      "先在延康任务积累灵石，或去大墟寻机缘。"
+    ],
     "related": {
-      "commands": [],
-      "features": []
+      "commands": [
+        "任务",
+        "前往"
+      ],
+      "features": [
+        "SECTS"
+      ]
     },
     "source": {
       "file": "mushenji_bot.py",
       "line_start": null,
       "line_end": null,
       "registry": "module",
-      "note": "TODO: 定位该错误提示的定义位置与行号。"
+      "note": "保留原始抽取字段，便于后续校验。"
     }
   }
 ]
