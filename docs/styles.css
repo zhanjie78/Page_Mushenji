@@ -6,6 +6,9 @@
   --ink-600: #222630;
   --gold-300: #d59a52;
   --gold-200: #f2bf6d;
+  --crimson-300: #a8403b;
+  --crimson-200: #e26a5f;
+  --crimson-100: #f28d7e;
   --mist-100: #f3efe7;
   --mist-200: #c7c1b5;
   --border: rgba(203, 178, 122, 0.18);
@@ -31,7 +34,7 @@ html {
   height: auto;
   overflow-y: auto;
   scroll-behavior: smooth;
-  background: #0b0d13;
+  background: transparent;
 }
 
 body {
@@ -39,13 +42,8 @@ body {
   height: auto;
   overflow: visible;
   font-family: "Noto Serif SC", "Songti SC", "STSong", serif;
-  background-color: #020305;
-  background-image:
-    radial-gradient(circle at 15% 50%, rgba(76, 29, 29, 0.05), transparent 40%),
-    radial-gradient(circle at 85% 30%, rgba(215, 180, 106, 0.04), transparent 40%),
-    linear-gradient(125deg, #0b0d13 0%, #050608 40%, #0f1116 100%);
-  background-size: 200% 200%;
-  animation: dark-breath 20s ease infinite;
+  background-color: transparent;
+  background-image: none;
   background-attachment: fixed;
   color: var(--mist-100);
   line-height: 1.6;
@@ -62,7 +60,7 @@ body::before {
     url("https://www.transparenttextures.com/patterns/cracked-concrete.png"),
     radial-gradient(circle at 30% 20%, rgba(242, 191, 109, 0.12), transparent 50%),
     radial-gradient(circle at 75% 80%, rgba(198, 84, 70, 0.08), transparent 55%);
-  opacity: 0.08;
+  opacity: 0.05;
   mix-blend-mode: overlay;
   filter: blur(8px);
   animation: mist-flow 18s ease-in-out infinite;
@@ -464,14 +462,19 @@ body::-webkit-scrollbar-thumb:hover,
 .card {
   padding: 24px;
   border-radius: var(--radius-md);
-  background: rgba(16, 18, 25, 0.9);
-  border: 1px solid var(--border);
+  background: rgba(12, 14, 20, 0.55);
+  border: 1px solid rgba(215, 180, 106, 0.25);
   display: flex;
   flex-direction: column;
   gap: 10px;
-  backdrop-filter: blur(14px);
+  backdrop-filter: blur(18px) saturate(120%);
+  -webkit-backdrop-filter: blur(18px) saturate(120%);
   height: 100%;
   justify-content: space-between;
+  box-shadow: 0 16px 35px rgba(0, 0, 0, 0.45), 0 0 24px rgba(215, 180, 106, 0.1);
+  animation: float 8s ease-in-out infinite, glow 6s ease-in-out infinite;
+  position: relative;
+  overflow: hidden;
 }
 
 .card h3 {
@@ -481,11 +484,13 @@ body::-webkit-scrollbar-thumb:hover,
   font-family: "Noto Serif SC", "Songti SC", "STSong", serif;
   white-space: normal;
   overflow-wrap: anywhere;
+  text-shadow: 0 0 16px rgba(242, 191, 109, 0.35);
 }
 
 .card .card-meta {
   font-size: 12px;
   color: var(--mist-200);
+  text-shadow: 0 0 12px rgba(226, 106, 95, 0.15);
 }
 
 .card code {
@@ -493,6 +498,18 @@ body::-webkit-scrollbar-thumb:hover,
   border-radius: 6px;
   background: var(--ink-600);
   color: var(--gold-200);
+}
+
+#overlord-foundation .card,
+#overlord-foundation .command-card {
+  border-color: rgba(242, 191, 109, 0.75);
+  box-shadow: 0 0 18px rgba(242, 191, 109, 0.35), 0 0 45px rgba(242, 191, 109, 0.15);
+}
+
+#heavenly-devil .card,
+#heavenly-devil .command-card {
+  border-color: rgba(226, 106, 95, 0.7);
+  box-shadow: 0 0 18px rgba(226, 106, 95, 0.35), 0 0 45px rgba(226, 106, 95, 0.2);
 }
 
 .tag-cloud {
@@ -701,6 +718,13 @@ pre {
   }
 }
 
+@media (max-width: 600px) {
+  .section-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
 @media (hover: none) {
   .command-card::before {
     display: none;
@@ -716,13 +740,13 @@ pre {
 .command-card,
 .glass-card {
   gap: 12px;
-  background: linear-gradient(145deg, rgba(25, 27, 35, 0.7), rgba(15, 17, 22, 0.8));
-  border: 1px solid rgba(215, 180, 106, 0.15);
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: linear-gradient(145deg, rgba(20, 22, 32, 0.65), rgba(10, 12, 18, 0.75));
+  border: 1px solid rgba(215, 180, 106, 0.25);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(215, 180, 106, 0.12);
+  backdrop-filter: blur(22px) saturate(120%);
+  -webkit-backdrop-filter: blur(22px) saturate(120%);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  animation: slideUpFade 0.6s ease-out both;
+  animation: slideUpFade 0.6s ease-out both, float 9s ease-in-out infinite, glow 7s ease-in-out infinite;
   position: relative;
   overflow: hidden;
 }
@@ -760,8 +784,14 @@ pre {
   transform: translateY(-5px) scale(1.01);
 }
 
+.card:hover,
+.command-card:hover,
+.glass-card:hover {
+  animation-play-state: paused;
+}
+
 .glass-card {
-  animation: slideUpFade 0.7s ease-out both;
+  animation: slideUpFade 0.7s ease-out both, float 9s ease-in-out infinite, glow 7s ease-in-out infinite;
 }
 
 .section {
@@ -903,6 +933,26 @@ h6 {
   100% {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.45), 0 0 20px rgba(215, 180, 106, 0.12);
+  }
+  50% {
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.55), 0 0 35px rgba(226, 106, 95, 0.18);
   }
 }
 
