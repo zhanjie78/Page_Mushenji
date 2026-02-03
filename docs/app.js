@@ -155,20 +155,36 @@ const getDescriptionText = (value) => {
   return sanitizeText(value);
 };
 
+const dedupeByKey = (items, getKey) => {
+  const seen = new Set();
+  return items.filter((item) => {
+    const key = getKey(item);
+    if (!key) return true;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+};
+
 const filterCommands = (commands) =>
-  commands.filter((command) => !isRedacted(command.name)).map((command) => ({
-    ...command,
-    description: sanitizeText(command.description),
-    usage: sanitizeArray(command.usage),
-    examples: sanitizeArray(command.examples),
-    pitfalls: sanitizeArray(command.pitfalls),
-    related: sanitizeArray(command.related),
-    details: {
-      parameters: sanitizeArray(command.details?.parameters || []),
-      preconditions: sanitizeArray(command.details?.preconditions || []),
-      outcomes: sanitizeArray(command.details?.outcomes || []),
-    },
-  }));
+  dedupeByKey(
+    commands
+      .filter((command) => !isRedacted(command.name))
+      .map((command) => ({
+        ...command,
+        description: sanitizeText(command.description),
+        usage: sanitizeArray(command.usage),
+        examples: sanitizeArray(command.examples),
+        pitfalls: sanitizeArray(command.pitfalls),
+        related: sanitizeArray(command.related),
+        details: {
+          parameters: sanitizeArray(command.details?.parameters || []),
+          preconditions: sanitizeArray(command.details?.preconditions || []),
+          outcomes: sanitizeArray(command.details?.outcomes || []),
+        },
+      })),
+    (command) => command.name
+  );
 
 const getCategoryLabel = (category) => CATEGORY_LABELS[category] || category || "未分类";
 
@@ -243,23 +259,29 @@ const renderCommandCloud = (items) => {
 };
 
 const filterFeatures = (features) =>
-  features
-    .filter((feature) => !isRedacted(feature.name) && !isRedacted(feature.description))
-    .map((feature) => ({
-      ...feature,
-      description: sanitizeText(feature.description),
-    }));
+  dedupeByKey(
+    features
+      .filter((feature) => !isRedacted(feature.name) && !isRedacted(feature.description))
+      .map((feature) => ({
+        ...feature,
+        description: sanitizeText(feature.description),
+      })),
+    (feature) => feature.name || feature.id
+  );
 
 const filterErrors = (errors) =>
-  errors
-    .filter((error) => !isRedacted(error.message) && !isRedacted(error.meaning))
-    .map((error) => ({
-      ...error,
-      message: sanitizeText(error.message),
-      meaning: sanitizeText(error.meaning),
-      causes: sanitizeArray(error.causes || []),
-      fixes: sanitizeArray(error.fixes || []),
-    }));
+  dedupeByKey(
+    errors
+      .filter((error) => !isRedacted(error.message) && !isRedacted(error.meaning))
+      .map((error) => ({
+        ...error,
+        message: sanitizeText(error.message),
+        meaning: sanitizeText(error.meaning),
+        causes: sanitizeArray(error.causes || []),
+        fixes: sanitizeArray(error.fixes || []),
+      })),
+    (error) => error.message
+  );
 
 const buildNavLinks = (container, items) => {
   if (!container) return;
@@ -699,6 +721,11 @@ const setupCommandInteractions = (commands) => {
   const commandIndex = buildCommandIndex(commands);
   const listContainer = document.getElementById("commandList");
   const categorySelect = document.getElementById("categoryFilter");
+  if (!categorySelect) {
+    renderCommandList(commands);
+    handleHashChange(commandIndex);
+    return;
+  }
 
   const renderFiltered = () => {
     const category = categorySelect.value;
