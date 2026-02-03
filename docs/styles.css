@@ -373,7 +373,7 @@ body::-webkit-scrollbar-thumb:hover,
 }
 
 .hero-text h1 {
-  margin: 0 0 12px;
+  margin: 0 0 8px;
   font-size: 28px;
   color: var(--gold-200);
   font-family: "Noto Serif SC", "Songti SC", "STSong", serif;
@@ -446,7 +446,7 @@ body::-webkit-scrollbar-thumb:hover,
 }
 
 .section-header h2 {
-  margin: 0 0 0.6rem;
+  margin: 0 0 0.9rem;
   color: var(--gold-200);
   font-size: 22px;
   font-family: "Noto Serif SC", "Songti SC", "STSong", serif;
