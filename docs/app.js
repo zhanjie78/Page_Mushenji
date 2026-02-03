@@ -75,6 +75,66 @@ const SECTIONS = TAXONOMY.map((section) => ({
 const HERO_TAGS = ["大墟夜行", "霸体修行", "九老叮嘱", "牧神之道"];
 const REDACT_KEYWORD = "天道";
 const UNKNOWN_TEXT = "大墟的黑暗掩盖了真相...";
+const ITEM_SECTIONS = [
+  {
+    id: "pills",
+    title: "丹药图鉴",
+  },
+  {
+    id: "equipment",
+    title: "神兵宝甲",
+  },
+];
+const LORE_TEMPLATES = [
+  (file, registry) => `
+    <strong>【道法根脚】</strong><br>
+    此神通源自天外奇书《${file}》，受“${registry}”印记加持。<br>
+    <em class="lore-note">残老村村长注：后生晚辈，切勿随意篡改天书，小心遭天谴。</em>
+  `,
+  (file, registry) => `
+    <strong>【大墟遗刻】</strong><br>
+    在黑暗的角落里（${file}），你发现了古神留下的印记（${registry}）。<br>
+    <em class="lore-note">这些文字散发着诡异的气息，似乎在警告你保留因果。</em>
+  `,
+  (file, registry) => `
+    <strong>【国师密档】</strong><br>
+    此乃延康国师变法之前的旧档，封存于天录楼最深处。<br>
+    <em class="lore-note">卷宗编号：${file} // 封印术式：${registry}</em>
+  `,
+  (file, registry) => `
+    <strong>【天魔教秘辛】</strong><br>
+    嘘！这是教主从域外天魔那里骗来的功法。<br>
+    <em class="lore-note">来源界域：${file} / 核心法阵：${registry}</em>
+  `,
+];
+const PILL_DATA = [
+  {
+    name: "待抽取丹药",
+    tier: "未录",
+    description: "尚未从 mushenji_bot.py 抽取丹药配方与药效。",
+    effect: "请补充来源数据。",
+    icon: "💊",
+    source: { file: "mushenji_bot.py", registry: "TODO" },
+  },
+];
+const EQUIPMENT_DATA = [
+  {
+    name: "待抽取神兵",
+    tier: "未录",
+    description: "尚未从 mushenji_bot.py 抽取武器与防具条目。",
+    effect: "请补充来源数据。",
+    icon: "⚔️",
+    source: { file: "mushenji_bot.py", registry: "TODO" },
+  },
+  {
+    name: "待抽取宝甲",
+    tier: "未录",
+    description: "请补全护具与套装信息，确保数值准确。",
+    effect: "请补充来源数据。",
+    icon: "🛡️",
+    source: { file: "mushenji_bot.py", registry: "TODO" },
+  },
+];
 const CATEGORY_LABELS = {
   卷首语: "卷首语",
   大墟残老村: "壹 · 大墟残老村",
@@ -155,20 +215,36 @@ const getDescriptionText = (value) => {
   return sanitizeText(value);
 };
 
+const dedupeByKey = (items, getKey) => {
+  const seen = new Set();
+  return items.filter((item) => {
+    const key = getKey(item);
+    if (!key) return true;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+};
+
 const filterCommands = (commands) =>
-  commands.filter((command) => !isRedacted(command.name)).map((command) => ({
-    ...command,
-    description: sanitizeText(command.description),
-    usage: sanitizeArray(command.usage),
-    examples: sanitizeArray(command.examples),
-    pitfalls: sanitizeArray(command.pitfalls),
-    related: sanitizeArray(command.related),
-    details: {
-      parameters: sanitizeArray(command.details?.parameters || []),
-      preconditions: sanitizeArray(command.details?.preconditions || []),
-      outcomes: sanitizeArray(command.details?.outcomes || []),
-    },
-  }));
+  dedupeByKey(
+    commands
+      .filter((command) => !isRedacted(command.name))
+      .map((command) => ({
+        ...command,
+        description: sanitizeText(command.description),
+        usage: sanitizeArray(command.usage),
+        examples: sanitizeArray(command.examples),
+        pitfalls: sanitizeArray(command.pitfalls),
+        related: sanitizeArray(command.related),
+        details: {
+          parameters: sanitizeArray(command.details?.parameters || []),
+          preconditions: sanitizeArray(command.details?.preconditions || []),
+          outcomes: sanitizeArray(command.details?.outcomes || []),
+        },
+      })),
+    (command) => command.name
+  );
 
 const getCategoryLabel = (category) => CATEGORY_LABELS[category] || category || "未分类";
 
@@ -181,6 +257,24 @@ const createElement = (tag, className, text) => {
     element.textContent = text;
   }
   return element;
+};
+
+const createLoreSeal = (source) => {
+  if (!source) return null;
+  const sealContainer = createElement("div", "ancient-seal-container tooltip");
+  const sealIcon = createElement("span", "seal-icon", "📜");
+  const sealGlow = createElement("span", "seal-glow");
+  sealIcon.appendChild(sealGlow);
+
+  const tooltip = createElement("div", "tooltiptext ancient-scroll-style");
+  const safeFile = sanitizeText(source.file || "未知来源");
+  const safeRegistry = sanitizeText(source.registry || "未知印记");
+  const templateIndex = Math.floor(Math.random() * LORE_TEMPLATES.length);
+  tooltip.innerHTML = LORE_TEMPLATES[templateIndex](safeFile, safeRegistry);
+  sealContainer.dataset.sealType = String(templateIndex);
+  sealContainer.appendChild(sealIcon);
+  sealContainer.appendChild(tooltip);
+  return sealContainer;
 };
 
 const clearContainer = (container) => {
@@ -211,7 +305,15 @@ const renderPropsList = (data) => {
   entries.forEach(([key, value]) => {
     const row = createElement("div", "props-row");
     row.appendChild(createElement("div", "props-key", key));
-    row.appendChild(createElement("div", "props-value", formatDisplayValue(value)));
+    if (key === "source" && value) {
+      const seal = createLoreSeal(value);
+      if (seal) {
+        seal.classList.add("props-value");
+        row.appendChild(seal);
+      }
+    } else {
+      row.appendChild(createElement("div", "props-value", formatDisplayValue(value)));
+    }
     wrapper.appendChild(row);
   });
   return wrapper;
@@ -243,23 +345,29 @@ const renderCommandCloud = (items) => {
 };
 
 const filterFeatures = (features) =>
-  features
-    .filter((feature) => !isRedacted(feature.name) && !isRedacted(feature.description))
-    .map((feature) => ({
-      ...feature,
-      description: sanitizeText(feature.description),
-    }));
+  dedupeByKey(
+    features
+      .filter((feature) => !isRedacted(feature.name) && !isRedacted(feature.description))
+      .map((feature) => ({
+        ...feature,
+        description: sanitizeText(feature.description),
+      })),
+    (feature) => feature.name || feature.id
+  );
 
 const filterErrors = (errors) =>
-  errors
-    .filter((error) => !isRedacted(error.message) && !isRedacted(error.meaning))
-    .map((error) => ({
-      ...error,
-      message: sanitizeText(error.message),
-      meaning: sanitizeText(error.meaning),
-      causes: sanitizeArray(error.causes || []),
-      fixes: sanitizeArray(error.fixes || []),
-    }));
+  dedupeByKey(
+    errors
+      .filter((error) => !isRedacted(error.message) && !isRedacted(error.meaning))
+      .map((error) => ({
+        ...error,
+        message: sanitizeText(error.message),
+        meaning: sanitizeText(error.meaning),
+        causes: sanitizeArray(error.causes || []),
+        fixes: sanitizeArray(error.fixes || []),
+      })),
+    (error) => error.message
+  );
 
 const buildNavLinks = (container, items) => {
   if (!container) return;
@@ -506,10 +614,57 @@ const renderCommandDetail = (command) => {
     buildDetailBlock("结果/提示", renderDetailContent(command.details?.outcomes || [])),
     buildDetailBlock("注意事项", renderDetailContent(command.pitfalls || [])),
     buildDetailBlock("相关命令", renderDetailContent(command.related || [])),
+    buildDetailBlock("来源", renderDetailContent(command.source ? { source: command.source } : null)),
   ];
 
   blocks.filter(Boolean).forEach((block) => container.appendChild(block));
 };
+
+const renderItemSection = (sectionId, items) => {
+  const container = document.getElementById(sectionId);
+  if (!container) return;
+  clearContainer(container);
+  if (!items.length) {
+    const emptyCard = createElement("article", "card glass-card item-card tilt-card");
+    emptyCard.appendChild(createElement("h3", "", "待补充"));
+    emptyCard.appendChild(createElement("div", "card-meta", UNKNOWN_TEXT));
+    container.appendChild(emptyCard);
+    applyTiltEffect(emptyCard, 10);
+    return;
+  }
+
+  items.forEach((item) => {
+    const card = createElement("article", "card glass-card item-card tilt-card");
+    const header = createElement("div", "item-header");
+    header.appendChild(createElement("span", "item-icon", item.icon || "✨"));
+    header.appendChild(createElement("h3", "", item.name));
+    card.appendChild(header);
+
+    const metaRow = createElement("div", "item-meta");
+    metaRow.appendChild(createElement("span", "item-tier", item.tier || "未录"));
+    card.appendChild(metaRow);
+
+    if (item.description) {
+      card.appendChild(createElement("p", "item-description", sanitizeText(item.description)));
+    }
+    if (item.effect) {
+      card.appendChild(createElement("div", "item-effect", sanitizeText(item.effect)));
+    }
+
+    const seal = createLoreSeal(item.source);
+    if (seal) {
+      const footer = createElement("div", "item-footer");
+      footer.appendChild(seal);
+      card.appendChild(footer);
+    }
+
+    container.appendChild(card);
+    applyTiltEffect(card, 10);
+  });
+};
+
+const renderPills = (items) => renderItemSection("pillsContent", items);
+const renderEquipment = (items) => renderItemSection("equipmentContent", items);
 
 const setActiveNav = (sectionId) => {
   if (!sectionId) return;
@@ -699,6 +854,11 @@ const setupCommandInteractions = (commands) => {
   const commandIndex = buildCommandIndex(commands);
   const listContainer = document.getElementById("commandList");
   const categorySelect = document.getElementById("categoryFilter");
+  if (!categorySelect) {
+    renderCommandList(commands);
+    handleHashChange(commandIndex);
+    return;
+  }
 
   const renderFiltered = () => {
     const category = categorySelect.value;
@@ -788,12 +948,14 @@ const init = async () => {
     renderSnapshot(commands, features);
     buildNavLinks(document.getElementById("topNav"), [
       ...SECTIONS.map((section) => ({ id: section.id, title: section.title })),
+      ...ITEM_SECTIONS.map((section) => ({ id: section.id, title: section.title })),
       { id: "troubleshooting", title: "故障排查" },
       { id: "command-library", title: "命令索引" },
     ]);
     buildNavLinks(document.getElementById("sidebarNav"), [
       { id: "hero", title: "概览" },
       ...SECTIONS.map((section) => ({ id: section.id, title: section.title })),
+      ...ITEM_SECTIONS.map((section) => ({ id: section.id, title: section.title })),
       { id: "troubleshooting", title: "故障排查" },
       { id: "command-library", title: "命令索引" },
     ]);
@@ -806,6 +968,9 @@ const init = async () => {
     SECTIONS.forEach((section) => {
       renderSectionCards(commands, section.contentId, section.categories);
     });
+
+    renderPills(PILL_DATA);
+    renderEquipment(EQUIPMENT_DATA);
 
     const sections = Array.from(document.querySelectorAll(".section"));
     sections.forEach((section, index) => {
