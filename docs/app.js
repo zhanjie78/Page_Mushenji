@@ -75,6 +75,16 @@ const SECTIONS = TAXONOMY.map((section) => ({
 const HERO_TAGS = ["大墟夜行", "霸体修行", "九老叮嘱", "牧神之道"];
 const REDACT_KEYWORD = "天道";
 const UNKNOWN_TEXT = "大墟的黑暗掩盖了真相...";
+const ITEM_SECTIONS = [
+  {
+    id: "pills",
+    title: "丹药图鉴",
+  },
+  {
+    id: "equipment",
+    title: "神兵宝甲",
+  },
+];
 const LORE_TEMPLATES = [
   (file, registry) => `
     <strong>【道法根脚】</strong><br>
@@ -96,6 +106,34 @@ const LORE_TEMPLATES = [
     嘘！这是教主从域外天魔那里骗来的功法。<br>
     <em class="lore-note">来源界域：${file} / 核心法阵：${registry}</em>
   `,
+];
+const PILL_DATA = [
+  {
+    name: "待抽取丹药",
+    tier: "未录",
+    description: "尚未从 mushenji_bot.py 抽取丹药配方与药效。",
+    effect: "请补充来源数据。",
+    icon: "💊",
+    source: { file: "mushenji_bot.py", registry: "TODO" },
+  },
+];
+const EQUIPMENT_DATA = [
+  {
+    name: "待抽取神兵",
+    tier: "未录",
+    description: "尚未从 mushenji_bot.py 抽取武器与防具条目。",
+    effect: "请补充来源数据。",
+    icon: "⚔️",
+    source: { file: "mushenji_bot.py", registry: "TODO" },
+  },
+  {
+    name: "待抽取宝甲",
+    tier: "未录",
+    description: "请补全护具与套装信息，确保数值准确。",
+    effect: "请补充来源数据。",
+    icon: "🛡️",
+    source: { file: "mushenji_bot.py", registry: "TODO" },
+  },
 ];
 const CATEGORY_LABELS = {
   卷首语: "卷首语",
@@ -221,6 +259,24 @@ const createElement = (tag, className, text) => {
   return element;
 };
 
+const createLoreSeal = (source) => {
+  if (!source) return null;
+  const sealContainer = createElement("div", "ancient-seal-container tooltip");
+  const sealIcon = createElement("span", "seal-icon", "📜");
+  const sealGlow = createElement("span", "seal-glow");
+  sealIcon.appendChild(sealGlow);
+
+  const tooltip = createElement("div", "tooltiptext ancient-scroll-style");
+  const safeFile = sanitizeText(source.file || "未知来源");
+  const safeRegistry = sanitizeText(source.registry || "未知印记");
+  const templateIndex = Math.floor(Math.random() * LORE_TEMPLATES.length);
+  tooltip.innerHTML = LORE_TEMPLATES[templateIndex](safeFile, safeRegistry);
+  sealContainer.dataset.sealType = String(templateIndex);
+  sealContainer.appendChild(sealIcon);
+  sealContainer.appendChild(tooltip);
+  return sealContainer;
+};
+
 const clearContainer = (container) => {
   if (!container) return;
   container.innerHTML = "";
@@ -250,20 +306,11 @@ const renderPropsList = (data) => {
     const row = createElement("div", "props-row");
     row.appendChild(createElement("div", "props-key", key));
     if (key === "source" && value) {
-      const sealContainer = createElement("div", "props-value ancient-seal-container tooltip");
-      const sealIcon = createElement("span", "seal-icon", "📜");
-      const sealGlow = createElement("span", "seal-glow");
-      sealIcon.appendChild(sealGlow);
-
-      const tooltip = createElement("div", "tooltiptext ancient-scroll-style");
-      const safeFile = sanitizeText(value.file || "未知来源");
-      const safeRegistry = sanitizeText(value.registry || "未知印记");
-      const templateIndex = Math.floor(Math.random() * LORE_TEMPLATES.length);
-      tooltip.innerHTML = LORE_TEMPLATES[templateIndex](safeFile, safeRegistry);
-      sealContainer.dataset.sealType = String(templateIndex);
-      sealContainer.appendChild(sealIcon);
-      sealContainer.appendChild(tooltip);
-      row.appendChild(sealContainer);
+      const seal = createLoreSeal(value);
+      if (seal) {
+        seal.classList.add("props-value");
+        row.appendChild(seal);
+      }
     } else {
       row.appendChild(createElement("div", "props-value", formatDisplayValue(value)));
     }
@@ -573,6 +620,52 @@ const renderCommandDetail = (command) => {
   blocks.filter(Boolean).forEach((block) => container.appendChild(block));
 };
 
+const renderItemSection = (sectionId, items) => {
+  const container = document.getElementById(sectionId);
+  if (!container) return;
+  clearContainer(container);
+  if (!items.length) {
+    const emptyCard = createElement("article", "card glass-card item-card tilt-card");
+    emptyCard.appendChild(createElement("h3", "", "待补充"));
+    emptyCard.appendChild(createElement("div", "card-meta", UNKNOWN_TEXT));
+    container.appendChild(emptyCard);
+    applyTiltEffect(emptyCard, 10);
+    return;
+  }
+
+  items.forEach((item) => {
+    const card = createElement("article", "card glass-card item-card tilt-card");
+    const header = createElement("div", "item-header");
+    header.appendChild(createElement("span", "item-icon", item.icon || "✨"));
+    header.appendChild(createElement("h3", "", item.name));
+    card.appendChild(header);
+
+    const metaRow = createElement("div", "item-meta");
+    metaRow.appendChild(createElement("span", "item-tier", item.tier || "未录"));
+    card.appendChild(metaRow);
+
+    if (item.description) {
+      card.appendChild(createElement("p", "item-description", sanitizeText(item.description)));
+    }
+    if (item.effect) {
+      card.appendChild(createElement("div", "item-effect", sanitizeText(item.effect)));
+    }
+
+    const seal = createLoreSeal(item.source);
+    if (seal) {
+      const footer = createElement("div", "item-footer");
+      footer.appendChild(seal);
+      card.appendChild(footer);
+    }
+
+    container.appendChild(card);
+    applyTiltEffect(card, 10);
+  });
+};
+
+const renderPills = (items) => renderItemSection("pillsContent", items);
+const renderEquipment = (items) => renderItemSection("equipmentContent", items);
+
 const setActiveNav = (sectionId) => {
   if (!sectionId) return;
   const navLinks = document.querySelectorAll(".topbar-nav a, .sidebar-nav a");
@@ -855,12 +948,14 @@ const init = async () => {
     renderSnapshot(commands, features);
     buildNavLinks(document.getElementById("topNav"), [
       ...SECTIONS.map((section) => ({ id: section.id, title: section.title })),
+      ...ITEM_SECTIONS.map((section) => ({ id: section.id, title: section.title })),
       { id: "troubleshooting", title: "故障排查" },
       { id: "command-library", title: "命令索引" },
     ]);
     buildNavLinks(document.getElementById("sidebarNav"), [
       { id: "hero", title: "概览" },
       ...SECTIONS.map((section) => ({ id: section.id, title: section.title })),
+      ...ITEM_SECTIONS.map((section) => ({ id: section.id, title: section.title })),
       { id: "troubleshooting", title: "故障排查" },
       { id: "command-library", title: "命令索引" },
     ]);
@@ -873,6 +968,9 @@ const init = async () => {
     SECTIONS.forEach((section) => {
       renderSectionCards(commands, section.contentId, section.categories);
     });
+
+    renderPills(PILL_DATA);
+    renderEquipment(EQUIPMENT_DATA);
 
     const sections = Array.from(document.querySelectorAll(".section"));
     sections.forEach((section, index) => {
