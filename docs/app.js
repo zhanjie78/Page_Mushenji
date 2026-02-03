@@ -150,6 +150,11 @@ const formatDisplayValue = (value) => {
   return value;
 };
 
+const getDescriptionText = (value) => {
+  if (!value) return "内容残缺，等待补全...";
+  return sanitizeText(value);
+};
+
 const filterCommands = (commands) =>
   commands.filter((command) => !isRedacted(command.name)).map((command) => ({
     ...command,
@@ -394,9 +399,7 @@ const renderSectionCards = (commands, sectionId, categories) => {
   scoped.forEach((cmd) => {
     const card = createElement("article", "card command-card tilt-card");
     card.appendChild(createCardHeader(cmd.name, `分类：${getCategoryLabel(cmd.category)}`));
-    if (cmd.description) {
-      card.appendChild(createElement("div", "card-meta", `描述：${cmd.description}`));
-    }
+    card.appendChild(createElement("div", "card-meta", `描述：${getDescriptionText(cmd.description)}`));
     if (hasItems(cmd.usage)) {
       const field = createElement("div", "card-field");
       field.appendChild(createElement("span", "field-label", "用法"));
@@ -458,7 +461,7 @@ const renderCommandList = (commands) => {
       createElement(
         "p",
         "",
-        `${getCategoryLabel(command.category)}${command.description ? ` · ${command.description}` : ""}`
+        `${getCategoryLabel(command.category)} · ${getDescriptionText(command.description)}`
       )
     );
     if (hasItems(command.usage)) {
@@ -686,6 +689,12 @@ const setupCommandCardSpotlight = () => {
   });
 };
 
+const setupCardTilt = () => {
+  const cards = Array.from(document.querySelectorAll(".card"));
+  if (!cards.length) return;
+  cards.forEach((card) => applyTiltEffect(card, 12));
+};
+
 const setupCommandInteractions = (commands) => {
   const commandIndex = buildCommandIndex(commands);
   const listContainer = document.getElementById("commandList");
@@ -774,51 +783,56 @@ const init = async () => {
   const features = filterFeatures(featuresRaw);
   const errors = filterErrors(errorsRaw);
 
-  renderHeroTags();
-  renderSnapshot(commands, features);
-  buildNavLinks(document.getElementById("topNav"), [
-    ...SECTIONS.map((section) => ({ id: section.id, title: section.title })),
-    { id: "troubleshooting", title: "故障排查" },
-    { id: "command-library", title: "命令索引" },
-  ]);
-  buildNavLinks(document.getElementById("sidebarNav"), [
-    { id: "hero", title: "概览" },
-    ...SECTIONS.map((section) => ({ id: section.id, title: section.title })),
-    { id: "troubleshooting", title: "故障排查" },
-    { id: "command-library", title: "命令索引" },
-  ]);
+  try {
+    renderHeroTags();
+    renderSnapshot(commands, features);
+    buildNavLinks(document.getElementById("topNav"), [
+      ...SECTIONS.map((section) => ({ id: section.id, title: section.title })),
+      { id: "troubleshooting", title: "故障排查" },
+      { id: "command-library", title: "命令索引" },
+    ]);
+    buildNavLinks(document.getElementById("sidebarNav"), [
+      { id: "hero", title: "概览" },
+      ...SECTIONS.map((section) => ({ id: section.id, title: section.title })),
+      { id: "troubleshooting", title: "故障排查" },
+      { id: "command-library", title: "命令索引" },
+    ]);
 
-  const prefixFeature = features.find((feature) => feature.name === "PREFIX" || feature.id === "PREFIX");
-  if (prefixFeature) {
-    document.getElementById("prefixValue").textContent = sanitizeText(prefixFeature.details);
-  }
+    const prefixFeature = features.find((feature) => feature.name === "PREFIX" || feature.id === "PREFIX");
+    if (prefixFeature) {
+      document.getElementById("prefixValue").textContent = sanitizeText(prefixFeature.details);
+    }
 
-  SECTIONS.forEach((section) => {
-    renderSectionCards(commands, section.contentId, section.categories);
-  });
+    SECTIONS.forEach((section) => {
+      renderSectionCards(commands, section.contentId, section.categories);
+    });
 
-  const sections = Array.from(document.querySelectorAll(".section"));
-  sections.forEach((section, index) => {
-    if (index === 0) return;
-    const previous = section.previousElementSibling;
-    if (previous && previous.classList.contains("section-banner")) return;
-    const banner = document.createElement("div");
-    banner.className = "section-banner";
-    banner.setAttribute("aria-hidden", "true");
-    section.insertAdjacentElement("beforebegin", banner);
-  });
+    const sections = Array.from(document.querySelectorAll(".section"));
+    sections.forEach((section, index) => {
+      if (index === 0) return;
+      const previous = section.previousElementSibling;
+      if (previous && previous.classList.contains("section-banner")) return;
+      const banner = document.createElement("div");
+      banner.className = "section-banner";
+      banner.setAttribute("aria-hidden", "true");
+      section.insertAdjacentElement("beforebegin", banner);
+    });
 
-  renderErrors(errors);
-  setupCommandCardSpotlight();
-  setupCommandInteractions(commands);
-  highlightActiveNav();
-  setupSidebarSearch();
-  setupNavScroll();
-  setupScrollSpy();
+    renderErrors(errors);
+    setupCardTilt();
+    setupCommandCardSpotlight();
+    setupCommandInteractions(commands);
+    highlightActiveNav();
+    setupSidebarSearch();
+    setupNavScroll();
+    setupScrollSpy();
 
-  const footer = document.getElementById("siteFooter");
-  if (footer && !footer.textContent.trim()) {
-    footer.textContent = "大墟残老村 · 牧神记指南 | 天黑别出门";
+    const footer = document.getElementById("siteFooter");
+    if (footer && !footer.textContent.trim()) {
+      footer.textContent = "大墟残老村 · 牧神记指南 | 天黑别出门";
+    }
+  } catch (error) {
+    console.error("Render failed.", error);
   }
 };
 
@@ -829,15 +843,18 @@ class RuinsBackground {
     this.context = this.canvas.getContext("2d");
     this.particles = [];
     this.bursts = [];
-    this.maxParticles = 90;
+    this.maxParticles = 140;
+    this.light = { x: window.innerWidth / 2, y: window.innerHeight / 2, radius: 160 };
     this.running = false;
 
     this.handleResize = this.handleResize.bind(this);
+    this.handleMouseMove = this.handleMouseMove.bind(this);
     this.animate = this.animate.bind(this);
 
     document.body.appendChild(this.canvas);
     this.handleResize();
     window.addEventListener("resize", this.handleResize);
+    window.addEventListener("mousemove", this.handleMouseMove, { passive: true });
     this.seedParticles();
     this.start();
   }
@@ -864,12 +881,17 @@ class RuinsBackground {
     return {
       x: base.x,
       y: base.y,
-      vx: (Math.random() - 0.5) * 0.6,
-      vy: (Math.random() - 0.5) * 0.6,
-      size: Math.random() * 2.4 + 0.6,
-      alpha: Math.random() * 0.6 + 0.2,
-      hue: 38 + Math.random() * 40,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: (Math.random() - 0.5) * 0.4,
+      size: Math.random() * 2.8 + 0.8,
+      alpha: Math.random() * 0.5 + 0.15,
+      hue: 220 + Math.random() * 40,
     };
+  }
+
+  handleMouseMove(event) {
+    this.light.x = event.clientX;
+    this.light.y = event.clientY;
   }
 
   spawnBurst(x, y) {
@@ -906,18 +928,47 @@ class RuinsBackground {
     ctx.clearRect(0, 0, width, height);
 
     this.particles.forEach((particle) => {
+      const dx = particle.x - this.light.x;
+      const dy = particle.y - this.light.y;
+      const distance = Math.hypot(dx, dy);
+      if (distance < this.light.radius) {
+        const force = (1 - distance / this.light.radius) * 1.4;
+        particle.vx += (dx / Math.max(distance, 1)) * force * 0.6;
+        particle.vy += (dy / Math.max(distance, 1)) * force * 0.6;
+      }
+
       particle.x += particle.vx;
       particle.y += particle.vy;
+      particle.vx *= 0.96;
+      particle.vy *= 0.96;
       if (particle.x < -20) particle.x = width + 20;
       if (particle.x > width + 20) particle.x = -20;
       if (particle.y < -20) particle.y = height + 20;
       if (particle.y > height + 20) particle.y = -20;
 
       ctx.beginPath();
-      ctx.fillStyle = `hsla(${particle.hue}, 70%, 60%, ${particle.alpha})`;
+      ctx.fillStyle = `hsla(${particle.hue}, 30%, 25%, ${particle.alpha})`;
       ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
       ctx.fill();
     });
+
+    ctx.save();
+    const gradient = ctx.createRadialGradient(
+      this.light.x,
+      this.light.y,
+      0,
+      this.light.x,
+      this.light.y,
+      this.light.radius
+    );
+    gradient.addColorStop(0, "rgba(255, 236, 188, 0.15)");
+    gradient.addColorStop(0.6, "rgba(255, 236, 188, 0.05)");
+    gradient.addColorStop(1, "rgba(255, 236, 188, 0)");
+    ctx.fillStyle = gradient;
+    ctx.beginPath();
+    ctx.arc(this.light.x, this.light.y, this.light.radius, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
 
     this.bursts = this.bursts.filter((particle) => {
       particle.life += 1;
