@@ -112,11 +112,12 @@ const loadJson = async (path, fallback = [], inlineId) => {
   }
   try {
     const response = await fetch(path);
-    if (response.ok) {
-      return await response.json();
+    if (!response.ok) {
+      throw new Error(`Fetch failed: ${response.status} ${response.statusText}`);
     }
+    return await response.json();
   } catch (error) {
-    // Ignore fetch errors and try XHR fallback.
+    console.warn(`Fetch failed for ${path}, falling back to XHR.`, error);
   }
   try {
     const request = new XMLHttpRequest();
@@ -126,6 +127,7 @@ const loadJson = async (path, fallback = [], inlineId) => {
       return safeJsonParse(request.responseText, fallback);
     }
   } catch (error) {
+    console.warn(`XHR failed for ${path}.`, error);
     return fallback;
   }
   return fallback;
@@ -167,49 +169,73 @@ const getCategoryLabel = (category) => CATEGORY_LABELS[category] || category || 
 
 const hasItems = (items) => Array.isArray(items) && items.length > 0;
 
-const renderTagCloud = (items, className = "tag-pill") =>
-  `<div class="tag-cloud">${items
-    .map((item) => `<span class="${className}">${item}</span>`)
-    .join("")}</div>`;
+const createElement = (tag, className, text) => {
+  const element = document.createElement(tag);
+  if (className) element.className = className;
+  if (typeof text !== "undefined") {
+    element.textContent = text;
+  }
+  return element;
+};
+
+const clearContainer = (container) => {
+  if (!container) return;
+  container.innerHTML = "";
+};
+
+const addSvgIcon = (element, svgMarkup) => {
+  element.insertAdjacentHTML("afterbegin", svgMarkup);
+};
+
+const renderTagCloud = (items, className = "tag-pill") => {
+  if (!hasItems(items)) return null;
+  const cloud = createElement("div", "tag-cloud");
+  items.forEach((item) => {
+    const pill = createElement("span", className, item);
+    cloud.appendChild(pill);
+  });
+  return cloud;
+};
 
 const renderPropsList = (data) => {
   const entries = Object.entries(data || {});
   if (!entries.length) {
-    return "";
+    return null;
   }
-  return `
-    <div class="props-list">
-      ${entries
-        .map(
-          ([key, value]) => `
-          <div class="props-row">
-            <div class="props-key">${key}</div>
-            <div class="props-value">${formatDisplayValue(value)}</div>
-          </div>
-        `
-        )
-        .join("")}
-    </div>
-  `;
+  const wrapper = createElement("div", "props-list");
+  entries.forEach(([key, value]) => {
+    const row = createElement("div", "props-row");
+    row.appendChild(createElement("div", "props-key", key));
+    row.appendChild(createElement("div", "props-value", formatDisplayValue(value)));
+    wrapper.appendChild(row);
+  });
+  return wrapper;
 };
 
 const renderDetailContent = (data) => {
   if (Array.isArray(data)) {
-    return hasItems(data) ? renderTagCloud(data) : "";
+    return renderTagCloud(data);
   }
   if (data && typeof data === "object") {
     return renderPropsList(data);
   }
   if (!data) {
-    return "";
+    return null;
   }
-  return `<div class="detail-text">${data}</div>`;
+  return createElement("div", "detail-text", data);
 };
 
-const renderCommandCloud = (items) =>
-  hasItems(items)
-    ? renderTagCloud(items.map((item) => `<code class="cmd-code">${item}</code>`), "tag-pill cmd-pill")
-    : "";
+const renderCommandCloud = (items) => {
+  if (!hasItems(items)) return null;
+  const cloud = createElement("div", "tag-cloud");
+  items.forEach((item) => {
+    const pill = createElement("span", "tag-pill cmd-pill");
+    const code = createElement("code", "cmd-code", item);
+    pill.appendChild(code);
+    cloud.appendChild(pill);
+  });
+  return cloud;
+};
 
 const filterFeatures = (features) =>
   features
@@ -232,89 +258,183 @@ const filterErrors = (errors) =>
 
 const buildNavLinks = (container, items) => {
   if (!container) return;
-  container.innerHTML = items.map((item) => `<a href="#${item.id}">${item.title}</a>`).join("");
+  clearContainer(container);
+  items.forEach((item) => {
+    const link = createElement("a");
+    link.href = `#${item.id}`;
+    link.textContent = item.title;
+    container.appendChild(link);
+  });
 };
 
 const renderHeroTags = () => {
   const container = document.getElementById("heroTags");
-  container.innerHTML = HERO_TAGS.map((tag) => `<span class="tag">${tag}</span>`).join("");
+  if (!container) return;
+  clearContainer(container);
+  HERO_TAGS.forEach((tag) => {
+    const span = createElement("span", "tag", tag);
+    container.appendChild(span);
+  });
 };
 
 const renderSnapshot = (commands, features) => {
   const container = document.getElementById("systemSnapshot");
+  if (!container) return;
+  clearContainer(container);
   const prefix = features.find((feature) => feature.name === "PREFIX" || feature.id === "PREFIX");
   const totalCommands = commands.length;
   const categories = [...new Set(commands.map((cmd) => cmd.category))].filter(Boolean).length;
   const prefixText = sanitizeText(prefix?.details ?? ".");
-  container.innerHTML = `
-    <div>指令前缀：<code>${prefixText}</code></div>
-    <div>已收录命令：${totalCommands}</div>
-    <div>已覆盖分类：${categories}</div>
-    <div class="portal-actions" style="margin-top: 24px; display: flex; gap: 12px; flex-wrap: wrap;">
-      <a href="https://t.me/mushenjixx" target="_blank" class="btn-portal" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 24px; border-radius: 8px; text-decoration: none; color: #000;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-        <span>踏入大墟（加入群组）</span>
-      </a>
-      <a href="https://t.me/Ssn047" target="_blank" class="btn-portal-ghost" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 24px; border-radius: 8px; text-decoration: none; border: 1px solid #d7b46a; color: #d7b46a;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-        <span>联系掌灯人</span>
-      </a>
-    </div>
-  `;
+  const prefixRow = createElement("div");
+  prefixRow.append(document.createTextNode("指令前缀："));
+  prefixRow.appendChild(createElement("code", "", prefixText));
+  container.appendChild(prefixRow);
+  container.appendChild(createElement("div", "", `已收录命令：${totalCommands}`));
+  container.appendChild(createElement("div", "", `已覆盖分类：${categories}`));
+
+  const actions = createElement("div", "portal-actions");
+  actions.style.marginTop = "24px";
+  actions.style.display = "flex";
+  actions.style.gap = "12px";
+  actions.style.flexWrap = "wrap";
+
+  const joinLink = createElement("a", "btn-portal");
+  joinLink.href = "https://t.me/mushenjixx";
+  joinLink.target = "_blank";
+  joinLink.style.display = "inline-flex";
+  joinLink.style.alignItems = "center";
+  joinLink.style.gap = "8px";
+  joinLink.style.padding = "10px 24px";
+  joinLink.style.borderRadius = "8px";
+  joinLink.style.textDecoration = "none";
+  joinLink.style.color = "#000";
+  addSvgIcon(
+    joinLink,
+    '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>'
+  );
+  joinLink.appendChild(createElement("span", "", "踏入大墟（加入群组）"));
+
+  const contactLink = createElement("a", "btn-portal-ghost");
+  contactLink.href = "https://t.me/Ssn047";
+  contactLink.target = "_blank";
+  contactLink.style.display = "inline-flex";
+  contactLink.style.alignItems = "center";
+  contactLink.style.gap = "8px";
+  contactLink.style.padding = "10px 24px";
+  contactLink.style.borderRadius = "8px";
+  contactLink.style.textDecoration = "none";
+  contactLink.style.border = "1px solid #d7b46a";
+  contactLink.style.color = "#d7b46a";
+  addSvgIcon(
+    contactLink,
+    '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>'
+  );
+  contactLink.appendChild(createElement("span", "", "联系掌灯人"));
+
+  actions.appendChild(joinLink);
+  actions.appendChild(contactLink);
+  container.appendChild(actions);
+};
+
+const applyTiltEffect = (element, intensity = 12) => {
+  if (!element) return;
+  const supportsHover = window.matchMedia("(hover: hover)").matches;
+  if (!supportsHover) return;
+  let rafId = null;
+  let lastEvent = null;
+
+  const updateTransform = () => {
+    if (!lastEvent) return;
+    const rect = element.getBoundingClientRect();
+    const x = (lastEvent.clientX - rect.left) / rect.width - 0.5;
+    const y = (lastEvent.clientY - rect.top) / rect.height - 0.5;
+    const rotateX = (-y * intensity).toFixed(2);
+    const rotateY = (x * intensity).toFixed(2);
+    element.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    rafId = null;
+  };
+
+  const handleMove = (event) => {
+    lastEvent = event;
+    if (!rafId) {
+      rafId = window.requestAnimationFrame(updateTransform);
+    }
+  };
+
+  const resetTilt = () => {
+    element.style.transform = "perspective(900px) rotateX(0deg) rotateY(0deg)";
+  };
+
+  element.addEventListener("mousemove", handleMove);
+  element.addEventListener("mouseleave", resetTilt);
+};
+
+const createCardHeader = (title, subtitle) => {
+  const header = createElement("div", "card-header");
+  header.appendChild(createElement("h3", "", title));
+  if (subtitle) {
+    header.appendChild(createElement("div", "card-meta", subtitle));
+  }
+  return header;
 };
 
 const renderSectionCards = (commands, sectionId, categories) => {
   const container = document.getElementById(sectionId);
-  const scoped = commands.filter((cmd) => (categories || []).includes(cmd.category));
   if (!container) return;
+  const scoped = commands.filter((cmd) => (categories || []).includes(cmd.category));
+  clearContainer(container);
   if (!scoped.length) {
-    container.innerHTML =
-      `<div class="card"><h3>待补充</h3><div class="card-meta">大墟的黑暗掩盖了真相...</div></div>`;
+    const emptyCard = createElement("article", "card command-card tilt-card");
+    emptyCard.appendChild(createElement("h3", "", "待补充"));
+    emptyCard.appendChild(createElement("div", "card-meta", UNKNOWN_TEXT));
+    container.appendChild(emptyCard);
+    applyTiltEffect(emptyCard);
     return;
   }
-  container.innerHTML = scoped
-    .map(
-      (cmd) => `
-        <article class="card command-card">
-          <h3>${cmd.name}</h3>
-          <div class="card-meta">分类：${getCategoryLabel(cmd.category)}</div>
-          ${cmd.description ? `<div class="card-meta">描述：${cmd.description}</div>` : ""}
-          ${
-            hasItems(cmd.usage)
-              ? `
-          <div class="card-field">
-            <span class="field-label">用法</span>
-            <div class="cmd-lines">
-              ${cmd.usage.map((usage) => `<code class="cmd-code">${usage}</code>`).join("")}
-            </div>
-          </div>`
-              : ""
-          }
-        </article>
-      `
-    )
-    .join("");
+  scoped.forEach((cmd) => {
+    const card = createElement("article", "card command-card tilt-card");
+    card.appendChild(createCardHeader(cmd.name, `分类：${getCategoryLabel(cmd.category)}`));
+    if (cmd.description) {
+      card.appendChild(createElement("div", "card-meta", `描述：${cmd.description}`));
+    }
+    if (hasItems(cmd.usage)) {
+      const field = createElement("div", "card-field");
+      field.appendChild(createElement("span", "field-label", "用法"));
+      const lines = createElement("div", "cmd-lines");
+      cmd.usage.forEach((usage) => {
+        lines.appendChild(createElement("code", "cmd-code", usage));
+      });
+      field.appendChild(lines);
+      card.appendChild(field);
+    }
+    container.appendChild(card);
+    applyTiltEffect(card, 10);
+  });
 };
 
 const renderErrors = (errors) => {
   const container = document.getElementById("errorContent");
   if (!container) return;
+  clearContainer(container);
   if (!errors.length) {
-    container.innerHTML = "<div class=\"detail-inline\">尚未收录错误数据</div>";
+    container.appendChild(createElement("div", "detail-inline", "尚未收录错误数据"));
     return;
   }
-  container.innerHTML = errors
-    .map(
-      (error) => `
-      <div class="card">
-        <h3>${error.message}</h3>
-        ${error.meaning ? `<div class="card-meta">含义：${error.meaning}</div>` : ""}
-        ${hasItems(error.causes) ? `<div class="card-meta">常见原因：${error.causes.join(" / ")}</div>` : ""}
-        ${hasItems(error.fixes) ? `<div class="card-meta">解决方式：${error.fixes.join(" / ")}</div>` : ""}
-      </div>
-    `
-    )
-    .join("");
+  errors.forEach((error) => {
+    const card = createElement("div", "card tilt-card");
+    card.appendChild(createElement("h3", "", error.message));
+    if (error.meaning) {
+      card.appendChild(createElement("div", "card-meta", `含义：${error.meaning}`));
+    }
+    if (hasItems(error.causes)) {
+      card.appendChild(createElement("div", "card-meta", `常见原因：${error.causes.join(" / ")}`));
+    }
+    if (hasItems(error.fixes)) {
+      card.appendChild(createElement("div", "card-meta", `解决方式：${error.fixes.join(" / ")}`));
+    }
+    container.appendChild(card);
+    applyTiltEffect(card, 8);
+  });
 };
 
 const buildCommandIndex = (commands) => {
@@ -329,54 +449,63 @@ const buildCommandIndex = (commands) => {
 const renderCommandList = (commands) => {
   const container = document.getElementById("commandList");
   if (!container) return;
-  container.innerHTML = commands
-    .map(
-      (command) => `
-      <div class="command-item" data-command="${slugify(command.name)}">
-        <h4>${command.name}</h4>
-        <p>${getCategoryLabel(command.category)}${command.description ? ` · ${command.description}` : ""}</p>
-        ${hasItems(command.usage) ? `<div class="cmd-lines">${command.usage
-          .map((usage) => `<code class="cmd-code">${usage}</code>`)
-          .join("")}</div>` : ""}
-      </div>
-    `
-    )
-    .join("");
+  clearContainer(container);
+  commands.forEach((command) => {
+    const item = createElement("div", "command-item tilt-card");
+    item.dataset.command = slugify(command.name);
+    item.appendChild(createElement("h4", "", command.name));
+    item.appendChild(
+      createElement(
+        "p",
+        "",
+        `${getCategoryLabel(command.category)}${command.description ? ` · ${command.description}` : ""}`
+      )
+    );
+    if (hasItems(command.usage)) {
+      const lines = createElement("div", "cmd-lines");
+      command.usage.forEach((usage) => {
+        lines.appendChild(createElement("code", "cmd-code", usage));
+      });
+      item.appendChild(lines);
+    }
+    container.appendChild(item);
+    applyTiltEffect(item, 6);
+  });
 };
 
-const buildDetailBlock = (title, content) =>
-  content ? `<div class="detail-block"><h5>${title}</h5>${content}</div>` : "";
+const buildDetailBlock = (title, content) => {
+  if (!content) return null;
+  const block = createElement("div", "detail-block");
+  block.appendChild(createElement("h5", "", title));
+  block.appendChild(content);
+  return block;
+};
 
 const renderCommandDetail = (command) => {
   const container = document.getElementById("commandDetail");
   if (!container) return;
+  clearContainer(container);
   if (!command) {
-    container.innerHTML = `<div class="detail-empty">未找到该命令或已被移除。</div>`;
+    container.appendChild(createElement("div", "detail-empty", "未找到该命令或已被移除。"));
     return;
   }
 
-  const parameterContent = renderDetailContent(command.details?.parameters || []);
-  const preconditionContent = renderDetailContent(command.details?.preconditions || []);
-  const outcomeContent = renderDetailContent(command.details?.outcomes || []);
-  const pitfallContent = renderDetailContent(command.pitfalls || []);
-  const relatedContent = renderDetailContent(command.related || []);
+  const headerBlock = createElement("div", "detail-block");
+  headerBlock.appendChild(createElement("h5", "", command.name));
+  headerBlock.appendChild(createElement("div", "detail-inline", `分类：${getCategoryLabel(command.category)}`));
 
   const blocks = [
-    `
-    <div class="detail-block">
-      <h5>${command.name}</h5>
-      <div class="detail-inline">分类：${getCategoryLabel(command.category)}</div>
-    </div>
-  `,
+    headerBlock,
     buildDetailBlock("使用方法", renderCommandCloud(command.usage)),
     buildDetailBlock("示例", renderCommandCloud(command.examples)),
-    buildDetailBlock("参数", parameterContent),
-    buildDetailBlock("前置条件", preconditionContent),
-    buildDetailBlock("结果/提示", outcomeContent),
-    buildDetailBlock("注意事项", pitfallContent),
-    buildDetailBlock("相关命令", relatedContent),
+    buildDetailBlock("参数", renderDetailContent(command.details?.parameters || [])),
+    buildDetailBlock("前置条件", renderDetailContent(command.details?.preconditions || [])),
+    buildDetailBlock("结果/提示", renderDetailContent(command.details?.outcomes || [])),
+    buildDetailBlock("注意事项", renderDetailContent(command.pitfalls || [])),
+    buildDetailBlock("相关命令", renderDetailContent(command.related || [])),
   ];
-  container.innerHTML = blocks.filter(Boolean).join("");
+
+  blocks.filter(Boolean).forEach((block) => container.appendChild(block));
 };
 
 const setActiveNav = (sectionId) => {
@@ -423,8 +552,23 @@ const highlightActiveNav = () => {
   }
 };
 
+const animateSearchResult = (element, delay = 0) => {
+  if (!element || typeof element.animate !== "function") return;
+  element.animate(
+    [
+      { opacity: 0, transform: "translateY(12px) scale(0.98)" },
+      { opacity: 1, transform: "translateY(0) scale(1)" },
+    ],
+    {
+      duration: 360,
+      easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+      delay,
+    }
+  );
+};
+
 const setupSidebarSearch = () => {
-  const searchInput = document.getElementById("searchInput");
+  const searchInput = document.getElementById("search-input");
   if (!searchInput) return;
 
   const applyFilter = () => {
@@ -435,6 +579,16 @@ const setupSidebarSearch = () => {
     const commandLibrary = document.getElementById("command-library");
 
     const shouldShow = (element) => !query || element.textContent.toLowerCase().includes(query);
+
+    const animateBatch = (elements) => {
+      let delay = 0;
+      elements.forEach((element) => {
+        if (element.style.display !== "none") {
+          animateSearchResult(element, delay);
+          delay += 40;
+        }
+      });
+    };
 
     cards.forEach((card) => {
       card.style.display = shouldShow(card) ? "" : "none";
@@ -447,6 +601,12 @@ const setupSidebarSearch = () => {
     commandItems.forEach((item) => {
       item.style.display = shouldShow(item) ? "" : "none";
     });
+
+    if (query) {
+      animateBatch(cards);
+      animateBatch(detailsBlocks);
+      animateBatch(commandItems);
+    }
 
     document.querySelectorAll(".section").forEach((section) => {
       const sectionCards = Array.from(section.querySelectorAll(".command-card"));
@@ -580,6 +740,29 @@ const handleHashChange = (commandIndex) => {
   highlightActiveNav();
 };
 
+const setupCardEffects = (ruinsBackground) => {
+  document.addEventListener("click", (event) => {
+    const ripple = document.createElement("div");
+    ripple.className = "click-ripple";
+    document.body.appendChild(ripple);
+
+    const size = 100;
+    ripple.style.width = `${size}px`;
+    ripple.style.height = `${size}px`;
+    ripple.style.left = `${event.clientX}px`;
+    ripple.style.top = `${event.clientY}px`;
+
+    ripple.addEventListener("animationend", () => {
+      ripple.remove();
+    });
+
+    const card = event.target.closest(".card, .command-item, .glass-card");
+    if (card && ruinsBackground) {
+      ruinsBackground.spawnBurst(event.clientX, event.clientY);
+    }
+  });
+};
+
 const init = async () => {
   const [commandsRaw, featuresRaw, errorsRaw] = await Promise.all([
     loadJson("data/commands.json", [], "inline-commands"),
@@ -639,20 +822,126 @@ const init = async () => {
   }
 };
 
-init();
+class RuinsBackground {
+  constructor() {
+    this.canvas = document.createElement("canvas");
+    this.canvas.className = "ruins-background";
+    this.context = this.canvas.getContext("2d");
+    this.particles = [];
+    this.bursts = [];
+    this.maxParticles = 90;
+    this.running = false;
 
-document.addEventListener("click", (event) => {
-  const ripple = document.createElement("div");
-  ripple.className = "click-ripple";
-  document.body.appendChild(ripple);
+    this.handleResize = this.handleResize.bind(this);
+    this.animate = this.animate.bind(this);
 
-  const size = 100;
-  ripple.style.width = `${size}px`;
-  ripple.style.height = `${size}px`;
-  ripple.style.left = `${event.clientX}px`;
-  ripple.style.top = `${event.clientY}px`;
+    document.body.appendChild(this.canvas);
+    this.handleResize();
+    window.addEventListener("resize", this.handleResize);
+    this.seedParticles();
+    this.start();
+  }
 
-  ripple.addEventListener("animationend", () => {
-    ripple.remove();
+  handleResize() {
+    const ratio = window.devicePixelRatio || 1;
+    this.canvas.width = window.innerWidth * ratio;
+    this.canvas.height = window.innerHeight * ratio;
+    this.canvas.style.width = `${window.innerWidth}px`;
+    this.canvas.style.height = `${window.innerHeight}px`;
+    if (this.context) {
+      this.context.setTransform(ratio, 0, 0, ratio, 0, 0);
+    }
+  }
+
+  seedParticles() {
+    this.particles = Array.from({ length: this.maxParticles }, () => this.createParticle());
+  }
+
+  createParticle(origin = null) {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    const base = origin || { x: Math.random() * width, y: Math.random() * height };
+    return {
+      x: base.x,
+      y: base.y,
+      vx: (Math.random() - 0.5) * 0.6,
+      vy: (Math.random() - 0.5) * 0.6,
+      size: Math.random() * 2.4 + 0.6,
+      alpha: Math.random() * 0.6 + 0.2,
+      hue: 38 + Math.random() * 40,
+    };
+  }
+
+  spawnBurst(x, y) {
+    const count = 26 + Math.floor(Math.random() * 18);
+    for (let i = 0; i < count; i += 1) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = Math.random() * 3 + 1;
+      this.bursts.push({
+        x,
+        y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        size: Math.random() * 3 + 1,
+        life: 0,
+        ttl: 40 + Math.random() * 30,
+        alpha: 0.9,
+        hue: 30 + Math.random() * 60,
+      });
+    }
+  }
+
+  start() {
+    if (this.running) return;
+    this.running = true;
+    requestAnimationFrame(this.animate);
+  }
+
+  animate() {
+    if (!this.running || !this.context) return;
+    const ctx = this.context;
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    ctx.clearRect(0, 0, width, height);
+
+    this.particles.forEach((particle) => {
+      particle.x += particle.vx;
+      particle.y += particle.vy;
+      if (particle.x < -20) particle.x = width + 20;
+      if (particle.x > width + 20) particle.x = -20;
+      if (particle.y < -20) particle.y = height + 20;
+      if (particle.y > height + 20) particle.y = -20;
+
+      ctx.beginPath();
+      ctx.fillStyle = `hsla(${particle.hue}, 70%, 60%, ${particle.alpha})`;
+      ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+      ctx.fill();
+    });
+
+    this.bursts = this.bursts.filter((particle) => {
+      particle.life += 1;
+      particle.x += particle.vx;
+      particle.y += particle.vy;
+      particle.vx *= 0.96;
+      particle.vy *= 0.96;
+      const progress = particle.life / particle.ttl;
+      const alpha = particle.alpha * (1 - progress);
+      ctx.beginPath();
+      ctx.fillStyle = `hsla(${particle.hue}, 80%, 70%, ${alpha})`;
+      ctx.arc(particle.x, particle.y, particle.size * (1 - progress * 0.6), 0, Math.PI * 2);
+      ctx.fill();
+      return particle.life < particle.ttl;
+    });
+
+    requestAnimationFrame(this.animate);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const ruinsBackground = new RuinsBackground();
+  init().catch((error) => {
+    console.error("Initialization failed.", error);
   });
+  setupCardEffects(ruinsBackground);
 });

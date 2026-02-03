@@ -760,6 +760,13 @@ pre {
   }
 }
 
+@media (max-width: 600px) {
+  .section-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
 @media (hover: none) {
   .command-card::before {
     display: none;
@@ -818,6 +825,12 @@ pre {
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(215, 180, 106, 0.05);
   transform: translateY(-4px) scale(1.02);
   filter: brightness(1.08);
+}
+
+.card:hover,
+.command-card:hover,
+.glass-card:hover {
+  animation-play-state: paused;
 }
 
 .card:hover,
