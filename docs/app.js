@@ -75,6 +75,28 @@ const SECTIONS = TAXONOMY.map((section) => ({
 const HERO_TAGS = ["大墟夜行", "霸体修行", "九老叮嘱", "牧神之道"];
 const REDACT_KEYWORD = "天道";
 const UNKNOWN_TEXT = "大墟的黑暗掩盖了真相...";
+const LORE_TEMPLATES = [
+  (file, registry) => `
+    <strong>【道法根脚】</strong><br>
+    此神通源自天外奇书《${file}》，受“${registry}”印记加持。<br>
+    <em class="lore-note">残老村村长注：后生晚辈，切勿随意篡改天书，小心遭天谴。</em>
+  `,
+  (file, registry) => `
+    <strong>【大墟遗刻】</strong><br>
+    在黑暗的角落里（${file}），你发现了古神留下的印记（${registry}）。<br>
+    <em class="lore-note">这些文字散发着诡异的气息，似乎在警告你保留因果。</em>
+  `,
+  (file, registry) => `
+    <strong>【国师密档】</strong><br>
+    此乃延康国师变法之前的旧档，封存于天录楼最深处。<br>
+    <em class="lore-note">卷宗编号：${file} // 封印术式：${registry}</em>
+  `,
+  (file, registry) => `
+    <strong>【天魔教秘辛】</strong><br>
+    嘘！这是教主从域外天魔那里骗来的功法。<br>
+    <em class="lore-note">来源界域：${file} / 核心法阵：${registry}</em>
+  `,
+];
 const CATEGORY_LABELS = {
   卷首语: "卷首语",
   大墟残老村: "壹 · 大墟残老村",
@@ -155,20 +177,36 @@ const getDescriptionText = (value) => {
   return sanitizeText(value);
 };
 
+const dedupeByKey = (items, getKey) => {
+  const seen = new Set();
+  return items.filter((item) => {
+    const key = getKey(item);
+    if (!key) return true;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+};
+
 const filterCommands = (commands) =>
-  commands.filter((command) => !isRedacted(command.name)).map((command) => ({
-    ...command,
-    description: sanitizeText(command.description),
-    usage: sanitizeArray(command.usage),
-    examples: sanitizeArray(command.examples),
-    pitfalls: sanitizeArray(command.pitfalls),
-    related: sanitizeArray(command.related),
-    details: {
-      parameters: sanitizeArray(command.details?.parameters || []),
-      preconditions: sanitizeArray(command.details?.preconditions || []),
-      outcomes: sanitizeArray(command.details?.outcomes || []),
-    },
-  }));
+  dedupeByKey(
+    commands
+      .filter((command) => !isRedacted(command.name))
+      .map((command) => ({
+        ...command,
+        description: sanitizeText(command.description),
+        usage: sanitizeArray(command.usage),
+        examples: sanitizeArray(command.examples),
+        pitfalls: sanitizeArray(command.pitfalls),
+        related: sanitizeArray(command.related),
+        details: {
+          parameters: sanitizeArray(command.details?.parameters || []),
+          preconditions: sanitizeArray(command.details?.preconditions || []),
+          outcomes: sanitizeArray(command.details?.outcomes || []),
+        },
+      })),
+    (command) => command.name
+  );
 
 const getCategoryLabel = (category) => CATEGORY_LABELS[category] || category || "未分类";
 
@@ -211,7 +249,24 @@ const renderPropsList = (data) => {
   entries.forEach(([key, value]) => {
     const row = createElement("div", "props-row");
     row.appendChild(createElement("div", "props-key", key));
-    row.appendChild(createElement("div", "props-value", formatDisplayValue(value)));
+    if (key === "source" && value) {
+      const sealContainer = createElement("div", "props-value ancient-seal-container tooltip");
+      const sealIcon = createElement("span", "seal-icon", "📜");
+      const sealGlow = createElement("span", "seal-glow");
+      sealIcon.appendChild(sealGlow);
+
+      const tooltip = createElement("div", "tooltiptext ancient-scroll-style");
+      const safeFile = sanitizeText(value.file || "未知来源");
+      const safeRegistry = sanitizeText(value.registry || "未知印记");
+      const templateIndex = Math.floor(Math.random() * LORE_TEMPLATES.length);
+      tooltip.innerHTML = LORE_TEMPLATES[templateIndex](safeFile, safeRegistry);
+      sealContainer.dataset.sealType = String(templateIndex);
+      sealContainer.appendChild(sealIcon);
+      sealContainer.appendChild(tooltip);
+      row.appendChild(sealContainer);
+    } else {
+      row.appendChild(createElement("div", "props-value", formatDisplayValue(value)));
+    }
     wrapper.appendChild(row);
   });
   return wrapper;
@@ -243,23 +298,29 @@ const renderCommandCloud = (items) => {
 };
 
 const filterFeatures = (features) =>
-  features
-    .filter((feature) => !isRedacted(feature.name) && !isRedacted(feature.description))
-    .map((feature) => ({
-      ...feature,
-      description: sanitizeText(feature.description),
-    }));
+  dedupeByKey(
+    features
+      .filter((feature) => !isRedacted(feature.name) && !isRedacted(feature.description))
+      .map((feature) => ({
+        ...feature,
+        description: sanitizeText(feature.description),
+      })),
+    (feature) => feature.name || feature.id
+  );
 
 const filterErrors = (errors) =>
-  errors
-    .filter((error) => !isRedacted(error.message) && !isRedacted(error.meaning))
-    .map((error) => ({
-      ...error,
-      message: sanitizeText(error.message),
-      meaning: sanitizeText(error.meaning),
-      causes: sanitizeArray(error.causes || []),
-      fixes: sanitizeArray(error.fixes || []),
-    }));
+  dedupeByKey(
+    errors
+      .filter((error) => !isRedacted(error.message) && !isRedacted(error.meaning))
+      .map((error) => ({
+        ...error,
+        message: sanitizeText(error.message),
+        meaning: sanitizeText(error.meaning),
+        causes: sanitizeArray(error.causes || []),
+        fixes: sanitizeArray(error.fixes || []),
+      })),
+    (error) => error.message
+  );
 
 const buildNavLinks = (container, items) => {
   if (!container) return;
@@ -506,6 +567,7 @@ const renderCommandDetail = (command) => {
     buildDetailBlock("结果/提示", renderDetailContent(command.details?.outcomes || [])),
     buildDetailBlock("注意事项", renderDetailContent(command.pitfalls || [])),
     buildDetailBlock("相关命令", renderDetailContent(command.related || [])),
+    buildDetailBlock("来源", renderDetailContent(command.source ? { source: command.source } : null)),
   ];
 
   blocks.filter(Boolean).forEach((block) => container.appendChild(block));
@@ -699,6 +761,11 @@ const setupCommandInteractions = (commands) => {
   const commandIndex = buildCommandIndex(commands);
   const listContainer = document.getElementById("commandList");
   const categorySelect = document.getElementById("categoryFilter");
+  if (!categorySelect) {
+    renderCommandList(commands);
+    handleHashChange(commandIndex);
+    return;
+  }
 
   const renderFiltered = () => {
     const category = categorySelect.value;

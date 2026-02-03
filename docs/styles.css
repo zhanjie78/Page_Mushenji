@@ -598,6 +598,103 @@ body::-webkit-scrollbar-thumb:hover,
   font-size: 13px;
 }
 
+.ancient-seal-container {
+  position: relative;
+  display: inline-block;
+  cursor: help;
+  margin-top: 12px;
+  font-size: 1.4rem;
+}
+
+.seal-icon {
+  position: relative;
+  opacity: 0.6;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 0 2px var(--color-overlord-gold, gold));
+}
+
+.seal-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  background: var(--color-overlord-gold, gold);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  filter: blur(5px);
+  animation: pulse-glow 3s infinite;
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.2;
+    scale: 1;
+  }
+  50% {
+    opacity: 0.5;
+    scale: 1.5;
+  }
+}
+
+.ancient-seal-container:hover .seal-icon {
+  opacity: 1;
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 5px var(--color-overlord-gold, gold));
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 300px;
+  background: linear-gradient(to bottom, #1a1a1a, #0d0d0d);
+  color: #e0d6b4;
+  text-align: left;
+  border-radius: 2px;
+  padding: 15px 20px;
+  position: absolute;
+  z-index: 20;
+  bottom: 140%;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border: 1px solid #3a3a3a;
+  border-top: 2px solid var(--color-overlord-gold, gold);
+  border-bottom: 2px solid var(--color-overlord-gold, gold);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 215, 0, 0.1) inset;
+  font-family: "Noto Serif SC", serif;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.lore-note {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.85em;
+  color: #a8a085;
+  font-style: italic;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -8px;
+  border-width: 8px;
+  border-style: solid;
+  border-color: var(--color-overlord-gold, gold) transparent transparent transparent;
+}
+
 .glass-card {
   padding: 16px;
   border-radius: var(--radius-md);
