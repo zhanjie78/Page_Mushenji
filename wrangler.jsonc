@@ -1,9 +1,0 @@
-{
-  "name": "mushenji",
-  "account_id": "你的CF账户ID",
-  "compatibility_date": "2026-02-03",
-  "main": "src/index.ts",
-  "assets": {
-    "directory": "./docs"
-  }
-}
