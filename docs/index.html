@@ -3,11 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700&display=swap"
+    rel="stylesheet"
+  />
   <title>牧神记 · 新手修行指南</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="page">
+  <canvas id="ruins-bg" style="position: fixed; inset: 0; z-index: -1;" aria-hidden="true"></canvas>
+  <main class="glass-container">
+    <div class="page">
     <header class="topbar">
       <div class="topbar-brand">
         <div class="brand-title">牧神记 · 新手修行指南</div>
@@ -23,7 +31,7 @@
     <div class="layout">
       <aside class="sidebar" id="sidebar">
         <div class="sidebar-search">
-          <input type="text" id="searchInput" placeholder="神识扫描..." aria-label="神识检索" />
+          <input type="text" id="search-input" placeholder="神识扫描..." aria-label="神识检索" />
         </div>
         <div class="sidebar-section">
           <h3>大墟地理图</h3>
@@ -38,6 +46,7 @@
       </aside>
 
       <main class="content">
+        <div id="content-area"></div>
         <section class="hero" id="hero">
           <div class="hero-text">
             <h1>天黑别出门，除非你是霸体。</h1>
@@ -166,7 +175,9 @@
         </footer>
       </main>
     </div>
-  </div>
+    </div>
+  </main>
+  <div id="toast-container"></div>
   <!-- 内联数据保留用于离线查看，与 docs/data/*.json 保持一致。 -->
   <script id="inline-commands" type="application/json">[
   {
@@ -3863,6 +3874,6 @@
     }
   }
 ]</script>
-  <script src="app.js"></script></script></script>
+  <script src="app.js"></script>
 </body>
 </html>

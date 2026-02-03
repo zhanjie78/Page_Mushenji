@@ -424,7 +424,7 @@ const highlightActiveNav = () => {
 };
 
 const setupSidebarSearch = () => {
-  const searchInput = document.getElementById("searchInput");
+  const searchInput = document.getElementById("search-input");
   if (!searchInput) return;
 
   const applyFilter = () => {
