@@ -428,7 +428,7 @@ const renderSnapshot = (commands, features) => {
   joinLink.appendChild(createElement("span", "", "踏入大墟（加入群组）"));
 
   const contactLink = createElement("a", "btn-portal-ghost");
-  contactLink.href = "https://t.me/Ssn047";
+  contactLink.href = "https://t.me/The_Ravene";
   contactLink.target = "_blank";
   contactLink.style.display = "inline-flex";
   contactLink.style.alignItems = "center";
