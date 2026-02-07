@@ -72,7 +72,79 @@ const SECTIONS = TAXONOMY.map((section) => ({
   categories: sectionMappings[section.id] || [],
 }));
 
-const HERO_TAGS = ["大墟夜行", "霸体修行", "九老叮嘱", "牧神之道"];
+const HERO_TAG_POOL = [
+  "残老村", "延康变法", "酆都鬼市", "神桥破境", "天圣教影", "大墟夜行", "掌灯守夜", "神桥未断",
+  "江湖诡谲", "火种不灭", "旧城风沙", "天工碑刻", "刀光试心", "药炉见胆", "太虚回响", "幽都传铃",
+  "榜单争锋", "闭关磨骨", "破境一线", "村长摸骨", "屠夫磨刀", "药师煎火", "天录旧卷", "牧神之路"
+];
+const NPC_WHISPERS = [
+  "村长：先测灵体，再谈远方。夜路长，别空着手。",
+  "药师：丹香再好也要按量服用，莫贪。",
+  "屠夫：刀要快，命令也要准；错字比钝刀更要命。",
+  "瞎爷：看不见路不要紧，照着口令走，总能到岸。",
+  "村长：能活过今夜，明天才有资格谈传奇。",
+  "药师：急火煎不出好药，急心修不出神桥。",
+  "屠夫：遇见硬骨头，先稳住手，再稳住气。",
+  "瞎爷：看不见天，不代表看不见路。",
+  "村长：别怕慢，怕的是脚下没灯。",
+  "药师：丹毒不可笑，笑的是你明知还贪。",
+  "屠夫：输一阵不丢人，乱一阵才丢命。",
+  "瞎爷：路窄时别挤，先让心过去。",
+  "村长：榜单只是门牌，不是棺材板。",
+  "药师：补药也讲时辰，别把自己当铁锅。",
+  "屠夫：刀背也能赢，前提是你脑子先亮。",
+  "瞎爷：黑夜教人的第一课，是别装看见。",
+  "村长：天黑别出门，不是叫你别修行。",
+  "药师：药香是好闻，命苦是难闻。",
+  "屠夫：你怕的不是强敌，是自己手抖。",
+  "瞎爷：走错了就折返，别把错路走成信仰。",
+  "村长：活着回村，才配得上下一次远行。",
+  "药师：今天不进步也行，别退步就成。",
+  "屠夫：你若退半步，刀会替你退十步。",
+  "瞎爷：灯不在天上，在你手里。",
+
+  "村长：你若慌，先停；停住了再走。",
+  "药师：药丸再贵，也比后悔便宜。",
+  "屠夫：别把勇敢演成鲁莽。",
+  "瞎爷：眼睛会骗人，呼吸不骗。",
+  "村长：遇事先问自己：这一步值不值。",
+  "药师：今天少犯一错，比多吃一丹更赚。",
+  "屠夫：刀先服你，才会服敌。",
+  "瞎爷：黑里见路，靠的是记性不是运气。",
+  "村长：别急着出头，先学会收刀。",
+  "药师：药炉不偏心，只偏向耐心的人。",
+  "屠夫：你以为你在拼命，其实你在乱挥。",
+  "瞎爷：听见风急，不如先让心慢。",
+  "村长：小胜可喜，大意可耻。",
+  "药师：药方记全了，手法也得跟上。",
+  "屠夫：别问刀快不快，先问手稳不稳。",
+  "瞎爷：路是走出来的，不是猜出来的。",
+  "村长：人情可还，命债难还。",
+  "药师：火候差一线，结果差一命。",
+  "屠夫：今天磨刀，明天少挨刀。",
+  "瞎爷：你手里的灯，就是你的边界。",
+];
+const DAILY_SPARKS = [
+  "今夜一得：____", "今夜一失：____", "最稳的一手：____", "最险的一步：____", "想谢的人：____",
+  "差点翻车的瞬间：____", "明日第一件事：____", "今天最值的一次等待：____", "今天最该改的习惯：____", "给明天的自己一句话：____",
+  "今日状态（稳/躁/疲）：____", "今日最想复盘的操作：____", "今天的运气关键词：____", "今天的心法关键词：____", "若再来一次会怎么做：____",
+  "今日笑点：____", "今日狠话：____", "今日误判：____", "今日补救：____", "最想和谁并肩：____",
+  "本周小目标进度：____", "今日最亮的一个细节：____", "今天没做到但想做到：____", "今晚收灯前的念头：____",
+
+  "今日最想感谢的提示：____", "今天最值得夸的一次克制：____", "今天最该删掉的坏习惯：____", "今天最意外的收获：____", "今天最想重来的一步：____",
+  "今日胆量评分（1-10）：____", "今日耐心评分（1-10）：____", "今日专注评分（1-10）：____", "今日最像主角的一刻：____", "今日最像路人的一刻：____",
+  "今晚最想补的一课：____", "今天最稳的一次撤退：____", "今天最漂亮的一次止损：____", "今日最想对队友说：____", "今日最想对自己说：____",
+  "下一次遇到同类局面的预案：____", "今日关键转折点：____", "今天最该早做五分钟的事：____", "今天最该晚做五分钟的事：____", "今晚收工仪式：____",
+];
+
+function pickRandomLines(items, count = 6) {
+  const cloned = [...items];
+  for (let i = cloned.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [cloned[i], cloned[j]] = [cloned[j], cloned[i]];
+  }
+  return cloned.slice(0, Math.min(count, cloned.length));
+}
 const REDACT_KEYWORD = "天道";
 const UNKNOWN_TEXT = "大墟的黑暗掩盖了真相...";
 const ITEM_SECTIONS = [
@@ -84,6 +156,13 @@ const ITEM_SECTIONS = [
     id: "equipment",
     title: "神兵宝甲",
   },
+];
+
+const IMMERSION_SECTIONS = [
+  { id: "quickstart-path", title: "三分钟上手" },
+  { id: "truth-audit", title: "天工碑刻" },
+  { id: "daily-log", title: "修炼日报" },
+  { id: "easter-eggs", title: "彩蛋区" },
 ];
 const LORE_TEMPLATES = [
   (file, registry) => `
@@ -105,6 +184,107 @@ const LORE_TEMPLATES = [
     <strong>【天魔教秘辛】</strong><br>
     嘘！这是教主从域外天魔那里骗来的功法。<br>
     <em class="lore-note">来源界域：${file} / 核心法阵：${registry}</em>
+  `,
+
+  (file, registry) => `
+    <strong>【残老村夜札】</strong><br>
+    夜里翻到《${file}》残页，边角写着“${registry}”三字。<br>
+    <em class="lore-note">村口石像旁留字：活着读懂一行，比死在十页前更强。</em>
+  `,
+  (file, registry) => `
+    <strong>【延康抄录】</strong><br>
+    天录官把《${file}》誊抄入库，印章仍是“${registry}”。<br>
+    <em class="lore-note">批注：变法可改器，不可改心。</em>
+  `,
+  (file, registry) => `
+    <strong>【酆都旧价签】</strong><br>
+    鬼市摊主指了指《${file}》，笑说“${registry}”只卖给识货人。<br>
+    <em class="lore-note">铜铃一响，买的是故事，赔的是胆量。</em>
+  `,
+  (file, registry) => `
+    <strong>【小玉京抄经台】</strong><br>
+    经案上压着《${file}》，封皮刻着“${registry}”的细纹。<br>
+    <em class="lore-note">道人评语：字可抄，火候要自己熬。</em>
+  `,
+  (file, registry) => `
+    <strong>【大雷音边注】</strong><br>
+    钟声回荡时，你在《${file}》末页见到“${registry}”。<br>
+    <em class="lore-note">僧人低声：先降心猿，再问天门。</em>
+  `,
+  (file, registry) => `
+    <strong>【上苍回函】</strong><br>
+    《${file}》像是从上苍掉下来的回信，落款“${registry}”。<br>
+    <em class="lore-note">封缄完好，拆信者自担因果。</em>
+  `,
+  (file, registry) => `
+    <strong>【天圣教传单】</strong><br>
+    旧城墙缝里夹着《${file}》抄纸，暗号写成“${registry}”。<br>
+    <em class="lore-note">街口传闻：看懂的人不吭声，看不懂的人最吵。</em>
+  `,
+  (file, registry) => `
+    <strong>【太虚路引】</strong><br>
+    赶路人把《${file}》当路引，背面压着“${registry}”。<br>
+    <em class="lore-note">路引只能指路，迈步还得靠腿。</em>
+  `,
+  (file, registry) => `
+    <strong>【神桥工记】</strong><br>
+    桥柱旁钉着《${file}》工记，编号“${registry}”。<br>
+    <em class="lore-note">匠人语：桥先立于心，再立于空。</em>
+  `,
+  (file, registry) => `
+    <strong>【黑沙口供】</strong><br>
+    黑沙里挖出《${file}》半卷，口供指向“${registry}”。<br>
+    <em class="lore-note">审讯官：风会改口，字不会。</em>
+  `,
+  (file, registry) => `
+    <strong>【龙麒麟爪印】</strong><br>
+    《${file}》封面留着爪痕，旁批“${registry}”。<br>
+    <em class="lore-note">注：若闻到焦香，说明它刚路过。</em>
+  `,
+  (file, registry) => `
+    <strong>【药师药笺】</strong><br>
+    药炉边的《${file}》沾着药渍，签名仍是“${registry}”。<br>
+    <em class="lore-note">药师叮嘱：药可救急，不能救懒。</em>
+  `,
+  (file, registry) => `
+    <strong>【屠夫刀谱残页】</strong><br>
+    刀架下压着《${file}》残页，刀谱章为“${registry}”。<br>
+    <em class="lore-note">一句话：先练稳，再练狠。</em>
+  `,
+  (file, registry) => `
+    <strong>【瞎爷听风录】</strong><br>
+    《${file}》里夹了张听风录，落款“${registry}”。<br>
+    <em class="lore-note">听风不是听热闹，是听自己慌不慌。</em>
+  `,
+  (file, registry) => `
+    <strong>【村口榜外榜】</strong><br>
+    榜单背面贴着《${file}》摘要，暗戳戳写着“${registry}”。<br>
+    <em class="lore-note">榜外榜只记一句：别把赢当成理所当然。</em>
+  `,
+  (file, registry) => `
+    <strong>【夜行手册】</strong><br>
+    你在《${file}》边角看见“${registry}”夜行记号。<br>
+    <em class="lore-note">手册第一页：灯在，心就不散。</em>
+  `,
+  (file, registry) => `
+    <strong>【幽都传铃簿】</strong><br>
+    传铃簿登记了《${file}》去向，栏目标“${registry}”。<br>
+    <em class="lore-note">铃声到处，人不一定到齐。</em>
+  `,
+  (file, registry) => `
+    <strong>【国境驿站便条】</strong><br>
+    驿卒把《${file}》夹进信袋，备注“${registry}”。<br>
+    <em class="lore-note">便条：迟到可补，误判难补。</em>
+  `,
+  (file, registry) => `
+    <strong>【山门告示】</strong><br>
+    山门木牌写明《${file}》归档于“${registry}”。<br>
+    <em class="lore-note">告示末尾：进门先收心，出门再提刀。</em>
+  `,
+  (file, registry) => `
+    <strong>【牧神备忘录】</strong><br>
+    《${file}》最后一页贴着备忘录，抬头“${registry}”。<br>
+    <em class="lore-note">备忘：别拜心中神，先照亮脚下路。</em>
   `,
 ];
 
@@ -387,10 +567,26 @@ const renderHeroTags = () => {
   const container = document.getElementById("heroTags");
   if (!container) return;
   clearContainer(container);
-  HERO_TAGS.forEach((tag) => {
+  pickRandomLines(HERO_TAG_POOL, 8).forEach((tag) => {
     const span = createElement("span", "tag", tag);
     container.appendChild(span);
   });
+};
+
+const renderNpcWhispers = () => {
+  const container = document.getElementById("npcWhispers");
+  if (!container) return;
+  let index = 0;
+  container.textContent = `【夜话】${NPC_WHISPERS[index]}`;
+  window.setInterval(() => {
+    index = (index + 1) % NPC_WHISPERS.length;
+    container.classList.remove("show");
+    window.setTimeout(() => {
+      container.textContent = `【夜话】${NPC_WHISPERS[index]}`;
+      container.classList.add("show");
+    }, 120);
+  }, 4200);
+  container.classList.add("show");
 };
 
 const renderSnapshot = (commands, features) => {
@@ -453,9 +649,244 @@ const renderSnapshot = (commands, features) => {
 
   const rules = createElement("div", "detail-inline");
   rules.style.marginTop = "14px";
-  rules.textContent =
-    "修行规则：闭关冷却10~15分钟；深度闭关8小时（冷却22小时）；任务冷却6小时；宗门任务8小时；鬼市淘宝500大丰币；被动修为每60秒+1。";
+  const getFeatureValue = (name) => features.find((feature) => feature.name === name)?.details;
+  const trainMin = Number(getFeatureValue("TRAIN_CD_MIN") || 0) / 60;
+  const trainMax = Number(getFeatureValue("TRAIN_CD_MAX") || 0) / 60;
+  const deepDuration = Number(getFeatureValue("DEEP_DURATION") || 0) / 3600;
+  const deepCooldown = Number(getFeatureValue("DEEP_COOLDOWN") || 0) / 3600;
+  const taskCooldown = Number(getFeatureValue("TASK_COOLDOWN") || 0) / 3600;
+  const sectTaskCooldown = Number(getFeatureValue("SECT_TASK_COOLDOWN") || 0) / 3600;
+  const ghostMarketCost = Number(getFeatureValue("GHOST_MARKET_COST") || 0);
+  const passiveCd = Number(getFeatureValue("PASSIVE_CD") || 0);
+  const passiveGain = Number(getFeatureValue("PASSIVE_GAIN") || 0);
+  rules.textContent = `修行规则：闭关冷却${trainMin}~${trainMax}分钟；深度闭关${deepDuration}小时（冷却${deepCooldown}小时）；任务冷却${taskCooldown}小时；宗门任务${sectTaskCooldown}小时；鬼市淘宝${ghostMarketCost}大丰币；被动修为每${passiveCd}秒+${passiveGain}。`;
   container.appendChild(rules);
+};
+
+const renderTruthAudit = (commands, features) => {
+  const container = document.getElementById("truthAuditContent");
+  if (!container) return;
+  clearContainer(container);
+
+  const commandWithSource = commands.filter((command) => command.source?.file).length;
+  const featureWithSource = features.filter((feature) => feature.source?.file).length;
+  const registrySet = new Set([
+    ...commands.map((command) => command.source?.registry).filter(Boolean),
+    ...features.map((feature) => feature.source?.registry).filter(Boolean),
+  ]);
+
+  const lines = [
+    `今夜刻录法门：${commands.length} 条（有源印记 ${commandWithSource}）`,
+    `天规常量：${features.length} 条（有源印记 ${featureWithSource}）`,
+    "天书名：mushenji_bot.py",
+    `碑刻签章：${Array.from(registrySet).join(" / ") || "未知"}`,
+    "这页里的可复制口令，都从命令卷轴现抄，不玩花字。",
+    "若你在实战里遇到偏差，记得回去翻天书原卷。",
+  ];
+
+  const ul = createElement("ul", "truth-audit-list");
+  lines.forEach((line) => {
+    const li = createElement("li", "", line);
+    ul.appendChild(li);
+  });
+  container.appendChild(ul);
+};
+
+const renderQuickstartPath = (commands, features) => {
+  const container = document.getElementById("quickstartContent");
+  if (!container) return;
+  clearContainer(container);
+  const map = new Map(commands.map((command) => [command.name, command]));
+  const steps = [
+    {
+      title: "第 1 分钟：验明修行身份",
+      npc: "村长",
+      commandNames: ["帮助", "检测灵体", "我的灵体"],
+      note: "先确认灵体与基础指令，避免后续误触发。",
+    },
+    {
+      title: "第 2 分钟：建立日常循环",
+      npc: "瞎爷",
+      commandNames: ["闭关修炼", "查看闭关", "突破"],
+      note: "闭关结束立刻查看收益，达标后再突破。",
+    },
+    {
+      title: "第 3 分钟：补给与任务",
+      npc: "药师",
+      commandNames: ["任务", "储物袋", "鬼市"],
+      note: "任务拿大丰币，鬼市淘宝消耗固定成本。",
+    },
+  ];
+  const passiveMinLen = Number(features.find((feature) => feature.name === "PASSIVE_MIN_LEN")?.details || 0);
+
+  steps.forEach((step) => {
+    const card = createElement("article", "card command-card tilt-card");
+    card.appendChild(createElement("h3", "", step.title));
+    card.appendChild(createElement("div", "card-meta", `【${step.npc}提示】${step.note}`));
+    const usage = [];
+    step.commandNames.forEach((name) => {
+      const matched = map.get(name);
+      if (matched?.usage?.length) {
+        usage.push(...matched.usage);
+      }
+    });
+    const usageCloud = renderCommandCloud(Array.from(new Set(usage)));
+    if (usageCloud) {
+      const field = createElement("div", "card-field");
+      field.appendChild(createElement("span", "field-label", "可直接复制"));
+      field.appendChild(usageCloud);
+      card.appendChild(field);
+    }
+    container.appendChild(card);
+    applyTiltEffect(card, 8);
+  });
+
+  const extra = createElement("article", "card command-card tilt-card");
+  extra.appendChild(createElement("h3", "", "夜行补充"));
+  extra.appendChild(
+    createElement(
+      "div",
+      "card-meta",
+      `被动修行判定要求至少 ${passiveMinLen} 字；闲聊也能积累修为，但请保持有效内容。`
+    )
+  );
+  container.appendChild(extra);
+  applyTiltEffect(extra, 8);
+};
+
+const renderDailyLog = () => {
+  const container = document.getElementById("dailyLogContent");
+  if (!container) return;
+  clearContainer(container);
+  const template = [
+    "【修炼日报｜玩法设定】",
+    "值夜人：____（可填‘村长/药师/屠夫’等扮演称呼）",
+    "今日境界：____",
+    "今日命令：.闭关修炼 ｜ .任务 ｜ .鬼市 淘宝",
+    "资源变化：灵石 +____ ｜ 大丰币 +____",
+    "战果记录：是否突破 ____ ｜ 是否炼制 ____",
+    "一句夜话（原创，别抄经文）：____",
+    "明日计划：优先完成 ____（建议先看 .帮助）",
+  ];
+  const randomSparks = pickRandomLines(DAILY_SPARKS, 8);
+  const pre = createElement("pre", "daily-template", `${template.join("\n")}\n${randomSparks.map((line) => `- ${line}`).join("\n")}`);
+  container.appendChild(pre);
+};
+
+const EASTER_POOLS = {
+  "同人彩蛋": [
+    "若你连着三次闭关都未突破，给自己留一句“天黑别出门，但别熄灯”。",
+    "把‘大墟/延康/幽都’做成日志分栏，像写江湖行脚簿，不改任何机制。",
+    "值夜时把群名片改成‘掌灯人’，第二天再改回去，算是给自己加个仪式。",
+    "每逢榜单更新，先夸一句对手，再默默去闭关，赢面会更稳。",
+    "若鬼市空手而归，就对自己说一句‘今天是探路，不是亏本’。",
+    "把常用命令记在手机短语里，像把护符缝在袖口。",
+    "连胜三次后，给自己写一句‘别狂，夜还长’放在日报最后一行。",
+    "若突破失败，不妨把失败截图命名为‘神桥施工中’。",
+    "和群友约定：谁先上榜谁请喝奶茶，输家负责喊一晚‘延康加急文书到’。",
+    "每次出手前先数三息，像屠夫磨刀前那一停。",
+    "把‘今日目标’拆成三小步，像残老村走夜路一盏灯接一盏灯。",
+    "连着两天断更日报，第三天必须补一句‘我在大墟迷路了’。",
+    "遇到卡关就去翻旧日报，经常能看到自己忽略的线索。",
+    "把最顺手的一条命令当‘本命招’，每天先打它开手感。",
+    "晚间收工前看一眼储物袋，像夜巡前摸一遍兵刃。",
+    "若今天没爆好东西，也记一句‘空袋回村，命在就赚’。",
+    "和朋友轮流扮演‘村长’，给彼此留一句明日任务。",
+    "打不过就先活着，活着就有下一轮故事。",
+    "每逢整点，给自己一句‘灯在，人就不算输’。",
+    "把失败当成地图，把成功当成路标，别反过来。",
+    "今天若只完成一件事，就把那件事做得像传记开头。",
+
+    "如果今天运气差，就把稳字写三遍再出手。",
+    "把失败记录成段子，明天看就不那么疼。",
+    "连赢时去帮新人答一题，压压火。",
+    "每周挑一天只做基础功，防止手生。",
+    "大墟夜深时，先关掉情绪再开战。",
+    "对自己狠话一句：别把借口当护甲。",
+    "给好友留个暗号：卡住就来拍你。",
+    "把今天最蠢的一步写下来，防下次重演。",
+    "遇见欧皇先祝福，回头再练手。",
+    "把‘再来一把’改成‘复盘五分钟’。",
+    "若心态炸裂，立刻下线喝水，十分钟后再说。",
+    "输赢都截图，给未来当教材。",
+    "手感好时别浪，手感差时别硬。",
+    "给自己的刀起个名，提醒自己别乱挥。",
+    "今天若沉默，不代表今天没成长。",
+    "把每次翻盘叫‘夜灯回魂’，有梗也有劲。",
+    "当你想摆烂时，先把装备栏看一眼。",
+    "把‘我不行’换成‘我还没行’。",
+    "今天最难的一步，往往值最多。",
+    "夜风会过，别让脾气留着过夜。",
+  ],
+  "玩法设定": [
+    "群聊可轮流扮演‘村长’催更日报，谁断更谁请喝‘赤火灵丹’（口嗨版）。",
+    "新人首日只做三件事：测灵体、闭关、看榜单；其余全靠你在夜里悟。",
+    "可开‘残老村值夜班’活动：每晚一人发今日三行总结。",
+    "周末可办‘延康公示榜’：晒出本周最稳的一次操作。",
+    "可设‘鬼市盲盒夜’：只聊收获故事，不晒具体收益数字。",
+    "公会可做‘神桥施工日报’，记录每个人的卡点与突破点。",
+    "给新手准备‘三问三答卡’：今天做了啥、卡在哪、明天怎么改。",
+    "可开‘屠夫一分钟点评’：一句狠话 + 一个可执行建议。",
+    "把常见错误整理成‘夜行禁忌榜’，每周更新一次。",
+    "群公告可置顶‘今日推荐命令’一条，减轻新人迷茫。",
+    "每晚固定十分钟‘安静闭关打卡’，结束后再自由聊天。",
+    "可设‘药师答疑时段’，专门收集丹药和配方相关问题。",
+    "每周一次‘大墟复盘会’，只复盘方法，不互相阴阳。",
+    "允许新人使用‘求带暗号’，老玩家优先回应。",
+    "可做‘战败勋章墙’，鼓励分享失败换经验。",
+    "每月办一次‘延康夜谈’，分享最有戏剧性的翻盘局。",
+    "给每位新成员发一份‘三分钟上手抄本’作为入群礼。",
+    "可设‘神桥奖学金’：持续打卡者获得称号或头像框。",
+    "管理可做‘天工碑刻更新日志’，说明本周玩法调整。",
+    "把‘求稳、求快、求乐子’做成三种打法标签，便于组队。",
+    "每逢节日可开‘残老村夜市’，只发整活台词不比强度。",
+    "可设‘今日守夜词’，每人一句短句收尾。",
+    "可做‘榜单不焦虑日’，只聊进步不聊名次。",
+    "可开‘鬼市防骗课’，收集真实翻车故事。",
+    "可设‘村长来信’栏目，每周一句提醒。",
+    "可办‘药师配伍挑战’，只拼思路不拼欧气。",
+    "可做‘屠夫三连问’：稳不稳、值不值、敢不敢。",
+    "可设‘瞎爷静心分钟’，开打前先静一静。",
+    "可办‘残老村见闻录’接龙，人人可写两行。",
+    "可做‘神桥卡点地图’，新手按图避坑。",
+    "可设‘今日最稳操作奖’，鼓励理性决策。",
+    "可办‘延康文书夜’，统一整理任务经验。",
+    "可做‘幽都铃声提醒’，定时提醒复盘与收工。",
+    "可设‘失败可说日’，鼓励坦诚分享失误。",
+    "可办‘一命通关复盘局’，讲清每一步因果。",
+    "可做‘装备养护提醒’，避免只顾冲榜忘补给。",
+    "可设‘新人护航队’，一对一答疑七天。",
+    "可办‘夜路同行徽章’，奖励长期互助成员。",
+    "可做‘天工碑刻问答’，每周抽取一题互动。",
+    "可设‘收灯仪式’，收工前统一留一句明日目标。",
+    "可办‘三行日报挑战’，训练简洁复盘能力。"
+  ]
+};
+
+const renderEasterEggs = () => {
+  const container = document.getElementById("easterEggContent");
+  if (!container) return;
+
+  const renderBatch = () => {
+    clearContainer(container);
+    Object.entries(EASTER_POOLS).forEach(([label, lines]) => {
+      pickRandomLines(lines, 6).forEach((text) => {
+        const card = createElement("article", "card command-card tilt-card");
+        card.appendChild(createElement("span", "field-label", label));
+        card.appendChild(createElement("div", "card-meta", text));
+        container.appendChild(card);
+        applyTiltEffect(card, 6);
+      });
+    });
+  };
+
+  renderBatch();
+
+  const shuffleButton = document.getElementById("easterShuffle");
+  if (shuffleButton && !shuffleButton.dataset.bound) {
+    shuffleButton.addEventListener("click", renderBatch);
+    shuffleButton.dataset.bound = "1";
+  }
 };
 
 const applyTiltEffect = (element, intensity = 12) => {
@@ -741,7 +1172,28 @@ const animateSearchResult = (element, delay = 0) => {
     [
       { opacity: 0, transform: "translateY(12px) scale(0.98)" },
       { opacity: 1, transform: "translateY(0) scale(1)" },
-    ],
+  
+    "可设‘今晚一句狠话’环节，每人一句不重复。",
+    "可做‘村长值班表’，轮流提醒新人打卡。",
+    "每周一次‘药师讲堂’，只讲一条实用技巧。",
+    "可设‘屠夫挑战题’，答对可领称号。",
+    "可做‘瞎爷心法卡’，每周发一张短句图。",
+    "群里可设‘今日MVP灯牌’，鼓励稳定发挥。",
+    "可办‘夜行接龙’，一人一句剧情口播。",
+    "可做‘复盘模板共创’，每周投票优化。",
+    "可设‘冷却时间读书角’，分享心得不水群。",
+    "可建‘失误样本库’，帮助新人少踩坑。",
+    "可办‘神桥夜跑’，固定时段一起冲目标。",
+    "可设‘稳健奖’而不只设‘输出奖’。",
+    "可做‘延康来函’周报，汇总本周亮点。",
+    "可开‘鬼市故事会’，只讲经历不比脸。",
+    "可设‘刀法一问一答’，每日一题。",
+    "可做‘村口黑板报’，展示每周热梗。",
+    "可设‘新手结伴日’，老带新组队实战。",
+    "可办‘静默十分钟’活动，之后统一复盘。",
+    "可做‘天工碑刻月报’，记录玩法演进。",
+    "可设‘一句话鼓励墙’，专治摆烂综合征。",
+  ],
     {
       duration: 360,
       easing: "cubic-bezier(0.22, 1, 0.36, 1)",
@@ -970,10 +1422,12 @@ const init = async () => {
 
   try {
     renderHeroTags();
+    renderNpcWhispers();
     renderSnapshot(commands, features);
     buildNavLinks(document.getElementById("topNav"), [
       ...SECTIONS.map((section) => ({ id: section.id, title: section.title })),
       ...ITEM_SECTIONS.map((section) => ({ id: section.id, title: section.title })),
+      ...IMMERSION_SECTIONS,
       { id: "troubleshooting", title: "故障排查" },
       { id: "command-library", title: "命令索引" },
     ]);
@@ -981,6 +1435,7 @@ const init = async () => {
       { id: "hero", title: "概览" },
       ...SECTIONS.map((section) => ({ id: section.id, title: section.title })),
       ...ITEM_SECTIONS.map((section) => ({ id: section.id, title: section.title })),
+      ...IMMERSION_SECTIONS,
       { id: "troubleshooting", title: "故障排查" },
       { id: "command-library", title: "命令索引" },
     ]);
@@ -996,6 +1451,10 @@ const init = async () => {
 
     renderPills(PILL_DATA);
     renderEquipment(EQUIPMENT_DATA);
+    renderQuickstartPath(commands, features);
+    renderTruthAudit(commands, features);
+    renderDailyLog();
+    renderEasterEggs();
 
     const sections = Array.from(document.querySelectorAll(".section"));
     sections.forEach((section, index) => {
@@ -1180,7 +1639,8 @@ class RuinsBackground {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const ruinsBackground = new RuinsBackground();
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const ruinsBackground = reduceMotion ? null : new RuinsBackground();
   init().catch((error) => {
     console.error("Initialization failed.", error);
   });
