@@ -597,29 +597,33 @@ const renderSnapshot = (commands, features) => {
   const totalCommands = commands.length;
   const categories = [...new Set(commands.map((cmd) => cmd.category))].filter(Boolean).length;
   const prefixText = sanitizeText(prefix?.details ?? ".");
-  const prefixRow = createElement("div");
-  prefixRow.append(document.createTextNode("指令前缀："));
-  prefixRow.appendChild(createElement("code", "", prefixText));
-  container.appendChild(prefixRow);
-  container.appendChild(createElement("div", "", `已收录命令：${totalCommands}`));
-  container.appendChild(createElement("div", "", `已覆盖分类：${categories}`));
+
+  const sigils = createElement("div", "snapshot-sigils");
+  [
+    { label: "录入法门", value: totalCommands },
+    { label: "章节法脉", value: categories },
+    { label: "夜行前缀", value: prefixText, tone: "accent" },
+  ].forEach((item, index) => {
+    const metric = createElement("article", `sigil-metric ${item.tone || ""}`.trim());
+    metric.style.setProperty("--ring-delay", `${index * 120}ms`);
+    const ring = createElement("div", "sigil-ring");
+    const label = createElement("span", "sigil-label", item.label);
+    const value = createElement("strong", "sigil-value", String(item.value));
+    if (typeof item.value === "number") {
+      value.dataset.counter = String(item.value);
+      value.textContent = "0";
+    }
+    ring.appendChild(value);
+    metric.append(ring, label);
+    sigils.appendChild(metric);
+  });
+  container.appendChild(sigils);
 
   const actions = createElement("div", "portal-actions");
-  actions.style.marginTop = "24px";
-  actions.style.display = "flex";
-  actions.style.gap = "12px";
-  actions.style.flexWrap = "wrap";
 
   const joinLink = createElement("a", "btn-portal");
   joinLink.href = "https://t.me/mushenjixx";
   joinLink.target = "_blank";
-  joinLink.style.display = "inline-flex";
-  joinLink.style.alignItems = "center";
-  joinLink.style.gap = "8px";
-  joinLink.style.padding = "10px 24px";
-  joinLink.style.borderRadius = "8px";
-  joinLink.style.textDecoration = "none";
-  joinLink.style.color = "#000";
   addSvgIcon(
     joinLink,
     '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>'
@@ -629,26 +633,16 @@ const renderSnapshot = (commands, features) => {
   const contactLink = createElement("a", "btn-portal-ghost");
   contactLink.href = "https://t.me/The_Ravene";
   contactLink.target = "_blank";
-  contactLink.style.display = "inline-flex";
-  contactLink.style.alignItems = "center";
-  contactLink.style.gap = "8px";
-  contactLink.style.padding = "10px 24px";
-  contactLink.style.borderRadius = "8px";
-  contactLink.style.textDecoration = "none";
-  contactLink.style.border = "1px solid #d7b46a";
-  contactLink.style.color = "#d7b46a";
   addSvgIcon(
     contactLink,
     '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>'
   );
   contactLink.appendChild(createElement("span", "", "联系掌灯人"));
 
-  actions.appendChild(joinLink);
-  actions.appendChild(contactLink);
+  actions.append(joinLink, contactLink);
   container.appendChild(actions);
 
   const rules = createElement("div", "detail-inline");
-  rules.style.marginTop = "14px";
   const getFeatureValue = (name) => features.find((feature) => feature.name === name)?.details;
   const trainMin = Number(getFeatureValue("TRAIN_CD_MIN") || 0) / 60;
   const trainMax = Number(getFeatureValue("TRAIN_CD_MAX") || 0) / 60;
@@ -662,6 +656,7 @@ const renderSnapshot = (commands, features) => {
   rules.textContent = `修行规则：闭关冷却${trainMin}~${trainMax}分钟；深度闭关${deepDuration}小时（冷却${deepCooldown}小时）；任务冷却${taskCooldown}小时；宗门任务${sectTaskCooldown}小时；鬼市淘宝${ghostMarketCost}大丰币；被动修为每${passiveCd}秒+${passiveGain}。`;
   container.appendChild(rules);
 };
+
 
 const renderTruthAudit = (commands, features) => {
   const container = document.getElementById("truthAuditContent");
@@ -1122,6 +1117,63 @@ const renderItemSection = (sectionId, items) => {
 const renderPills = (items) => renderItemSection("pillsContent", items);
 const renderEquipment = (items) => renderItemSection("equipmentContent", items);
 
+
+const setupTopbarRail = () => {
+  const topbar = document.getElementById("topbar");
+  if (!topbar) return;
+  const updateRail = () => {
+    topbar.classList.toggle("is-scrolled", window.scrollY > 24);
+  };
+  window.addEventListener("scroll", updateRail, { passive: true });
+  updateRail();
+};
+
+const animateStatNumbers = () => {
+  const counters = Array.from(document.querySelectorAll("[data-counter]"));
+  counters.forEach((counter) => {
+    const target = Number(counter.dataset.counter || 0);
+    if (!Number.isFinite(target)) return;
+    const duration = 1200;
+    const start = performance.now();
+    const tick = (now) => {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      counter.textContent = String(Math.round(target * eased));
+      if (progress < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  });
+};
+
+const setupInscriptionReveal = () => {
+  document.querySelectorAll(".section-header").forEach((header) => {
+    const title = header.querySelector("h2");
+    const subtitle = header.querySelector("p");
+    if (title) title.classList.add("inscription-title");
+    if (subtitle) subtitle.classList.add("inscription-sub");
+  });
+};
+
+const setupStaggerReveal = () => {
+  const blocks = Array.from(document.querySelectorAll(".section, .hero, .site-footer"));
+  if (!blocks.length) return;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      const order = Number(entry.target.dataset.staggerOrder || 0);
+      const delay = Math.min(80, 40 + order * 6);
+      entry.target.style.setProperty("--reveal-delay", `${delay}ms`);
+      entry.target.classList.add("is-revealed");
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0.15 });
+
+  blocks.forEach((block, index) => {
+    block.dataset.staggerOrder = String(index % 7);
+    observer.observe(block);
+  });
+};
+
 const setActiveNav = (sectionId) => {
   if (!sectionId) return;
   const navLinks = document.querySelectorAll(".topbar-nav a, .sidebar-nav a");
@@ -1475,6 +1527,10 @@ const init = async () => {
     setupSidebarSearch();
     setupNavScroll();
     setupScrollSpy();
+    setupTopbarRail();
+    setupInscriptionReveal();
+    setupStaggerReveal();
+    animateStatNumbers();
 
     const footer = document.getElementById("siteFooter");
     if (footer && !footer.textContent.trim()) {
