@@ -605,22 +605,88 @@ const renderDailyLog = () => {
   container.appendChild(pre);
 };
 
+const EASTER_POOLS = {
+  "同人彩蛋": [
+    "若你连着三次闭关都未突破，给自己留一句“天黑别出门，但别熄灯”。",
+    "把‘大墟/延康/幽都’做成日志分栏，像写江湖行脚簿，不改任何机制。",
+    "值夜时把群名片改成‘掌灯人’，第二天再改回去，算是给自己加个仪式。",
+    "每逢榜单更新，先夸一句对手，再默默去闭关，赢面会更稳。",
+    "若鬼市空手而归，就对自己说一句‘今天是探路，不是亏本’。",
+    "把常用命令记在手机短语里，像把护符缝在袖口。",
+    "连胜三次后，给自己写一句‘别狂，夜还长’放在日报最后一行。",
+    "若突破失败，不妨把失败截图命名为‘神桥施工中’。",
+    "和群友约定：谁先上榜谁请喝奶茶，输家负责喊一晚‘延康加急文书到’。",
+    "每次出手前先数三息，像屠夫磨刀前那一停。",
+    "把‘今日目标’拆成三小步，像残老村走夜路一盏灯接一盏灯。",
+    "连着两天断更日报，第三天必须补一句‘我在大墟迷路了’。",
+    "遇到卡关就去翻旧日报，经常能看到自己忽略的线索。",
+    "把最顺手的一条命令当‘本命招’，每天先打它开手感。",
+    "晚间收工前看一眼储物袋，像夜巡前摸一遍兵刃。",
+    "若今天没爆好东西，也记一句‘空袋回村，命在就赚’。",
+    "和朋友轮流扮演‘村长’，给彼此留一句明日任务。",
+    "打不过就先活着，活着就有下一轮故事。",
+    "每逢整点，给自己一句‘灯在，人就不算输’。",
+    "把失败当成地图，把成功当成路标，别反过来。",
+    "今天若只完成一件事，就把那件事做得像传记开头。"
+  ],
+  "玩法设定": [
+    "群聊可轮流扮演‘村长’催更日报，谁断更谁请喝‘赤火灵丹’（口嗨版）。",
+    "新人首日只做三件事：测灵体、闭关、看榜单；其余全靠你在夜里悟。",
+    "可开‘残老村值夜班’活动：每晚一人发今日三行总结。",
+    "周末可办‘延康公示榜’：晒出本周最稳的一次操作。",
+    "可设‘鬼市盲盒夜’：只聊收获故事，不晒具体收益数字。",
+    "公会可做‘神桥施工日报’，记录每个人的卡点与突破点。",
+    "给新手准备‘三问三答卡’：今天做了啥、卡在哪、明天怎么改。",
+    "可开‘屠夫一分钟点评’：一句狠话 + 一个可执行建议。",
+    "把常见错误整理成‘夜行禁忌榜’，每周更新一次。",
+    "群公告可置顶‘今日推荐命令’一条，减轻新人迷茫。",
+    "每晚固定十分钟‘安静闭关打卡’，结束后再自由聊天。",
+    "可设‘药师答疑时段’，专门收集丹药和配方相关问题。",
+    "每周一次‘大墟复盘会’，只复盘方法，不互相阴阳。",
+    "允许新人使用‘求带暗号’，老玩家优先回应。",
+    "可做‘战败勋章墙’，鼓励分享失败换经验。",
+    "每月办一次‘延康夜谈’，分享最有戏剧性的翻盘局。",
+    "给每位新成员发一份‘三分钟上手抄本’作为入群礼。",
+    "可设‘神桥奖学金’：持续打卡者获得称号或头像框。",
+    "管理可做‘天工碑刻更新日志’，说明本周玩法调整。",
+    "把‘求稳、求快、求乐子’做成三种打法标签，便于组队。",
+    "每逢节日可开‘残老村夜市’，只发整活台词不比强度。"
+  ]
+};
+
+const pickRandomLines = (items, count = 6) => {
+  const cloned = [...items];
+  for (let i = cloned.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [cloned[i], cloned[j]] = [cloned[j], cloned[i]];
+  }
+  return cloned.slice(0, Math.min(count, cloned.length));
+};
+
 const renderEasterEggs = () => {
   const container = document.getElementById("easterEggContent");
   if (!container) return;
-  clearContainer(container);
-  const eggs = [
-    "【同人彩蛋】若你连着三次闭关都未突破，给自己留一句“天黑别出门，但别熄灯”。",
-    "【玩法设定】群聊可轮流扮演‘村长’催更日报，谁断更谁请喝‘赤火灵丹’（口嗨版）。",
-    "【同人彩蛋】把‘大墟/延康/幽都’做成日志分栏，像写江湖行脚簿，不改任何机制。",
-    "【玩法设定】新人首日只做三件事：测灵体、闭关、看榜单；其余全靠你在夜里悟。",
-  ];
-  eggs.forEach((text) => {
-    const card = createElement("article", "card command-card tilt-card");
-    card.appendChild(createElement("div", "card-meta", text));
-    container.appendChild(card);
-    applyTiltEffect(card, 6);
-  });
+
+  const renderBatch = () => {
+    clearContainer(container);
+    Object.entries(EASTER_POOLS).forEach(([label, lines]) => {
+      pickRandomLines(lines, 6).forEach((text) => {
+        const card = createElement("article", "card command-card tilt-card");
+        card.appendChild(createElement("span", "field-label", label));
+        card.appendChild(createElement("div", "card-meta", text));
+        container.appendChild(card);
+        applyTiltEffect(card, 6);
+      });
+    });
+  };
+
+  renderBatch();
+
+  const shuffleButton = document.getElementById("easterShuffle");
+  if (shuffleButton && !shuffleButton.dataset.bound) {
+    shuffleButton.addEventListener("click", renderBatch);
+    shuffleButton.dataset.bound = "1";
+  }
 };
 
 const applyTiltEffect = (element, intensity = 12) => {

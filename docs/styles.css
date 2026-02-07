@@ -268,6 +268,27 @@ a {
 }
 
 
+
+.easter-controls {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.easter-shuffle {
+  border: 1px solid rgba(242, 191, 109, 0.6);
+  background: linear-gradient(135deg, rgba(242, 191, 109, 0.22), rgba(168, 64, 59, 0.2));
+  color: var(--mist-100);
+  border-radius: 999px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-family: "Noto Serif SC", "Songti SC", serif;
+}
+
+.easter-shuffle:hover {
+  color: var(--gold-200);
+}
+
 .truth-audit-list {
   margin: 0;
   padding-left: 18px;
