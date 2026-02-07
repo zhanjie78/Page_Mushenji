@@ -48,7 +48,7 @@
         </div>
         <div class="sidebar-section">
           <h3>命令速查</h3>
-          <div class="sidebar-note"></div>
+          <div class="sidebar-note">检索提示：可输入命令名、章节名或“冷却/灵石/鬼市”等关键词。</div>
         </div>
       </aside>
 
@@ -59,6 +59,7 @@
             <h1>天黑别出门，除非你是霸体。</h1>
             <p>由残老村九位长老联手编写的生存指南。打破心中之神，便是牧神。</p>
             <p class="hero-note">石像守夜，火种不灭，黑暗终将退散。</p>
+            <div class="npc-whisper" id="npcWhispers" aria-live="polite"></div>
             <div class="hero-tags" id="heroTags"></div>
           </div>
           <div class="hero-panel">
@@ -68,6 +69,24 @@
         </section>
 
         <div class="section-banner" aria-hidden="true"></div>
+
+        <section class="section" id="quickstart-path">
+          <div class="section-header">
+            <h2>三分钟上手</h2>
+            <p>残老村版最短路径：先活下来，再谈牧神。</p>
+          </div>
+          <div class="section-grid" id="quickstartContent"></div>
+        </section>
+
+        
+
+        <section class="section" id="truth-audit">
+          <div class="section-header">
+            <h2>天工碑刻</h2>
+            <p>残老村把常用法门刻在碑上：你看到的口令、冷却与收益，都按这卷天书记载。</p>
+          </div>
+          <div class="glass-card" id="truthAuditContent"></div>
+        </section>
 
         <section class="section" id="preface">
           <div class="section-header">
@@ -175,6 +194,7 @@
         <section class="section" id="command-library">
           <div class="section-header">
             <h2>命令索引</h2>
+            <p>此卷收录诸般口令写法，照着念便能行；错一个字，石像都要摇头。</p>
           </div>
           <div class="command-library">
             <div class="command-controls">
@@ -189,6 +209,23 @@
               </div>
             </div>
           </div>
+        </section>
+
+        <section class="section" id="daily-log">
+          <div class="section-header">
+            <h2>修炼日报模板</h2>
+            <p>玩法设定：给群友打卡、复盘战果、整活斗嘴用，不混入原著正史。并随机附带夜话提纲。</p>
+          </div>
+          <div class="glass-card" id="dailyLogContent"></div>
+        </section>
+
+        <section class="section" id="easter-eggs">
+          <div class="section-header">
+            <h2>彩蛋与氛围台词</h2>
+            <p>以下内容均标注为“玩法设定/同人彩蛋”，只添趣味，不改主线设定。每次进页会随机刷出不同句子。</p>
+          </div>
+          <div class="easter-controls"><button class="easter-shuffle" id="easterShuffle" type="button">换一页夜话</button></div>
+          <div class="section-grid" id="easterEggContent"></div>
         </section>
 
         <footer class="site-footer" id="siteFooter">
