@@ -2519,3 +2519,25 @@ body[data-fx="full"] .bg-layer {
   35% { opacity: 1; background: linear-gradient(120deg, transparent 28%, rgba(95, 164, 165, 0.16) 50%, transparent 72%); }
   100% { opacity: 0; }
 }
+
+
+/* final closeout fixes: particle layer visibility + nav text stability */
+#ruins-bg {
+  display: none;
+}
+
+.ruins-background {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.sidebar-nav a {
+  display: flex;
+  align-items: center;
+  min-height: 34px;
+  line-height: 1.35;
+}

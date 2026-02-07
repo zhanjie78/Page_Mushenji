@@ -1421,28 +1421,43 @@ const setupCommandCardSpotlight = () => {
   const cards = Array.from(document.querySelectorAll(".command-card, .glass-card"));
   if (!cards.length) return;
   const supportsHover = window.matchMedia("(hover: hover)").matches;
-  if (!supportsHover) return;
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!supportsHover || reduceMotion) return;
+  let activeCard = null;
   let rafId = null;
   let lastEvent = null;
 
   const updateSpotlight = () => {
-    if (!lastEvent) return;
-    cards.forEach((card) => {
-      const rect = card.getBoundingClientRect();
-      const x = lastEvent.clientX - rect.left;
-      const y = lastEvent.clientY - rect.top;
-      card.style.setProperty("--mouse-x", `${x}px`);
-      card.style.setProperty("--mouse-y", `${y}px`);
-    });
+    if (!activeCard || !lastEvent) {
+      rafId = null;
+      return;
+    }
+    const rect = activeCard.getBoundingClientRect();
+    const x = lastEvent.clientX - rect.left;
+    const y = lastEvent.clientY - rect.top;
+    activeCard.style.setProperty("--mouse-x", `${x}px`);
+    activeCard.style.setProperty("--mouse-y", `${y}px`);
     rafId = null;
   };
 
+  cards.forEach((card) => {
+    card.addEventListener("mouseenter", () => {
+      activeCard = card;
+    });
+    card.addEventListener("mouseleave", () => {
+      card.style.removeProperty("--mouse-x");
+      card.style.removeProperty("--mouse-y");
+      if (activeCard === card) activeCard = null;
+    });
+  });
+
   document.addEventListener("mousemove", (event) => {
+    if (!activeCard) return;
     lastEvent = event;
     if (!rafId) {
       rafId = window.requestAnimationFrame(updateSpotlight);
     }
-  });
+  }, { passive: true });
 };
 
 const setupCardTilt = () => {
