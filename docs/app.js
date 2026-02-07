@@ -597,29 +597,33 @@ const renderSnapshot = (commands, features) => {
   const totalCommands = commands.length;
   const categories = [...new Set(commands.map((cmd) => cmd.category))].filter(Boolean).length;
   const prefixText = sanitizeText(prefix?.details ?? ".");
-  const prefixRow = createElement("div");
-  prefixRow.append(document.createTextNode("指令前缀："));
-  prefixRow.appendChild(createElement("code", "", prefixText));
-  container.appendChild(prefixRow);
-  container.appendChild(createElement("div", "", `已收录命令：${totalCommands}`));
-  container.appendChild(createElement("div", "", `已覆盖分类：${categories}`));
+
+  const sigils = createElement("div", "snapshot-sigils");
+  [
+    { label: "录入法门", value: totalCommands },
+    { label: "章节法脉", value: categories },
+    { label: "夜行前缀", value: prefixText, tone: "accent" },
+  ].forEach((item, index) => {
+    const metric = createElement("article", `sigil-metric ${item.tone || ""}`.trim());
+    metric.style.setProperty("--ring-delay", `${index * 120}ms`);
+    const ring = createElement("div", "sigil-ring");
+    const label = createElement("span", "sigil-label", item.label);
+    const value = createElement("strong", "sigil-value", String(item.value));
+    if (typeof item.value === "number") {
+      value.dataset.counter = String(item.value);
+      value.textContent = "0";
+    }
+    ring.appendChild(value);
+    metric.append(ring, label);
+    sigils.appendChild(metric);
+  });
+  container.appendChild(sigils);
 
   const actions = createElement("div", "portal-actions");
-  actions.style.marginTop = "24px";
-  actions.style.display = "flex";
-  actions.style.gap = "12px";
-  actions.style.flexWrap = "wrap";
 
   const joinLink = createElement("a", "btn-portal");
   joinLink.href = "https://t.me/mushenjixx";
   joinLink.target = "_blank";
-  joinLink.style.display = "inline-flex";
-  joinLink.style.alignItems = "center";
-  joinLink.style.gap = "8px";
-  joinLink.style.padding = "10px 24px";
-  joinLink.style.borderRadius = "8px";
-  joinLink.style.textDecoration = "none";
-  joinLink.style.color = "#000";
   addSvgIcon(
     joinLink,
     '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>'
@@ -629,26 +633,16 @@ const renderSnapshot = (commands, features) => {
   const contactLink = createElement("a", "btn-portal-ghost");
   contactLink.href = "https://t.me/The_Ravene";
   contactLink.target = "_blank";
-  contactLink.style.display = "inline-flex";
-  contactLink.style.alignItems = "center";
-  contactLink.style.gap = "8px";
-  contactLink.style.padding = "10px 24px";
-  contactLink.style.borderRadius = "8px";
-  contactLink.style.textDecoration = "none";
-  contactLink.style.border = "1px solid #d7b46a";
-  contactLink.style.color = "#d7b46a";
   addSvgIcon(
     contactLink,
     '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>'
   );
   contactLink.appendChild(createElement("span", "", "联系掌灯人"));
 
-  actions.appendChild(joinLink);
-  actions.appendChild(contactLink);
+  actions.append(joinLink, contactLink);
   container.appendChild(actions);
 
   const rules = createElement("div", "detail-inline");
-  rules.style.marginTop = "14px";
   const getFeatureValue = (name) => features.find((feature) => feature.name === name)?.details;
   const trainMin = Number(getFeatureValue("TRAIN_CD_MIN") || 0) / 60;
   const trainMax = Number(getFeatureValue("TRAIN_CD_MAX") || 0) / 60;
@@ -662,6 +656,7 @@ const renderSnapshot = (commands, features) => {
   rules.textContent = `修行规则：闭关冷却${trainMin}~${trainMax}分钟；深度闭关${deepDuration}小时（冷却${deepCooldown}小时）；任务冷却${taskCooldown}小时；宗门任务${sectTaskCooldown}小时；鬼市淘宝${ghostMarketCost}大丰币；被动修为每${passiveCd}秒+${passiveGain}。`;
   container.appendChild(rules);
 };
+
 
 const renderTruthAudit = (commands, features) => {
   const container = document.getElementById("truthAuditContent");
@@ -1122,12 +1117,131 @@ const renderItemSection = (sectionId, items) => {
 const renderPills = (items) => renderItemSection("pillsContent", items);
 const renderEquipment = (items) => renderItemSection("equipmentContent", items);
 
+
+
+const setupFxSystem = () => {
+  const root = document.body;
+  if (!root) return;
+  const preferred = window.localStorage.getItem("msj-fx-level") || root.dataset.fx || "balanced";
+  const valid = new Set(["lite", "balanced", "full"]);
+  const level = valid.has(preferred) ? preferred : "balanced";
+  root.dataset.fx = level;
+  const map = {
+    lite: { intensity: 0.42, speed: 0.78, density: 0.58, glow: 0.14 },
+    balanced: { intensity: 0.72, speed: 1, density: 1, glow: 0.22 },
+    full: { intensity: 0.9, speed: 1.12, density: 1.22, glow: 0.28 },
+  };
+  const token = map[level];
+  root.style.setProperty("--fx-intensity", String(token.intensity));
+  root.style.setProperty("--fx-speed", String(token.speed));
+  root.style.setProperty("--fx-density", String(token.density));
+  root.style.setProperty("--fx-glow-alpha", String(token.glow));
+};
+
+const setupScrollSigil = () => {
+  const sigil = document.getElementById("scrollSigil");
+  if (!sigil) return;
+  const update = () => {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
+    sigil.style.setProperty("--scroll-progress", String(progress));
+  };
+  window.addEventListener("scroll", update, { passive: true });
+  update();
+};
+
+const setupBackgroundEffects = () => {
+  const effects = document.querySelector(".bg-effects");
+  if (!effects) return;
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const coarsePointer = window.matchMedia("(hover: none), (pointer: coarse)").matches;
+  if (reduceMotion || coarsePointer) {
+    effects.style.setProperty("--fx-parallax-x", "0px");
+    effects.style.setProperty("--fx-parallax-y", "0px");
+    return;
+  }
+
+  let rafId = null;
+  const updateParallax = (event) => {
+    const cx = window.innerWidth / 2;
+    const cy = window.innerHeight / 2;
+    const dx = (event.clientX - cx) / cx;
+    const dy = (event.clientY - cy) / cy;
+    effects.style.setProperty("--fx-parallax-x", `${(dx * 4).toFixed(2)}px`);
+    effects.style.setProperty("--fx-parallax-y", `${(dy * 3).toFixed(2)}px`);
+    rafId = null;
+  };
+
+  window.addEventListener("mousemove", (event) => {
+    if (rafId) return;
+    rafId = requestAnimationFrame(() => updateParallax(event));
+  }, { passive: true });
+};
+
+const setupTopbarRail = () => {
+  const topbar = document.getElementById("topbar");
+  if (!topbar) return;
+  const updateRail = () => {
+    topbar.classList.toggle("is-scrolled", window.scrollY > 24);
+  };
+  window.addEventListener("scroll", updateRail, { passive: true });
+  updateRail();
+};
+
+const animateStatNumbers = () => {
+  const counters = Array.from(document.querySelectorAll("[data-counter]"));
+  counters.forEach((counter) => {
+    const target = Number(counter.dataset.counter || 0);
+    if (!Number.isFinite(target)) return;
+    const duration = 1200;
+    const start = performance.now();
+    const tick = (now) => {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      counter.textContent = String(Math.round(target * eased));
+      if (progress < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  });
+};
+
+const setupInscriptionReveal = () => {
+  document.querySelectorAll(".section-header").forEach((header) => {
+    const title = header.querySelector("h2");
+    const subtitle = header.querySelector("p");
+    if (title) title.classList.add("inscription-title");
+    if (subtitle) subtitle.classList.add("inscription-sub");
+  });
+};
+
+const setupStaggerReveal = () => {
+  const blocks = Array.from(document.querySelectorAll(".section, .hero, .site-footer"));
+  if (!blocks.length) return;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      const order = Number(entry.target.dataset.staggerOrder || 0);
+      const delay = Math.min(80, 40 + order * 6);
+      entry.target.style.setProperty("--reveal-delay", `${delay}ms`);
+      entry.target.classList.add("is-revealed");
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0.15 });
+
+  blocks.forEach((block, index) => {
+    block.dataset.staggerOrder = String(index % 7);
+    observer.observe(block);
+  });
+};
+
 const setActiveNav = (sectionId) => {
   if (!sectionId) return;
   const navLinks = document.querySelectorAll(".topbar-nav a, .sidebar-nav a");
   navLinks.forEach((link) => {
     const target = link.getAttribute("href")?.replace("#", "");
-    link.classList.toggle("active", target === sectionId);
+    const active = target === sectionId;
+    link.classList.toggle("active", active);
+    link.classList.toggle("sigil-pulse", active);
   });
 };
 
@@ -1151,6 +1265,16 @@ const setupNavScroll = () => {
       if (!targetId) return;
       event.preventDefault();
       scrollToSection(targetId);
+      const fogGate = document.getElementById("fogGate");
+      if (fogGate) {
+        fogGate.classList.remove("is-active");
+        requestAnimationFrame(() => fogGate.classList.add("is-active"));
+        const clearFog = () => {
+          fogGate.classList.remove("is-active");
+          fogGate.removeEventListener("animationend", clearFog);
+        };
+        fogGate.addEventListener("animationend", clearFog);
+      }
       window.history.pushState(null, "", `#${targetId}`);
       setActiveNav(targetId);
     });
@@ -1297,28 +1421,43 @@ const setupCommandCardSpotlight = () => {
   const cards = Array.from(document.querySelectorAll(".command-card, .glass-card"));
   if (!cards.length) return;
   const supportsHover = window.matchMedia("(hover: hover)").matches;
-  if (!supportsHover) return;
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!supportsHover || reduceMotion) return;
+  let activeCard = null;
   let rafId = null;
   let lastEvent = null;
 
   const updateSpotlight = () => {
-    if (!lastEvent) return;
-    cards.forEach((card) => {
-      const rect = card.getBoundingClientRect();
-      const x = lastEvent.clientX - rect.left;
-      const y = lastEvent.clientY - rect.top;
-      card.style.setProperty("--mouse-x", `${x}px`);
-      card.style.setProperty("--mouse-y", `${y}px`);
-    });
+    if (!activeCard || !lastEvent) {
+      rafId = null;
+      return;
+    }
+    const rect = activeCard.getBoundingClientRect();
+    const x = lastEvent.clientX - rect.left;
+    const y = lastEvent.clientY - rect.top;
+    activeCard.style.setProperty("--mouse-x", `${x}px`);
+    activeCard.style.setProperty("--mouse-y", `${y}px`);
     rafId = null;
   };
 
+  cards.forEach((card) => {
+    card.addEventListener("mouseenter", () => {
+      activeCard = card;
+    });
+    card.addEventListener("mouseleave", () => {
+      card.style.removeProperty("--mouse-x");
+      card.style.removeProperty("--mouse-y");
+      if (activeCard === card) activeCard = null;
+    });
+  });
+
   document.addEventListener("mousemove", (event) => {
+    if (!activeCard) return;
     lastEvent = event;
     if (!rafId) {
       rafId = window.requestAnimationFrame(updateSpotlight);
     }
-  });
+  }, { passive: true });
 };
 
 const setupCardTilt = () => {
@@ -1475,6 +1614,13 @@ const init = async () => {
     setupSidebarSearch();
     setupNavScroll();
     setupScrollSpy();
+    setupFxSystem();
+    setupScrollSigil();
+    setupTopbarRail();
+    setupInscriptionReveal();
+    setupStaggerReveal();
+    animateStatNumbers();
+    setupBackgroundEffects();
 
     const footer = document.getElementById("siteFooter");
     if (footer && !footer.textContent.trim()) {
@@ -1485,15 +1631,33 @@ const init = async () => {
   }
 };
 
+
+const getFxParticleProfile = () => {
+  const level = window.localStorage.getItem("msj-fx-level") || document.body?.dataset.fx || "balanced";
+  const densityMap = { full: 1, balanced: 0.65, lite: 0.35 };
+  const baseDensity = densityMap[level] || densityMap.balanced;
+  const mobile = window.matchMedia("(max-width: 900px)").matches;
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const mobileMultiplier = mobile ? 0.5 : 1;
+  const reducedMultiplier = reduced ? 0.45 : 1;
+  return {
+    density: baseDensity * mobileMultiplier * reducedMultiplier,
+    reduceMotion: reduced,
+  };
+};
+
 class RuinsBackground {
-  constructor() {
+  constructor(options = {}) {
     this.canvas = document.createElement("canvas");
     this.canvas.className = "ruins-background";
     this.context = this.canvas.getContext("2d");
     this.particles = [];
     this.bursts = [];
-    this.maxParticles = 140;
-    this.light = { x: window.innerWidth / 2, y: window.innerHeight / 2, radius: 160 };
+    this.profile = options.profile || getFxParticleProfile();
+    this.maxParticles = Math.max(24, Math.round(140 * this.profile.density));
+    this.motionScale = this.profile.reduceMotion ? 0.24 : 1;
+    this.canvas.dataset.particles = String(this.maxParticles);
+    this.light = { x: window.innerWidth / 2, y: window.innerHeight / 2, radius: this.profile.reduceMotion ? 72 : 160 };
     this.running = false;
 
     this.handleResize = this.handleResize.bind(this);
@@ -1530,11 +1694,11 @@ class RuinsBackground {
     return {
       x: base.x,
       y: base.y,
-      vx: (Math.random() - 0.5) * 0.4,
-      vy: (Math.random() - 0.5) * 0.4,
-      size: Math.random() * 2.8 + 0.8,
-      alpha: Math.random() * 0.5 + 0.15,
-      hue: 220 + Math.random() * 40,
+      vx: (Math.random() - 0.5) * 0.4 * this.motionScale,
+      vy: (Math.random() - 0.5) * 0.4 * this.motionScale,
+      size: Math.random() * 2.2 + 0.8,
+      alpha: Math.random() * 0.28 + 0.14,
+      hue: 200 + Math.random() * 36,
     };
   }
 
@@ -1544,10 +1708,10 @@ class RuinsBackground {
   }
 
   spawnBurst(x, y) {
-    const count = 26 + Math.floor(Math.random() * 18);
+    const count = this.profile.reduceMotion ? 8 : 18 + Math.floor(Math.random() * 12);
     for (let i = 0; i < count; i += 1) {
       const angle = Math.random() * Math.PI * 2;
-      const speed = Math.random() * 3 + 1;
+      const speed = (Math.random() * 2.2 + 0.8) * this.motionScale;
       this.bursts.push({
         x,
         y,
@@ -1581,22 +1745,22 @@ class RuinsBackground {
       const dy = particle.y - this.light.y;
       const distance = Math.hypot(dx, dy);
       if (distance < this.light.radius) {
-        const force = (1 - distance / this.light.radius) * 1.4;
-        particle.vx += (dx / Math.max(distance, 1)) * force * 0.6;
-        particle.vy += (dy / Math.max(distance, 1)) * force * 0.6;
+        const force = (1 - distance / this.light.radius) * 1.2 * this.motionScale;
+        particle.vx += (dx / Math.max(distance, 1)) * force * 0.4;
+        particle.vy += (dy / Math.max(distance, 1)) * force * 0.4;
       }
 
       particle.x += particle.vx;
       particle.y += particle.vy;
-      particle.vx *= 0.96;
-      particle.vy *= 0.96;
+      particle.vx *= 0.97;
+      particle.vy *= 0.97;
       if (particle.x < -20) particle.x = width + 20;
       if (particle.x > width + 20) particle.x = -20;
       if (particle.y < -20) particle.y = height + 20;
       if (particle.y > height + 20) particle.y = -20;
 
       ctx.beginPath();
-      ctx.fillStyle = `hsla(${particle.hue}, 30%, 25%, ${particle.alpha})`;
+      ctx.fillStyle = `hsla(${particle.hue}, 36%, 62%, ${particle.alpha})`;
       ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
       ctx.fill();
     });
@@ -1623,8 +1787,8 @@ class RuinsBackground {
       particle.life += 1;
       particle.x += particle.vx;
       particle.y += particle.vy;
-      particle.vx *= 0.96;
-      particle.vy *= 0.96;
+      particle.vx *= 0.97;
+      particle.vy *= 0.97;
       const progress = particle.life / particle.ttl;
       const alpha = particle.alpha * (1 - progress);
       ctx.beginPath();
@@ -1639,8 +1803,8 @@ class RuinsBackground {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const ruinsBackground = reduceMotion ? null : new RuinsBackground();
+  const profile = getFxParticleProfile();
+  const ruinsBackground = new RuinsBackground({ profile });
   init().catch((error) => {
     console.error("Initialization failed.", error);
   });
