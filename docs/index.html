@@ -25,7 +25,7 @@
   <canvas id="ruins-bg" style="position: fixed; inset: 0; z-index: -1;" aria-hidden="true"></canvas>
   <div class="glass-container" role="presentation">
     <div class="page">
-    <header class="topbar">
+    <header class="topbar bronze-rail" id="topbar">
       <div class="topbar-brand">
         <div class="brand-title">牧神记 · 新手修行指南</div>
         <div class="brand-subtitle">牧神记 · 大墟图鉴</div>
@@ -55,9 +55,14 @@
       <main class="content">
         <div id="content-area"></div>
         <section class="hero mist-parallax" id="hero">
+          <div class="hero-celestial" aria-hidden="true">
+            <div class="celestial-layer ruins"></div>
+            <div class="celestial-layer mist"></div>
+            <div class="celestial-layer sigils"></div>
+          </div>
           <div class="hero-text">
-            <h1>天黑别出门，除非你是霸体。</h1>
-            <p>由残老村九位长老联手编写的生存指南。打破心中之神，便是牧神。</p>
+            <h1 class="inscription-title">天黑别出门，除非你是霸体。</h1>
+            <p class="inscription-sub">由残老村九位长老联手编写的生存指南。打破心中之神，便是牧神。</p>
             <p class="hero-note">石像守夜，火种不灭，黑暗终将退散。</p>
             <div class="npc-whisper" id="npcWhispers" aria-live="polite"></div>
             <div class="hero-tags" id="heroTags"></div>
