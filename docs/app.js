@@ -107,34 +107,37 @@ const LORE_TEMPLATES = [
     <em class="lore-note">来源界域：${file} / 核心法阵：${registry}</em>
   `,
 ];
+
+const REALM_TIERS = ["灵胎", "五曜", "六合", "七星", "天人", "生死", "神桥"];
+
+const formatRealmRequirement = (minTier = 0, minStage = 1) => {
+  const tierName = REALM_TIERS[Math.max(0, Math.min(minTier, REALM_TIERS.length - 1))] || "灵胎";
+  const phase = minStage === 1 ? "前期" : minStage === 2 ? "中期" : "后期";
+  return `${tierName}${phase}`;
+};
+
 const PILL_DATA = [
-  {
-    name: "待抽取丹药",
-    tier: "未录",
-    description: "尚未从 mushenji_bot.py 抽取丹药配方与药效。",
-    effect: "请补充来源数据。",
-    icon: "💊",
-    source: { file: "mushenji_bot.py", registry: "TODO" },
-  },
+  { name: "聚气丹", tier: "常见", description: "聚拢灵气", effect: "修为 +120", icon: "🧪", minTier: 0, minStage: 1, price: 18, source: { file: "mushenji_bot.py", registry: "PILLS" } },
+  { name: "培元丹", tier: "常见", description: "稳固根基", effect: "修为 +90", icon: "🧪", minTier: 0, minStage: 1, price: 15, source: { file: "mushenji_bot.py", registry: "PILLS" } },
+  { name: "凝元丹", tier: "常见", description: "凝聚真元", effect: "修为 +220", icon: "🧪", minTier: 0, minStage: 2, price: 38, source: { file: "mushenji_bot.py", registry: "PILLS" } },
+  { name: "破境丹", tier: "稀有", description: "冲击瓶颈", effect: "修为 +900", icon: "🔥", minTier: 1, minStage: 3, price: 180, source: { file: "mushenji_bot.py", registry: "PILLS" } },
+  { name: "赤火灵丹", tier: "稀有", description: "烈火淬体，龙麒麟最爱", effect: "修为 +80", icon: "🔥", minTier: 0, minStage: 1, price: 25, source: { file: "mushenji_bot.py", registry: "PILLS" } },
+  { name: "洗髓丹", tier: "稀有", description: "洗练根骨", effect: "清除丹毒", icon: "💠", minTier: 0, minStage: 1, price: 120, source: { file: "mushenji_bot.py", registry: "PILLS" } },
+  { name: "天罡丹", tier: "珍稀", description: "天罡护体", effect: "修为 +980", icon: "✨", minTier: 2, minStage: 3, price: 320, source: { file: "mushenji_bot.py", registry: "PILLS" } },
+  { name: "生死轮回丹", tier: "超稀有", description: "轮回生死，重铸道基", effect: "修为 +1800", icon: "🌌", minTier: 4, minStage: 1, price: 2200, source: { file: "mushenji_bot.py", registry: "SUPER_RARE_PILLS" } },
+  { name: "神桥造化丹", tier: "超稀有", description: "神桥造化，破境登阶", effect: "修为 +2200", icon: "🌌", minTier: 5, minStage: 1, price: 2600, source: { file: "mushenji_bot.py", registry: "SUPER_RARE_PILLS" } }
 ];
+
 const EQUIPMENT_DATA = [
-  {
-    name: "待抽取神兵",
-    tier: "未录",
-    description: "尚未从 mushenji_bot.py 抽取武器与防具条目。",
-    effect: "请补充来源数据。",
-    icon: "⚔️",
-    source: { file: "mushenji_bot.py", registry: "TODO" },
-  },
-  {
-    name: "待抽取宝甲",
-    tier: "未录",
-    description: "请补全护具与套装信息，确保数值准确。",
-    effect: "请补充来源数据。",
-    icon: "🛡️",
-    source: { file: "mushenji_bot.py", registry: "TODO" },
-  },
+  { name: "飞星剑", tier: "常见", description: "青芒飞星", effect: "攻击 +26", icon: "⚔️", minTier: 0, price: 80, source: { file: "mushenji_bot.py", registry: "WEAPONS" } },
+  { name: "玄铁重剑", tier: "稀有", description: "沉重如山", effect: "攻击 +55", icon: "⚔️", minTier: 1, price: 260, source: { file: "mushenji_bot.py", registry: "WEAPONS" } },
+  { name: "太虚神弓", tier: "珍稀", description: "太虚裂空", effect: "攻击 +120", icon: "🏹", minTier: 3, price: 1200, source: { file: "mushenji_bot.py", registry: "WEAPONS" } },
+  { name: "七公子的剑", tier: "限量", description: "剑光寒彻九州，七星剑势", effect: "攻击 +190", icon: "🗡️", minTier: 5, price: 4200, source: { file: "mushenji_bot.py", registry: "LIMITED_WEAPONS" } },
+  { name: "青木衣", tier: "常见", description: "轻灵护体", effect: "防御 +16", icon: "🛡️", minTier: 0, price: 60, source: { file: "mushenji_bot.py", registry: "ARMORS" } },
+  { name: "太虚道袍", tier: "珍稀", description: "太虚护道", effect: "防御 +110", icon: "🛡️", minTier: 3, price: 980, source: { file: "mushenji_bot.py", registry: "ARMORS" } },
+  { name: "白虎战铠", tier: "限量", description: "白虎战意，肃杀森然", effect: "防御 +160", icon: "🛡️", minTier: 5, price: 3800, source: { file: "mushenji_bot.py", registry: "LIMITED_ARMORS" } }
 ];
+
 const CATEGORY_LABELS = {
   卷首语: "卷首语",
   大墟残老村: "壹 · 大墟残老村",
@@ -449,6 +452,12 @@ const renderSnapshot = (commands, features) => {
   container.appendChild(actions);
 };
 
+const rules = createElement("div", "detail-inline");
+    rules.style.marginTop = "14px";
+    rules.textContent =
+      "修行规则：闭关冷却10~15分钟；深度闭关8小时（冷却22小时）；任务冷却6小时；宗门任务8小时；鬼  市淘宝500大丰币；被动修为每60秒+1。";
+    container.appendChild(rules);
+
 const applyTiltEffect = (element, intensity = 12) => {
   if (!element) return;
   const supportsHover = window.matchMedia("(hover: hover)").matches;
@@ -642,7 +651,23 @@ const renderItemSection = (sectionId, items) => {
 
     const metaRow = createElement("div", "item-meta");
     metaRow.appendChild(createElement("span", "item-tier", item.tier || "未录"));
+
+    if (typeof item.minTier === "number") {
+      const realmTag = createElement(
+        "span",
+        "item-tier",
+        `需求：${formatRealmRequirement(item.minTier, item.minStage || 1)}`
+       );
+      metaRow.appendChild(realmTag);
+    }
+
+    if (typeof item.price === "number") {
+      const priceTag = createElement("span", "item-tier", `售价：${item.price}灵石`);
+      metaRow.appendChild(priceTag);
+    }
+
     card.appendChild(metaRow);
+
 
     if (item.description) {
       card.appendChild(createElement("p", "item-description", sanitizeText(item.description)));
