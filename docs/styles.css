@@ -1469,3 +1469,115 @@ h2,
   outline: 2px solid #f2bf6d;
   outline-offset: 2px;
 }
+
+/* === Mushenji UI polish: ruins + yankan ceremonial style === */
+.topbar {
+  background:
+    linear-gradient(90deg, rgba(14, 10, 8, 0.88), rgba(18, 16, 24, 0.9) 45%, rgba(10, 15, 22, 0.9)),
+    radial-gradient(circle at 15% 0%, rgba(242, 191, 109, 0.12), transparent 35%);
+  border-bottom: 1px solid rgba(215, 180, 106, 0.34);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+}
+
+.brand-title {
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 12px rgba(242, 191, 109, 0.18);
+}
+
+.layout {
+  gap: 30px;
+}
+
+.sidebar {
+  border: 1px solid rgba(215, 180, 106, 0.18);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.4);
+}
+
+.sidebar-section {
+  background:
+    linear-gradient(150deg, rgba(19, 17, 22, 0.82), rgba(12, 14, 21, 0.78)),
+    repeating-linear-gradient(90deg, rgba(215, 180, 106, 0.03) 0 1px, transparent 1px 9px);
+}
+
+.hero {
+  border: 1px solid rgba(215, 180, 106, 0.28);
+  box-shadow: 0 24px 46px rgba(0, 0, 0, 0.58), inset 0 0 80px rgba(19, 10, 8, 0.22);
+}
+
+.hero-panel {
+  background:
+    linear-gradient(165deg, rgba(21, 16, 14, 0.88), rgba(18, 20, 28, 0.86));
+  border: 1px solid rgba(215, 180, 106, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Signature effect (single): lantern soul flame */
+.hero-panel::before {
+  content: "";
+  position: absolute;
+  width: 130px;
+  height: 130px;
+  right: -24px;
+  top: -32px;
+  background: radial-gradient(circle, rgba(242, 191, 109, 0.38) 0%, rgba(242, 191, 109, 0.08) 48%, transparent 72%);
+  filter: blur(2px);
+  pointer-events: none;
+  animation: lantern-sway 6.8s ease-in-out infinite;
+}
+
+@keyframes lantern-sway {
+  0%, 100% { transform: translateY(0) translateX(0) scale(0.95); opacity: 0.74; }
+  50% { transform: translateY(6px) translateX(-8px) scale(1.08); opacity: 1; }
+}
+
+.section {
+  background: linear-gradient(180deg, rgba(16, 16, 21, 0.62), rgba(9, 11, 16, 0.52));
+  border-radius: 14px;
+  padding: 10px 12px 14px;
+  border: 1px solid rgba(215, 180, 106, 0.12);
+}
+
+.section-header h2 {
+  letter-spacing: 1px;
+  text-shadow: 0 0 10px rgba(242, 191, 109, 0.15);
+}
+
+.command-item,
+.command-card,
+.glass-card,
+.item-card {
+  border-color: rgba(215, 180, 106, 0.22);
+}
+
+.command-item.active {
+  border-color: rgba(242, 191, 109, 0.7);
+  box-shadow: 0 0 0 1px rgba(242, 191, 109, 0.38), 0 10px 22px rgba(0, 0, 0, 0.35);
+}
+
+.section-banner {
+  height: 18px;
+  background:
+    linear-gradient(90deg, transparent 0%, rgba(215, 180, 106, 0.4) 50%, transparent 100%);
+  opacity: 0.36;
+  border-radius: 999px;
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 6px 8px 10px;
+  }
+
+  .hero-panel::before {
+    width: 96px;
+    height: 96px;
+    right: -20px;
+    top: -18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-panel::before {
+    animation: none !important;
+  }
+}
