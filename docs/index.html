@@ -21,7 +21,7 @@
   <title>牧神记 · 新手修行指南</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="mushenji-theme">
+<body class="mushenji-theme" data-fx="balanced">
   <div class="bg-effects" aria-hidden="true">
     <div class="bg-layer bg-stars"></div>
     <div class="bg-layer bg-fog"></div>
@@ -32,6 +32,7 @@
   <div class="glass-container" role="presentation">
     <div class="page">
     <header class="topbar bronze-rail" id="topbar">
+      <div class="scroll-sigil" id="scrollSigil" aria-hidden="true"><span></span></div>
       <div class="topbar-brand">
         <div class="brand-title">牧神记 · 新手修行指南</div>
         <div class="brand-subtitle">牧神记 · 大墟图鉴</div>
@@ -247,6 +248,7 @@
     </div>
     </div>
   </div>
+  <div class="fog-gate" id="fogGate" aria-hidden="true"></div>
   <div id="toast-container"></div>
   <!-- 内联数据保留用于离线查看，与 docs/data/*.json 保持一致。 -->
   <script id="inline-commands" type="application/json">[

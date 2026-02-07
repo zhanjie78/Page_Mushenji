@@ -1119,6 +1119,37 @@ const renderEquipment = (items) => renderItemSection("equipmentContent", items);
 
 
 
+const setupFxSystem = () => {
+  const root = document.body;
+  if (!root) return;
+  const preferred = window.localStorage.getItem("msj-fx-level") || root.dataset.fx || "balanced";
+  const valid = new Set(["lite", "balanced", "full"]);
+  const level = valid.has(preferred) ? preferred : "balanced";
+  root.dataset.fx = level;
+  const map = {
+    lite: { intensity: 0.42, speed: 0.78, density: 0.58, glow: 0.14 },
+    balanced: { intensity: 0.72, speed: 1, density: 1, glow: 0.22 },
+    full: { intensity: 0.9, speed: 1.12, density: 1.22, glow: 0.28 },
+  };
+  const token = map[level];
+  root.style.setProperty("--fx-intensity", String(token.intensity));
+  root.style.setProperty("--fx-speed", String(token.speed));
+  root.style.setProperty("--fx-density", String(token.density));
+  root.style.setProperty("--fx-glow-alpha", String(token.glow));
+};
+
+const setupScrollSigil = () => {
+  const sigil = document.getElementById("scrollSigil");
+  if (!sigil) return;
+  const update = () => {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
+    sigil.style.setProperty("--scroll-progress", String(progress));
+  };
+  window.addEventListener("scroll", update, { passive: true });
+  update();
+};
+
 const setupBackgroundEffects = () => {
   const effects = document.querySelector(".bg-effects");
   if (!effects) return;
@@ -1208,7 +1239,9 @@ const setActiveNav = (sectionId) => {
   const navLinks = document.querySelectorAll(".topbar-nav a, .sidebar-nav a");
   navLinks.forEach((link) => {
     const target = link.getAttribute("href")?.replace("#", "");
-    link.classList.toggle("active", target === sectionId);
+    const active = target === sectionId;
+    link.classList.toggle("active", active);
+    link.classList.toggle("sigil-pulse", active);
   });
 };
 
@@ -1232,6 +1265,11 @@ const setupNavScroll = () => {
       if (!targetId) return;
       event.preventDefault();
       scrollToSection(targetId);
+      const fogGate = document.getElementById("fogGate");
+      if (fogGate) {
+        fogGate.classList.remove("is-active");
+        requestAnimationFrame(() => fogGate.classList.add("is-active"));
+      }
       window.history.pushState(null, "", `#${targetId}`);
       setActiveNav(targetId);
     });
@@ -1556,6 +1594,8 @@ const init = async () => {
     setupSidebarSearch();
     setupNavScroll();
     setupScrollSpy();
+    setupFxSystem();
+    setupScrollSigil();
     setupTopbarRail();
     setupInscriptionReveal();
     setupStaggerReveal();
