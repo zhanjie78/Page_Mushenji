@@ -85,6 +85,12 @@ const ITEM_SECTIONS = [
     title: "神兵宝甲",
   },
 ];
+
+const IMMERSION_SECTIONS = [
+  { id: "quickstart-path", title: "三分钟上手" },
+  { id: "daily-log", title: "修炼日报" },
+  { id: "easter-eggs", title: "彩蛋区" },
+];
 const LORE_TEMPLATES = [
   (file, registry) => `
     <strong>【道法根脚】</strong><br>
@@ -453,9 +459,113 @@ const renderSnapshot = (commands, features) => {
 
   const rules = createElement("div", "detail-inline");
   rules.style.marginTop = "14px";
-  rules.textContent =
-    "修行规则：闭关冷却10~15分钟；深度闭关8小时（冷却22小时）；任务冷却6小时；宗门任务8小时；鬼市淘宝500大丰币；被动修为每60秒+1。";
+  const getFeatureValue = (name) => features.find((feature) => feature.name === name)?.details;
+  const trainMin = Number(getFeatureValue("TRAIN_CD_MIN") || 0) / 60;
+  const trainMax = Number(getFeatureValue("TRAIN_CD_MAX") || 0) / 60;
+  const deepDuration = Number(getFeatureValue("DEEP_DURATION") || 0) / 3600;
+  const deepCooldown = Number(getFeatureValue("DEEP_COOLDOWN") || 0) / 3600;
+  const taskCooldown = Number(getFeatureValue("TASK_COOLDOWN") || 0) / 3600;
+  const sectTaskCooldown = Number(getFeatureValue("SECT_TASK_COOLDOWN") || 0) / 3600;
+  const ghostMarketCost = Number(getFeatureValue("GHOST_MARKET_COST") || 0);
+  const passiveCd = Number(getFeatureValue("PASSIVE_CD") || 0);
+  const passiveGain = Number(getFeatureValue("PASSIVE_GAIN") || 0);
+  rules.textContent = `修行规则：闭关冷却${trainMin}~${trainMax}分钟；深度闭关${deepDuration}小时（冷却${deepCooldown}小时）；任务冷却${taskCooldown}小时；宗门任务${sectTaskCooldown}小时；鬼市淘宝${ghostMarketCost}大丰币；被动修为每${passiveCd}秒+${passiveGain}。`;
   container.appendChild(rules);
+};
+
+const renderQuickstartPath = (commands, features) => {
+  const container = document.getElementById("quickstartContent");
+  if (!container) return;
+  clearContainer(container);
+  const map = new Map(commands.map((command) => [command.name, command]));
+  const steps = [
+    {
+      title: "第 1 分钟：验明修行身份",
+      npc: "村长",
+      commandNames: ["帮助", "检测灵体", "我的灵体"],
+      note: "先确认灵体与基础指令，避免后续误触发。",
+    },
+    {
+      title: "第 2 分钟：建立日常循环",
+      npc: "瞎爷",
+      commandNames: ["闭关修炼", "查看闭关", "突破"],
+      note: "闭关结束立刻查看收益，达标后再突破。",
+    },
+    {
+      title: "第 3 分钟：补给与任务",
+      npc: "药师",
+      commandNames: ["任务", "储物袋", "鬼市"],
+      note: "任务拿大丰币，鬼市淘宝消耗固定成本。",
+    },
+  ];
+  const passiveMinLen = Number(features.find((feature) => feature.name === "PASSIVE_MIN_LEN")?.details || 0);
+
+  steps.forEach((step) => {
+    const card = createElement("article", "card command-card tilt-card");
+    card.appendChild(createElement("h3", "", step.title));
+    card.appendChild(createElement("div", "card-meta", `【${step.npc}提示】${step.note}`));
+    const usage = [];
+    step.commandNames.forEach((name) => {
+      const matched = map.get(name);
+      if (matched?.usage?.length) {
+        usage.push(...matched.usage);
+      }
+    });
+    const usageCloud = renderCommandCloud(Array.from(new Set(usage)));
+    if (usageCloud) {
+      const field = createElement("div", "card-field");
+      field.appendChild(createElement("span", "field-label", "可直接复制"));
+      field.appendChild(usageCloud);
+      card.appendChild(field);
+    }
+    container.appendChild(card);
+    applyTiltEffect(card, 8);
+  });
+
+  const extra = createElement("article", "card command-card tilt-card");
+  extra.appendChild(createElement("h3", "", "夜行补充"));
+  extra.appendChild(
+    createElement(
+      "div",
+      "card-meta",
+      `被动修行判定要求至少 ${passiveMinLen} 字；闲聊也能积累修为，但请保持有效内容。`
+    )
+  );
+  container.appendChild(extra);
+  applyTiltEffect(extra, 8);
+};
+
+const renderDailyLog = () => {
+  const container = document.getElementById("dailyLogContent");
+  if (!container) return;
+  clearContainer(container);
+  const template = [
+    "【修炼日报｜玩法设定】",
+    "今日境界：____",
+    "今日命令：.闭关修炼 / .任务 / .鬼市 淘宝",
+    "资源变化：灵石 +____ ｜ 大丰币 +____",
+    "战果记录：是否突破 ____ ｜ 是否炼制 ____",
+    "明日计划：优先完成 ____（建议先看 .帮助）",
+  ];
+  const pre = createElement("pre", "daily-template", template.join("\n"));
+  container.appendChild(pre);
+};
+
+const renderEasterEggs = () => {
+  const container = document.getElementById("easterEggContent");
+  if (!container) return;
+  clearContainer(container);
+  const eggs = [
+    "【同人彩蛋】若你连着三次闭关都未突破，给自己留一句“天黑别出门，但别熄灯”。",
+    "【玩法设定】群聊可轮流扮演‘村长’催更日报，增强沉浸感，不影响机器人判定。",
+    "【同人彩蛋】把常用命令写成护符贴在输入法短语里，夜行时少打错字。",
+  ];
+  eggs.forEach((text) => {
+    const card = createElement("article", "card command-card tilt-card");
+    card.appendChild(createElement("div", "card-meta", text));
+    container.appendChild(card);
+    applyTiltEffect(card, 6);
+  });
 };
 
 const applyTiltEffect = (element, intensity = 12) => {
@@ -974,6 +1084,7 @@ const init = async () => {
     buildNavLinks(document.getElementById("topNav"), [
       ...SECTIONS.map((section) => ({ id: section.id, title: section.title })),
       ...ITEM_SECTIONS.map((section) => ({ id: section.id, title: section.title })),
+      ...IMMERSION_SECTIONS,
       { id: "troubleshooting", title: "故障排查" },
       { id: "command-library", title: "命令索引" },
     ]);
@@ -981,6 +1092,7 @@ const init = async () => {
       { id: "hero", title: "概览" },
       ...SECTIONS.map((section) => ({ id: section.id, title: section.title })),
       ...ITEM_SECTIONS.map((section) => ({ id: section.id, title: section.title })),
+      ...IMMERSION_SECTIONS,
       { id: "troubleshooting", title: "故障排查" },
       { id: "command-library", title: "命令索引" },
     ]);
@@ -996,6 +1108,9 @@ const init = async () => {
 
     renderPills(PILL_DATA);
     renderEquipment(EQUIPMENT_DATA);
+    renderQuickstartPath(commands, features);
+    renderDailyLog();
+    renderEasterEggs();
 
     const sections = Array.from(document.querySelectorAll(".section"));
     sections.forEach((section, index) => {
@@ -1180,7 +1295,8 @@ class RuinsBackground {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const ruinsBackground = new RuinsBackground();
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const ruinsBackground = reduceMotion ? null : new RuinsBackground();
   init().catch((error) => {
     console.error("Initialization failed.", error);
   });
