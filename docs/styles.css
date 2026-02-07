@@ -267,6 +267,14 @@ a {
   box-shadow: 0 0 15px rgba(215, 180, 106, 0.1);
 }
 
+.daily-template {
+  margin: 0;
+  white-space: pre-wrap;
+  font-family: "Noto Serif SC", "Songti SC", serif;
+  line-height: 1.8;
+  color: var(--mist-100);
+}
+
 .sidebar-note {
   font-size: 12px;
   color: var(--mist-200);
@@ -938,6 +946,14 @@ pre {
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 .command-item p {
   margin: 0;
   font-size: 12px;
@@ -1382,4 +1398,3 @@ h2,
   outline: 2px solid #f2bf6d;
   outline-offset: 2px;
 }
-
