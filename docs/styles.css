@@ -267,6 +267,19 @@ a {
   box-shadow: 0 0 15px rgba(215, 180, 106, 0.1);
 }
 
+
+.truth-audit-list {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 8px;
+  color: var(--mist-100);
+}
+
+.truth-audit-list li::marker {
+  color: var(--gold-200);
+}
+
 .daily-template {
   margin: 0;
   white-space: pre-wrap;
@@ -412,6 +425,23 @@ body::-webkit-scrollbar-thumb:hover,
   margin-top: 10px;
   font-size: 12px;
   color: var(--mist-200);
+}
+
+
+.npc-whisper {
+  margin: 10px 0 6px;
+  min-height: 24px;
+  color: #f2cf91;
+  font-size: 14px;
+  letter-spacing: 0.3px;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.npc-whisper.show {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .hero-tags {
@@ -952,6 +982,26 @@ pre {
     transition: none !important;
     scroll-behavior: auto !important;
   }
+}
+
+
+.section-header {
+  position: relative;
+}
+
+.section-header::after {
+  content: "✦";
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: rgba(242, 191, 109, 0.75);
+  text-shadow: 0 0 12px rgba(242, 191, 109, 0.35);
+  animation: rune-breathe 3.6s ease-in-out infinite;
+}
+
+@keyframes rune-breathe {
+  0%, 100% { transform: scale(0.92); opacity: 0.55; }
+  50% { transform: scale(1.12); opacity: 1; }
 }
 
 .command-item p {

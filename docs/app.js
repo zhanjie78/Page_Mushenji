@@ -72,7 +72,13 @@ const SECTIONS = TAXONOMY.map((section) => ({
   categories: sectionMappings[section.id] || [],
 }));
 
-const HERO_TAGS = ["大墟夜行", "霸体修行", "九老叮嘱", "牧神之道"];
+const HERO_TAGS = ["残老村", "延康变法", "酆都鬼市", "神桥破境"];
+const NPC_WHISPERS = [
+  "村长：先测灵体，再谈远方。夜路长，别空着手。",
+  "药师：丹香再好也要按量服用，莫贪。",
+  "屠夫：刀要快，命令也要准；错字比钝刀更要命。",
+  "瞎爷：看不见路不要紧，照着口令走，总能到岸。",
+];
 const REDACT_KEYWORD = "天道";
 const UNKNOWN_TEXT = "大墟的黑暗掩盖了真相...";
 const ITEM_SECTIONS = [
@@ -88,6 +94,7 @@ const ITEM_SECTIONS = [
 
 const IMMERSION_SECTIONS = [
   { id: "quickstart-path", title: "三分钟上手" },
+  { id: "truth-audit", title: "天工碑刻" },
   { id: "daily-log", title: "修炼日报" },
   { id: "easter-eggs", title: "彩蛋区" },
 ];
@@ -399,6 +406,22 @@ const renderHeroTags = () => {
   });
 };
 
+const renderNpcWhispers = () => {
+  const container = document.getElementById("npcWhispers");
+  if (!container) return;
+  let index = 0;
+  container.textContent = `【夜话】${NPC_WHISPERS[index]}`;
+  window.setInterval(() => {
+    index = (index + 1) % NPC_WHISPERS.length;
+    container.classList.remove("show");
+    window.setTimeout(() => {
+      container.textContent = `【夜话】${NPC_WHISPERS[index]}`;
+      container.classList.add("show");
+    }, 120);
+  }, 4200);
+  container.classList.add("show");
+};
+
 const renderSnapshot = (commands, features) => {
   const container = document.getElementById("systemSnapshot");
   if (!container) return;
@@ -473,6 +496,35 @@ const renderSnapshot = (commands, features) => {
   container.appendChild(rules);
 };
 
+const renderTruthAudit = (commands, features) => {
+  const container = document.getElementById("truthAuditContent");
+  if (!container) return;
+  clearContainer(container);
+
+  const commandWithSource = commands.filter((command) => command.source?.file).length;
+  const featureWithSource = features.filter((feature) => feature.source?.file).length;
+  const registrySet = new Set([
+    ...commands.map((command) => command.source?.registry).filter(Boolean),
+    ...features.map((feature) => feature.source?.registry).filter(Boolean),
+  ]);
+
+  const lines = [
+    `今夜刻录法门：${commands.length} 条（有源印记 ${commandWithSource}）`,
+    `天规常量：${features.length} 条（有源印记 ${featureWithSource}）`,
+    "天书名：mushenji_bot.py",
+    `碑刻签章：${Array.from(registrySet).join(" / ") || "未知"}`,
+    "这页里的可复制口令，都从命令卷轴现抄，不玩花字。",
+    "若你在实战里遇到偏差，记得回去翻天书原卷。",
+  ];
+
+  const ul = createElement("ul", "truth-audit-list");
+  lines.forEach((line) => {
+    const li = createElement("li", "", line);
+    ul.appendChild(li);
+  });
+  container.appendChild(ul);
+};
+
 const renderQuickstartPath = (commands, features) => {
   const container = document.getElementById("quickstartContent");
   if (!container) return;
@@ -541,10 +593,12 @@ const renderDailyLog = () => {
   clearContainer(container);
   const template = [
     "【修炼日报｜玩法设定】",
+    "值夜人：____（可填‘村长/药师/屠夫’等扮演称呼）",
     "今日境界：____",
-    "今日命令：.闭关修炼 / .任务 / .鬼市 淘宝",
+    "今日命令：.闭关修炼 ｜ .任务 ｜ .鬼市 淘宝",
     "资源变化：灵石 +____ ｜ 大丰币 +____",
     "战果记录：是否突破 ____ ｜ 是否炼制 ____",
+    "一句夜话（原创，别抄经文）：____",
     "明日计划：优先完成 ____（建议先看 .帮助）",
   ];
   const pre = createElement("pre", "daily-template", template.join("\n"));
@@ -557,8 +611,9 @@ const renderEasterEggs = () => {
   clearContainer(container);
   const eggs = [
     "【同人彩蛋】若你连着三次闭关都未突破，给自己留一句“天黑别出门，但别熄灯”。",
-    "【玩法设定】群聊可轮流扮演‘村长’催更日报，增强沉浸感，不影响机器人判定。",
-    "【同人彩蛋】把常用命令写成护符贴在输入法短语里，夜行时少打错字。",
+    "【玩法设定】群聊可轮流扮演‘村长’催更日报，谁断更谁请喝‘赤火灵丹’（口嗨版）。",
+    "【同人彩蛋】把‘大墟/延康/幽都’做成日志分栏，像写江湖行脚簿，不改任何机制。",
+    "【玩法设定】新人首日只做三件事：测灵体、闭关、看榜单；其余全靠你在夜里悟。",
   ];
   eggs.forEach((text) => {
     const card = createElement("article", "card command-card tilt-card");
@@ -1080,6 +1135,7 @@ const init = async () => {
 
   try {
     renderHeroTags();
+    renderNpcWhispers();
     renderSnapshot(commands, features);
     buildNavLinks(document.getElementById("topNav"), [
       ...SECTIONS.map((section) => ({ id: section.id, title: section.title })),
@@ -1109,6 +1165,7 @@ const init = async () => {
     renderPills(PILL_DATA);
     renderEquipment(EQUIPMENT_DATA);
     renderQuickstartPath(commands, features);
+    renderTruthAudit(commands, features);
     renderDailyLog();
     renderEasterEggs();
 
