@@ -72,13 +72,53 @@ const SECTIONS = TAXONOMY.map((section) => ({
   categories: sectionMappings[section.id] || [],
 }));
 
-const HERO_TAGS = ["残老村", "延康变法", "酆都鬼市", "神桥破境"];
+const HERO_TAG_POOL = [
+  "残老村", "延康变法", "酆都鬼市", "神桥破境", "天圣教影", "大墟夜行", "掌灯守夜", "神桥未断",
+  "江湖诡谲", "火种不灭", "旧城风沙", "天工碑刻", "刀光试心", "药炉见胆", "太虚回响", "幽都传铃",
+  "榜单争锋", "闭关磨骨", "破境一线", "村长摸骨", "屠夫磨刀", "药师煎火", "天录旧卷", "牧神之路"
+];
 const NPC_WHISPERS = [
   "村长：先测灵体，再谈远方。夜路长，别空着手。",
   "药师：丹香再好也要按量服用，莫贪。",
   "屠夫：刀要快，命令也要准；错字比钝刀更要命。",
   "瞎爷：看不见路不要紧，照着口令走，总能到岸。",
+  "村长：能活过今夜，明天才有资格谈传奇。",
+  "药师：急火煎不出好药，急心修不出神桥。",
+  "屠夫：遇见硬骨头，先稳住手，再稳住气。",
+  "瞎爷：看不见天，不代表看不见路。",
+  "村长：别怕慢，怕的是脚下没灯。",
+  "药师：丹毒不可笑，笑的是你明知还贪。",
+  "屠夫：输一阵不丢人，乱一阵才丢命。",
+  "瞎爷：路窄时别挤，先让心过去。",
+  "村长：榜单只是门牌，不是棺材板。",
+  "药师：补药也讲时辰，别把自己当铁锅。",
+  "屠夫：刀背也能赢，前提是你脑子先亮。",
+  "瞎爷：黑夜教人的第一课，是别装看见。",
+  "村长：天黑别出门，不是叫你别修行。",
+  "药师：药香是好闻，命苦是难闻。",
+  "屠夫：你怕的不是强敌，是自己手抖。",
+  "瞎爷：走错了就折返，别把错路走成信仰。",
+  "村长：活着回村，才配得上下一次远行。",
+  "药师：今天不进步也行，别退步就成。",
+  "屠夫：你若退半步，刀会替你退十步。",
+  "瞎爷：灯不在天上，在你手里。"
 ];
+const DAILY_SPARKS = [
+  "今夜一得：____", "今夜一失：____", "最稳的一手：____", "最险的一步：____", "想谢的人：____",
+  "差点翻车的瞬间：____", "明日第一件事：____", "今天最值的一次等待：____", "今天最该改的习惯：____", "给明天的自己一句话：____",
+  "今日状态（稳/躁/疲）：____", "今日最想复盘的操作：____", "今天的运气关键词：____", "今天的心法关键词：____", "若再来一次会怎么做：____",
+  "今日笑点：____", "今日狠话：____", "今日误判：____", "今日补救：____", "最想和谁并肩：____",
+  "本周小目标进度：____", "今日最亮的一个细节：____", "今天没做到但想做到：____", "今晚收灯前的念头：____"
+];
+
+function pickRandomLines(items, count = 6) {
+  const cloned = [...items];
+  for (let i = cloned.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [cloned[i], cloned[j]] = [cloned[j], cloned[i]];
+  }
+  return cloned.slice(0, Math.min(count, cloned.length));
+}
 const REDACT_KEYWORD = "天道";
 const UNKNOWN_TEXT = "大墟的黑暗掩盖了真相...";
 const ITEM_SECTIONS = [
@@ -400,7 +440,7 @@ const renderHeroTags = () => {
   const container = document.getElementById("heroTags");
   if (!container) return;
   clearContainer(container);
-  HERO_TAGS.forEach((tag) => {
+  pickRandomLines(HERO_TAG_POOL, 8).forEach((tag) => {
     const span = createElement("span", "tag", tag);
     container.appendChild(span);
   });
@@ -601,7 +641,8 @@ const renderDailyLog = () => {
     "一句夜话（原创，别抄经文）：____",
     "明日计划：优先完成 ____（建议先看 .帮助）",
   ];
-  const pre = createElement("pre", "daily-template", template.join("\n"));
+  const randomSparks = pickRandomLines(DAILY_SPARKS, 8);
+  const pre = createElement("pre", "daily-template", `${template.join("\n")}\n${randomSparks.map((line) => `- ${line}`).join("\n")}`);
   container.appendChild(pre);
 };
 
@@ -652,15 +693,6 @@ const EASTER_POOLS = {
     "把‘求稳、求快、求乐子’做成三种打法标签，便于组队。",
     "每逢节日可开‘残老村夜市’，只发整活台词不比强度。"
   ]
-};
-
-const pickRandomLines = (items, count = 6) => {
-  const cloned = [...items];
-  for (let i = cloned.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [cloned[i], cloned[j]] = [cloned[j], cloned[i]];
-  }
-  return cloned.slice(0, Math.min(count, cloned.length));
 };
 
 const renderEasterEggs = () => {
