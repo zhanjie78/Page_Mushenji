@@ -22,6 +22,12 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body class="mushenji-theme">
+  <div class="bg-effects" aria-hidden="true">
+    <div class="bg-layer bg-stars"></div>
+    <div class="bg-layer bg-fog"></div>
+    <div class="bg-layer bg-runes"></div>
+    <div class="bg-layer bg-glow"></div>
+  </div>
   <canvas id="ruins-bg" style="position: fixed; inset: 0; z-index: -1;" aria-hidden="true"></canvas>
   <div class="glass-container" role="presentation">
     <div class="page">
@@ -53,6 +59,7 @@
       </aside>
 
       <main class="content">
+        <div class="reading-shield" aria-hidden="true"></div>
         <div id="content-area"></div>
         <section class="hero mist-parallax" id="hero">
           <div class="hero-celestial" aria-hidden="true">

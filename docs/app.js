@@ -1118,6 +1118,35 @@ const renderPills = (items) => renderItemSection("pillsContent", items);
 const renderEquipment = (items) => renderItemSection("equipmentContent", items);
 
 
+
+const setupBackgroundEffects = () => {
+  const effects = document.querySelector(".bg-effects");
+  if (!effects) return;
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const coarsePointer = window.matchMedia("(hover: none), (pointer: coarse)").matches;
+  if (reduceMotion || coarsePointer) {
+    effects.style.setProperty("--fx-parallax-x", "0px");
+    effects.style.setProperty("--fx-parallax-y", "0px");
+    return;
+  }
+
+  let rafId = null;
+  const updateParallax = (event) => {
+    const cx = window.innerWidth / 2;
+    const cy = window.innerHeight / 2;
+    const dx = (event.clientX - cx) / cx;
+    const dy = (event.clientY - cy) / cy;
+    effects.style.setProperty("--fx-parallax-x", `${(dx * 4).toFixed(2)}px`);
+    effects.style.setProperty("--fx-parallax-y", `${(dy * 3).toFixed(2)}px`);
+    rafId = null;
+  };
+
+  window.addEventListener("mousemove", (event) => {
+    if (rafId) return;
+    rafId = requestAnimationFrame(() => updateParallax(event));
+  }, { passive: true });
+};
+
 const setupTopbarRail = () => {
   const topbar = document.getElementById("topbar");
   if (!topbar) return;
@@ -1531,6 +1560,7 @@ const init = async () => {
     setupInscriptionReveal();
     setupStaggerReveal();
     animateStatNumbers();
+    setupBackgroundEffects();
 
     const footer = document.getElementById("siteFooter");
     if (footer && !footer.textContent.trim()) {
