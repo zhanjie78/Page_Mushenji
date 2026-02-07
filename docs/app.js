@@ -1269,6 +1269,11 @@ const setupNavScroll = () => {
       if (fogGate) {
         fogGate.classList.remove("is-active");
         requestAnimationFrame(() => fogGate.classList.add("is-active"));
+        const clearFog = () => {
+          fogGate.classList.remove("is-active");
+          fogGate.removeEventListener("animationend", clearFog);
+        };
+        fogGate.addEventListener("animationend", clearFog);
       }
       window.history.pushState(null, "", `#${targetId}`);
       setActiveNav(targetId);
