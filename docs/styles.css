@@ -1378,8 +1378,8 @@ h2,
   position: absolute;
   left: 0;
   right: 0;
-  bottom: -20%;
-  height: 40%;
+  bottom: 0;
+  height: 0;
   background: linear-gradient(to bottom, rgba(8, 9, 12, 0.45), transparent);
   opacity: 0.35;
   transform: scaleY(-1);
@@ -2261,6 +2261,7 @@ body::before { opacity: 0.03; }
 .content {
   position: relative;
   isolation: isolate;
+  z-index: 2;
 }
 
 .reading-shield {
@@ -2531,7 +2532,7 @@ body[data-fx="full"] .bg-layer {
   inset: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 0;
+  z-index: 1;
   pointer-events: none;
 }
 

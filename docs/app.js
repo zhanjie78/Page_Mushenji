@@ -1631,15 +1631,33 @@ const init = async () => {
   }
 };
 
+
+const getFxParticleProfile = () => {
+  const level = window.localStorage.getItem("msj-fx-level") || document.body?.dataset.fx || "balanced";
+  const densityMap = { full: 1, balanced: 0.65, lite: 0.35 };
+  const baseDensity = densityMap[level] || densityMap.balanced;
+  const mobile = window.matchMedia("(max-width: 900px)").matches;
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const mobileMultiplier = mobile ? 0.5 : 1;
+  const reducedMultiplier = reduced ? 0.45 : 1;
+  return {
+    density: baseDensity * mobileMultiplier * reducedMultiplier,
+    reduceMotion: reduced,
+  };
+};
+
 class RuinsBackground {
-  constructor() {
+  constructor(options = {}) {
     this.canvas = document.createElement("canvas");
     this.canvas.className = "ruins-background";
     this.context = this.canvas.getContext("2d");
     this.particles = [];
     this.bursts = [];
-    this.maxParticles = 140;
-    this.light = { x: window.innerWidth / 2, y: window.innerHeight / 2, radius: 160 };
+    this.profile = options.profile || getFxParticleProfile();
+    this.maxParticles = Math.max(24, Math.round(140 * this.profile.density));
+    this.motionScale = this.profile.reduceMotion ? 0.24 : 1;
+    this.canvas.dataset.particles = String(this.maxParticles);
+    this.light = { x: window.innerWidth / 2, y: window.innerHeight / 2, radius: this.profile.reduceMotion ? 72 : 160 };
     this.running = false;
 
     this.handleResize = this.handleResize.bind(this);
@@ -1676,11 +1694,11 @@ class RuinsBackground {
     return {
       x: base.x,
       y: base.y,
-      vx: (Math.random() - 0.5) * 0.4,
-      vy: (Math.random() - 0.5) * 0.4,
-      size: Math.random() * 2.8 + 0.8,
-      alpha: Math.random() * 0.5 + 0.15,
-      hue: 220 + Math.random() * 40,
+      vx: (Math.random() - 0.5) * 0.4 * this.motionScale,
+      vy: (Math.random() - 0.5) * 0.4 * this.motionScale,
+      size: Math.random() * 2.2 + 0.8,
+      alpha: Math.random() * 0.28 + 0.14,
+      hue: 200 + Math.random() * 36,
     };
   }
 
@@ -1690,10 +1708,10 @@ class RuinsBackground {
   }
 
   spawnBurst(x, y) {
-    const count = 26 + Math.floor(Math.random() * 18);
+    const count = this.profile.reduceMotion ? 8 : 18 + Math.floor(Math.random() * 12);
     for (let i = 0; i < count; i += 1) {
       const angle = Math.random() * Math.PI * 2;
-      const speed = Math.random() * 3 + 1;
+      const speed = (Math.random() * 2.2 + 0.8) * this.motionScale;
       this.bursts.push({
         x,
         y,
@@ -1727,22 +1745,22 @@ class RuinsBackground {
       const dy = particle.y - this.light.y;
       const distance = Math.hypot(dx, dy);
       if (distance < this.light.radius) {
-        const force = (1 - distance / this.light.radius) * 1.4;
-        particle.vx += (dx / Math.max(distance, 1)) * force * 0.6;
-        particle.vy += (dy / Math.max(distance, 1)) * force * 0.6;
+        const force = (1 - distance / this.light.radius) * 1.2 * this.motionScale;
+        particle.vx += (dx / Math.max(distance, 1)) * force * 0.4;
+        particle.vy += (dy / Math.max(distance, 1)) * force * 0.4;
       }
 
       particle.x += particle.vx;
       particle.y += particle.vy;
-      particle.vx *= 0.96;
-      particle.vy *= 0.96;
+      particle.vx *= 0.97;
+      particle.vy *= 0.97;
       if (particle.x < -20) particle.x = width + 20;
       if (particle.x > width + 20) particle.x = -20;
       if (particle.y < -20) particle.y = height + 20;
       if (particle.y > height + 20) particle.y = -20;
 
       ctx.beginPath();
-      ctx.fillStyle = `hsla(${particle.hue}, 30%, 25%, ${particle.alpha})`;
+      ctx.fillStyle = `hsla(${particle.hue}, 36%, 62%, ${particle.alpha})`;
       ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
       ctx.fill();
     });
@@ -1769,8 +1787,8 @@ class RuinsBackground {
       particle.life += 1;
       particle.x += particle.vx;
       particle.y += particle.vy;
-      particle.vx *= 0.96;
-      particle.vy *= 0.96;
+      particle.vx *= 0.97;
+      particle.vy *= 0.97;
       const progress = particle.life / particle.ttl;
       const alpha = particle.alpha * (1 - progress);
       ctx.beginPath();
@@ -1785,8 +1803,8 @@ class RuinsBackground {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const ruinsBackground = reduceMotion ? null : new RuinsBackground();
+  const profile = getFxParticleProfile();
+  const ruinsBackground = new RuinsBackground({ profile });
   init().catch((error) => {
     console.error("Initialization failed.", error);
   });
