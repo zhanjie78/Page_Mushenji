@@ -72,7 +72,13 @@ const SECTIONS = TAXONOMY.map((section) => ({
   categories: sectionMappings[section.id] || [],
 }));
 
-const HERO_TAGS = ["大墟夜行", "霸体修行", "九老叮嘱", "牧神之道"];
+const HERO_TAGS = ["残老村", "延康变法", "酆都鬼市", "神桥破境"];
+const NPC_WHISPERS = [
+  "村长：先测灵体，再谈远方。夜路长，别空着手。",
+  "药师：丹香再好也要按量服用，莫贪。",
+  "屠夫：刀要快，命令也要准；错字比钝刀更要命。",
+  "瞎爷：看不见路不要紧，照着口令走，总能到岸。",
+];
 const REDACT_KEYWORD = "天道";
 const UNKNOWN_TEXT = "大墟的黑暗掩盖了真相...";
 const ITEM_SECTIONS = [
@@ -84,6 +90,13 @@ const ITEM_SECTIONS = [
     id: "equipment",
     title: "神兵宝甲",
   },
+];
+
+const IMMERSION_SECTIONS = [
+  { id: "quickstart-path", title: "三分钟上手" },
+  { id: "truth-audit", title: "天工碑刻" },
+  { id: "daily-log", title: "修炼日报" },
+  { id: "easter-eggs", title: "彩蛋区" },
 ];
 const LORE_TEMPLATES = [
   (file, registry) => `
@@ -393,6 +406,22 @@ const renderHeroTags = () => {
   });
 };
 
+const renderNpcWhispers = () => {
+  const container = document.getElementById("npcWhispers");
+  if (!container) return;
+  let index = 0;
+  container.textContent = `【夜话】${NPC_WHISPERS[index]}`;
+  window.setInterval(() => {
+    index = (index + 1) % NPC_WHISPERS.length;
+    container.classList.remove("show");
+    window.setTimeout(() => {
+      container.textContent = `【夜话】${NPC_WHISPERS[index]}`;
+      container.classList.add("show");
+    }, 120);
+  }, 4200);
+  container.classList.add("show");
+};
+
 const renderSnapshot = (commands, features) => {
   const container = document.getElementById("systemSnapshot");
   if (!container) return;
@@ -453,9 +482,211 @@ const renderSnapshot = (commands, features) => {
 
   const rules = createElement("div", "detail-inline");
   rules.style.marginTop = "14px";
-  rules.textContent =
-    "修行规则：闭关冷却10~15分钟；深度闭关8小时（冷却22小时）；任务冷却6小时；宗门任务8小时；鬼市淘宝500大丰币；被动修为每60秒+1。";
+  const getFeatureValue = (name) => features.find((feature) => feature.name === name)?.details;
+  const trainMin = Number(getFeatureValue("TRAIN_CD_MIN") || 0) / 60;
+  const trainMax = Number(getFeatureValue("TRAIN_CD_MAX") || 0) / 60;
+  const deepDuration = Number(getFeatureValue("DEEP_DURATION") || 0) / 3600;
+  const deepCooldown = Number(getFeatureValue("DEEP_COOLDOWN") || 0) / 3600;
+  const taskCooldown = Number(getFeatureValue("TASK_COOLDOWN") || 0) / 3600;
+  const sectTaskCooldown = Number(getFeatureValue("SECT_TASK_COOLDOWN") || 0) / 3600;
+  const ghostMarketCost = Number(getFeatureValue("GHOST_MARKET_COST") || 0);
+  const passiveCd = Number(getFeatureValue("PASSIVE_CD") || 0);
+  const passiveGain = Number(getFeatureValue("PASSIVE_GAIN") || 0);
+  rules.textContent = `修行规则：闭关冷却${trainMin}~${trainMax}分钟；深度闭关${deepDuration}小时（冷却${deepCooldown}小时）；任务冷却${taskCooldown}小时；宗门任务${sectTaskCooldown}小时；鬼市淘宝${ghostMarketCost}大丰币；被动修为每${passiveCd}秒+${passiveGain}。`;
   container.appendChild(rules);
+};
+
+const renderTruthAudit = (commands, features) => {
+  const container = document.getElementById("truthAuditContent");
+  if (!container) return;
+  clearContainer(container);
+
+  const commandWithSource = commands.filter((command) => command.source?.file).length;
+  const featureWithSource = features.filter((feature) => feature.source?.file).length;
+  const registrySet = new Set([
+    ...commands.map((command) => command.source?.registry).filter(Boolean),
+    ...features.map((feature) => feature.source?.registry).filter(Boolean),
+  ]);
+
+  const lines = [
+    `今夜刻录法门：${commands.length} 条（有源印记 ${commandWithSource}）`,
+    `天规常量：${features.length} 条（有源印记 ${featureWithSource}）`,
+    "天书名：mushenji_bot.py",
+    `碑刻签章：${Array.from(registrySet).join(" / ") || "未知"}`,
+    "这页里的可复制口令，都从命令卷轴现抄，不玩花字。",
+    "若你在实战里遇到偏差，记得回去翻天书原卷。",
+  ];
+
+  const ul = createElement("ul", "truth-audit-list");
+  lines.forEach((line) => {
+    const li = createElement("li", "", line);
+    ul.appendChild(li);
+  });
+  container.appendChild(ul);
+};
+
+const renderQuickstartPath = (commands, features) => {
+  const container = document.getElementById("quickstartContent");
+  if (!container) return;
+  clearContainer(container);
+  const map = new Map(commands.map((command) => [command.name, command]));
+  const steps = [
+    {
+      title: "第 1 分钟：验明修行身份",
+      npc: "村长",
+      commandNames: ["帮助", "检测灵体", "我的灵体"],
+      note: "先确认灵体与基础指令，避免后续误触发。",
+    },
+    {
+      title: "第 2 分钟：建立日常循环",
+      npc: "瞎爷",
+      commandNames: ["闭关修炼", "查看闭关", "突破"],
+      note: "闭关结束立刻查看收益，达标后再突破。",
+    },
+    {
+      title: "第 3 分钟：补给与任务",
+      npc: "药师",
+      commandNames: ["任务", "储物袋", "鬼市"],
+      note: "任务拿大丰币，鬼市淘宝消耗固定成本。",
+    },
+  ];
+  const passiveMinLen = Number(features.find((feature) => feature.name === "PASSIVE_MIN_LEN")?.details || 0);
+
+  steps.forEach((step) => {
+    const card = createElement("article", "card command-card tilt-card");
+    card.appendChild(createElement("h3", "", step.title));
+    card.appendChild(createElement("div", "card-meta", `【${step.npc}提示】${step.note}`));
+    const usage = [];
+    step.commandNames.forEach((name) => {
+      const matched = map.get(name);
+      if (matched?.usage?.length) {
+        usage.push(...matched.usage);
+      }
+    });
+    const usageCloud = renderCommandCloud(Array.from(new Set(usage)));
+    if (usageCloud) {
+      const field = createElement("div", "card-field");
+      field.appendChild(createElement("span", "field-label", "可直接复制"));
+      field.appendChild(usageCloud);
+      card.appendChild(field);
+    }
+    container.appendChild(card);
+    applyTiltEffect(card, 8);
+  });
+
+  const extra = createElement("article", "card command-card tilt-card");
+  extra.appendChild(createElement("h3", "", "夜行补充"));
+  extra.appendChild(
+    createElement(
+      "div",
+      "card-meta",
+      `被动修行判定要求至少 ${passiveMinLen} 字；闲聊也能积累修为，但请保持有效内容。`
+    )
+  );
+  container.appendChild(extra);
+  applyTiltEffect(extra, 8);
+};
+
+const renderDailyLog = () => {
+  const container = document.getElementById("dailyLogContent");
+  if (!container) return;
+  clearContainer(container);
+  const template = [
+    "【修炼日报｜玩法设定】",
+    "值夜人：____（可填‘村长/药师/屠夫’等扮演称呼）",
+    "今日境界：____",
+    "今日命令：.闭关修炼 ｜ .任务 ｜ .鬼市 淘宝",
+    "资源变化：灵石 +____ ｜ 大丰币 +____",
+    "战果记录：是否突破 ____ ｜ 是否炼制 ____",
+    "一句夜话（原创，别抄经文）：____",
+    "明日计划：优先完成 ____（建议先看 .帮助）",
+  ];
+  const pre = createElement("pre", "daily-template", template.join("\n"));
+  container.appendChild(pre);
+};
+
+const EASTER_POOLS = {
+  "同人彩蛋": [
+    "若你连着三次闭关都未突破，给自己留一句“天黑别出门，但别熄灯”。",
+    "把‘大墟/延康/幽都’做成日志分栏，像写江湖行脚簿，不改任何机制。",
+    "值夜时把群名片改成‘掌灯人’，第二天再改回去，算是给自己加个仪式。",
+    "每逢榜单更新，先夸一句对手，再默默去闭关，赢面会更稳。",
+    "若鬼市空手而归，就对自己说一句‘今天是探路，不是亏本’。",
+    "把常用命令记在手机短语里，像把护符缝在袖口。",
+    "连胜三次后，给自己写一句‘别狂，夜还长’放在日报最后一行。",
+    "若突破失败，不妨把失败截图命名为‘神桥施工中’。",
+    "和群友约定：谁先上榜谁请喝奶茶，输家负责喊一晚‘延康加急文书到’。",
+    "每次出手前先数三息，像屠夫磨刀前那一停。",
+    "把‘今日目标’拆成三小步，像残老村走夜路一盏灯接一盏灯。",
+    "连着两天断更日报，第三天必须补一句‘我在大墟迷路了’。",
+    "遇到卡关就去翻旧日报，经常能看到自己忽略的线索。",
+    "把最顺手的一条命令当‘本命招’，每天先打它开手感。",
+    "晚间收工前看一眼储物袋，像夜巡前摸一遍兵刃。",
+    "若今天没爆好东西，也记一句‘空袋回村，命在就赚’。",
+    "和朋友轮流扮演‘村长’，给彼此留一句明日任务。",
+    "打不过就先活着，活着就有下一轮故事。",
+    "每逢整点，给自己一句‘灯在，人就不算输’。",
+    "把失败当成地图，把成功当成路标，别反过来。",
+    "今天若只完成一件事，就把那件事做得像传记开头。"
+  ],
+  "玩法设定": [
+    "群聊可轮流扮演‘村长’催更日报，谁断更谁请喝‘赤火灵丹’（口嗨版）。",
+    "新人首日只做三件事：测灵体、闭关、看榜单；其余全靠你在夜里悟。",
+    "可开‘残老村值夜班’活动：每晚一人发今日三行总结。",
+    "周末可办‘延康公示榜’：晒出本周最稳的一次操作。",
+    "可设‘鬼市盲盒夜’：只聊收获故事，不晒具体收益数字。",
+    "公会可做‘神桥施工日报’，记录每个人的卡点与突破点。",
+    "给新手准备‘三问三答卡’：今天做了啥、卡在哪、明天怎么改。",
+    "可开‘屠夫一分钟点评’：一句狠话 + 一个可执行建议。",
+    "把常见错误整理成‘夜行禁忌榜’，每周更新一次。",
+    "群公告可置顶‘今日推荐命令’一条，减轻新人迷茫。",
+    "每晚固定十分钟‘安静闭关打卡’，结束后再自由聊天。",
+    "可设‘药师答疑时段’，专门收集丹药和配方相关问题。",
+    "每周一次‘大墟复盘会’，只复盘方法，不互相阴阳。",
+    "允许新人使用‘求带暗号’，老玩家优先回应。",
+    "可做‘战败勋章墙’，鼓励分享失败换经验。",
+    "每月办一次‘延康夜谈’，分享最有戏剧性的翻盘局。",
+    "给每位新成员发一份‘三分钟上手抄本’作为入群礼。",
+    "可设‘神桥奖学金’：持续打卡者获得称号或头像框。",
+    "管理可做‘天工碑刻更新日志’，说明本周玩法调整。",
+    "把‘求稳、求快、求乐子’做成三种打法标签，便于组队。",
+    "每逢节日可开‘残老村夜市’，只发整活台词不比强度。"
+  ]
+};
+
+const pickRandomLines = (items, count = 6) => {
+  const cloned = [...items];
+  for (let i = cloned.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [cloned[i], cloned[j]] = [cloned[j], cloned[i]];
+  }
+  return cloned.slice(0, Math.min(count, cloned.length));
+};
+
+const renderEasterEggs = () => {
+  const container = document.getElementById("easterEggContent");
+  if (!container) return;
+
+  const renderBatch = () => {
+    clearContainer(container);
+    Object.entries(EASTER_POOLS).forEach(([label, lines]) => {
+      pickRandomLines(lines, 6).forEach((text) => {
+        const card = createElement("article", "card command-card tilt-card");
+        card.appendChild(createElement("span", "field-label", label));
+        card.appendChild(createElement("div", "card-meta", text));
+        container.appendChild(card);
+        applyTiltEffect(card, 6);
+      });
+    });
+  };
+
+  renderBatch();
+
+  const shuffleButton = document.getElementById("easterShuffle");
+  if (shuffleButton && !shuffleButton.dataset.bound) {
+    shuffleButton.addEventListener("click", renderBatch);
+    shuffleButton.dataset.bound = "1";
+  }
 };
 
 const applyTiltEffect = (element, intensity = 12) => {
@@ -970,10 +1201,12 @@ const init = async () => {
 
   try {
     renderHeroTags();
+    renderNpcWhispers();
     renderSnapshot(commands, features);
     buildNavLinks(document.getElementById("topNav"), [
       ...SECTIONS.map((section) => ({ id: section.id, title: section.title })),
       ...ITEM_SECTIONS.map((section) => ({ id: section.id, title: section.title })),
+      ...IMMERSION_SECTIONS,
       { id: "troubleshooting", title: "故障排查" },
       { id: "command-library", title: "命令索引" },
     ]);
@@ -981,6 +1214,7 @@ const init = async () => {
       { id: "hero", title: "概览" },
       ...SECTIONS.map((section) => ({ id: section.id, title: section.title })),
       ...ITEM_SECTIONS.map((section) => ({ id: section.id, title: section.title })),
+      ...IMMERSION_SECTIONS,
       { id: "troubleshooting", title: "故障排查" },
       { id: "command-library", title: "命令索引" },
     ]);
@@ -996,6 +1230,10 @@ const init = async () => {
 
     renderPills(PILL_DATA);
     renderEquipment(EQUIPMENT_DATA);
+    renderQuickstartPath(commands, features);
+    renderTruthAudit(commands, features);
+    renderDailyLog();
+    renderEasterEggs();
 
     const sections = Array.from(document.querySelectorAll(".section"));
     sections.forEach((section, index) => {
@@ -1180,7 +1418,8 @@ class RuinsBackground {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const ruinsBackground = new RuinsBackground();
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const ruinsBackground = reduceMotion ? null : new RuinsBackground();
   init().catch((error) => {
     console.error("Initialization failed.", error);
   });
