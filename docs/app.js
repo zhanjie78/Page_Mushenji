@@ -450,13 +450,13 @@ const renderSnapshot = (commands, features) => {
   actions.appendChild(joinLink);
   actions.appendChild(contactLink);
   container.appendChild(actions);
-};
 
-const rules = createElement("div", "detail-inline");
-    rules.style.marginTop = "14px";
-    rules.textContent =
-      "修行规则：闭关冷却10~15分钟；深度闭关8小时（冷却22小时）；任务冷却6小时；宗门任务8小时；鬼  市淘宝500大丰币；被动修为每60秒+1。";
-    container.appendChild(rules);
+  const rules = createElement("div", "detail-inline");
+  rules.style.marginTop = "14px";
+  rules.textContent =
+    "修行规则：闭关冷却10~15分钟；深度闭关8小时（冷却22小时）；任务冷却6小时；宗门任务8小时；鬼市淘宝500大丰币；被动修为每60秒+1。";
+  container.appendChild(rules);
+};
 
 const applyTiltEffect = (element, intensity = 12) => {
   if (!element) return;
