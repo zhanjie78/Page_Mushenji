@@ -762,8 +762,8 @@ const renderTruthAudit = (commands, features) => {
   const lines = [
     `今夜刻录法门：${commands.length} 条（有源印记 ${commandWithSource}）`,
     `天规常量：${features.length} 条（有源印记 ${featureWithSource}）`,
-    "天书名：mushenji_bot.py",
-    `碑刻签章：${Array.from(registrySet).join(" / ") || "未知"}`,
+    "天书名：牧神记",
+    "碑刻签章：AllanPoe",
     "这页里的可复制口令，都从命令卷轴现抄，不玩花字。",
     "若你在实战里遇到偏差，记得回去翻天书原卷。",
   ];
