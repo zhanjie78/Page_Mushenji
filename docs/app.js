@@ -53,6 +53,11 @@ const TAXONOMY = [
 
 const SCROLL_OFFSET = 100;
 
+const getScrollOffset = () => {
+  const topbar = document.getElementById("topbar");
+  return (topbar?.getBoundingClientRect().height || SCROLL_OFFSET) + 16;
+};
+
 const sectionMappings = {
   preface: ["卷首语"],
   "great-ruins": ["大墟残老村"],
@@ -552,6 +557,109 @@ const filterErrors = (errors) =>
     (error) => error.message
   );
 
+const CHAPTER_ORDER = {
+  卷首语: 0,
+  大墟残老村: 1,
+  霸体筑基: 2,
+  延康国师变法: 3,
+  天魔教主: 4,
+  酆都鬼城: 5,
+  小玉京与大雷音: 6,
+  上苍虚界: 7,
+  屠夫的一刀: 8,
+  牧神之道: 9,
+};
+
+const stableSortAtlas = (items) =>
+  [...items].sort((a, b) => {
+    const chapterDiff = (CHAPTER_ORDER[a.chapter] ?? 999) - (CHAPTER_ORDER[b.chapter] ?? 999);
+    if (chapterDiff !== 0) return chapterDiff;
+    const subDiff = String(a.subcategory || a.tier || "").localeCompare(String(b.subcategory || b.tier || ""));
+    if (subDiff !== 0) return subDiff;
+    return String(a.name || "").localeCompare(String(b.name || ""));
+  });
+
+const parsePillsFromSource = (sourceText = "") => {
+  const failed = [];
+  if (!sourceText) {
+    failed.push({ item: "mushenji_bot.py", reason: "source is empty" });
+    return { items: [], failed };
+  }
+
+  const blocks = ["PILLS", "SUPER_RARE_PILLS"];
+  const parsed = [];
+
+  blocks.forEach((name) => {
+    const start = sourceText.indexOf(`${name} = {`);
+    if (start < 0) {
+      failed.push({ item: name, reason: "registry not found" });
+      return;
+    }
+    const end = sourceText.indexOf("}\n\n", start);
+    const chunk = sourceText.slice(start, end > start ? end + 1 : start + 1200);
+    const rx = /"([^"\n]+)"\s*:\s*\{[^}]*?"price"\s*:\s*(\d+)[^}]*?"min_tier"\s*:\s*(\d+)[^}]*?"min_stage"\s*:\s*(\d+)/g;
+    let m;
+    while ((m = rx.exec(chunk))) {
+      parsed.push({
+        name: m[1],
+        tier: name === "SUPER_RARE_PILLS" ? "超稀有" : "常见",
+        description: "来源自动补录（mushenji_bot.py）",
+        effect: "效果以源脚本字段为准",
+        icon: name === "SUPER_RARE_PILLS" ? "🌌" : "🧪",
+        category: "丹药",
+        chapter: "天魔教主",
+        subcategory: name,
+        minTier: Number(m[3]),
+        minStage: Number(m[4]),
+        price: Number(m[2]),
+        source: { file: "mushenji_bot.py", registry: name },
+        preconditions: [`境界：${formatRealmRequirement(Number(m[3]), Number(m[4]))}`],
+        restrictions: ["按冷却与材料条件使用"],
+        notes: ["自动解析条目，建议结合源码进一步补全说明。"],
+      });
+    }
+  });
+
+  return { items: parsed, failed };
+};
+
+const loadPillData = async () => {
+  const base = PILL_DATA.map((item) => ({
+    ...item,
+    category: item.category || "丹药",
+    chapter: item.chapter || "天魔教主",
+    subcategory: item.subcategory || item.tier || "常规",
+    preconditions: [typeof item.minTier === "number" ? `境界：${formatRealmRequirement(item.minTier, item.minStage || 1)}` : "无"],
+    restrictions: item.restrictions || ["按冷却与材料条件使用"],
+    notes: item.notes || ["来源：mushenji_bot.py"],
+  }));
+
+  let extracted = [];
+  let failures = [];
+  try {
+    const res = await fetch("https://raw.githubusercontent.com/zhanjie78/mushenji/main/mushenji_bot.py", { cache: "no-store" });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const text = await res.text();
+    const result = parsePillsFromSource(text);
+    extracted = result.items;
+    failures = result.failed;
+  } catch (error) {
+    failures.push({ item: "remote-source", reason: String(error?.message || error) });
+  }
+
+  const deduped = dedupeByKey([...base, ...extracted], (item) => item.name);
+  return {
+    pills: stableSortAtlas(deduped),
+    report: {
+      total: deduped.length,
+      supplemented: Math.max(0, extracted.length),
+      deduped: base.length + extracted.length - deduped.length,
+      failed: failures.length,
+      failures,
+    },
+  };
+};
+
 const buildNavLinks = (container, items) => {
   if (!container) return;
   clearContainer(container);
@@ -597,29 +705,33 @@ const renderSnapshot = (commands, features) => {
   const totalCommands = commands.length;
   const categories = [...new Set(commands.map((cmd) => cmd.category))].filter(Boolean).length;
   const prefixText = sanitizeText(prefix?.details ?? ".");
-  const prefixRow = createElement("div");
-  prefixRow.append(document.createTextNode("指令前缀："));
-  prefixRow.appendChild(createElement("code", "", prefixText));
-  container.appendChild(prefixRow);
-  container.appendChild(createElement("div", "", `已收录命令：${totalCommands}`));
-  container.appendChild(createElement("div", "", `已覆盖分类：${categories}`));
+
+  const sigils = createElement("div", "snapshot-sigils");
+  [
+    { label: "录入法门", value: totalCommands },
+    { label: "章节法脉", value: categories },
+    { label: "夜行前缀", value: prefixText, tone: "accent" },
+  ].forEach((item, index) => {
+    const metric = createElement("article", `sigil-metric ${item.tone || ""}`.trim());
+    metric.style.setProperty("--ring-delay", `${index * 120}ms`);
+    const ring = createElement("div", "sigil-ring");
+    const label = createElement("span", "sigil-label", item.label);
+    const value = createElement("strong", "sigil-value", String(item.value));
+    if (typeof item.value === "number") {
+      value.dataset.counter = String(item.value);
+      value.textContent = "0";
+    }
+    ring.appendChild(value);
+    metric.append(ring, label);
+    sigils.appendChild(metric);
+  });
+  container.appendChild(sigils);
 
   const actions = createElement("div", "portal-actions");
-  actions.style.marginTop = "24px";
-  actions.style.display = "flex";
-  actions.style.gap = "12px";
-  actions.style.flexWrap = "wrap";
 
   const joinLink = createElement("a", "btn-portal");
   joinLink.href = "https://t.me/mushenjixx";
   joinLink.target = "_blank";
-  joinLink.style.display = "inline-flex";
-  joinLink.style.alignItems = "center";
-  joinLink.style.gap = "8px";
-  joinLink.style.padding = "10px 24px";
-  joinLink.style.borderRadius = "8px";
-  joinLink.style.textDecoration = "none";
-  joinLink.style.color = "#000";
   addSvgIcon(
     joinLink,
     '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>'
@@ -629,26 +741,16 @@ const renderSnapshot = (commands, features) => {
   const contactLink = createElement("a", "btn-portal-ghost");
   contactLink.href = "https://t.me/The_Ravene";
   contactLink.target = "_blank";
-  contactLink.style.display = "inline-flex";
-  contactLink.style.alignItems = "center";
-  contactLink.style.gap = "8px";
-  contactLink.style.padding = "10px 24px";
-  contactLink.style.borderRadius = "8px";
-  contactLink.style.textDecoration = "none";
-  contactLink.style.border = "1px solid #d7b46a";
-  contactLink.style.color = "#d7b46a";
   addSvgIcon(
     contactLink,
     '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>'
   );
   contactLink.appendChild(createElement("span", "", "联系掌灯人"));
 
-  actions.appendChild(joinLink);
-  actions.appendChild(contactLink);
+  actions.append(joinLink, contactLink);
   container.appendChild(actions);
 
   const rules = createElement("div", "detail-inline");
-  rules.style.marginTop = "14px";
   const getFeatureValue = (name) => features.find((feature) => feature.name === name)?.details;
   const trainMin = Number(getFeatureValue("TRAIN_CD_MIN") || 0) / 60;
   const trainMax = Number(getFeatureValue("TRAIN_CD_MAX") || 0) / 60;
@@ -662,6 +764,7 @@ const renderSnapshot = (commands, features) => {
   rules.textContent = `修行规则：闭关冷却${trainMin}~${trainMax}分钟；深度闭关${deepDuration}小时（冷却${deepCooldown}小时）；任务冷却${taskCooldown}小时；宗门任务${sectTaskCooldown}小时；鬼市淘宝${ghostMarketCost}大丰币；被动修为每${passiveCd}秒+${passiveGain}。`;
   container.appendChild(rules);
 };
+
 
 const renderTruthAudit = (commands, features) => {
   const container = document.getElementById("truthAuditContent");
@@ -1122,12 +1225,131 @@ const renderItemSection = (sectionId, items) => {
 const renderPills = (items) => renderItemSection("pillsContent", items);
 const renderEquipment = (items) => renderItemSection("equipmentContent", items);
 
+
+
+const setupFxSystem = () => {
+  const root = document.body;
+  if (!root) return;
+  const preferred = window.localStorage.getItem("msj-fx-level") || root.dataset.fx || "balanced";
+  const valid = new Set(["lite", "balanced", "full"]);
+  const level = valid.has(preferred) ? preferred : "balanced";
+  root.dataset.fx = level;
+  const map = {
+    lite: { intensity: 0.42, speed: 0.78, density: 0.58, glow: 0.14 },
+    balanced: { intensity: 0.72, speed: 1, density: 1, glow: 0.22 },
+    full: { intensity: 0.9, speed: 1.12, density: 1.22, glow: 0.28 },
+  };
+  const token = map[level];
+  root.style.setProperty("--fx-intensity", String(token.intensity));
+  root.style.setProperty("--fx-speed", String(token.speed));
+  root.style.setProperty("--fx-density", String(token.density));
+  root.style.setProperty("--fx-glow-alpha", String(token.glow));
+};
+
+const setupScrollSigil = () => {
+  const sigil = document.getElementById("scrollSigil");
+  if (!sigil) return;
+  const update = () => {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
+    sigil.style.setProperty("--scroll-progress", String(progress));
+  };
+  window.addEventListener("scroll", update, { passive: true });
+  update();
+};
+
+const setupBackgroundEffects = () => {
+  const effects = document.querySelector(".bg-effects");
+  if (!effects) return;
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const coarsePointer = window.matchMedia("(hover: none), (pointer: coarse)").matches;
+  if (reduceMotion || coarsePointer) {
+    effects.style.setProperty("--fx-parallax-x", "0px");
+    effects.style.setProperty("--fx-parallax-y", "0px");
+    return;
+  }
+
+  let rafId = null;
+  const updateParallax = (event) => {
+    const cx = window.innerWidth / 2;
+    const cy = window.innerHeight / 2;
+    const dx = (event.clientX - cx) / cx;
+    const dy = (event.clientY - cy) / cy;
+    effects.style.setProperty("--fx-parallax-x", `${(dx * 4).toFixed(2)}px`);
+    effects.style.setProperty("--fx-parallax-y", `${(dy * 3).toFixed(2)}px`);
+    rafId = null;
+  };
+
+  window.addEventListener("mousemove", (event) => {
+    if (rafId) return;
+    rafId = requestAnimationFrame(() => updateParallax(event));
+  }, { passive: true });
+};
+
+const setupTopbarRail = () => {
+  const topbar = document.getElementById("topbar");
+  if (!topbar) return;
+  const updateRail = () => {
+    topbar.classList.toggle("is-scrolled", window.scrollY > 24);
+  };
+  window.addEventListener("scroll", updateRail, { passive: true });
+  updateRail();
+};
+
+const animateStatNumbers = () => {
+  const counters = Array.from(document.querySelectorAll("[data-counter]"));
+  counters.forEach((counter) => {
+    const target = Number(counter.dataset.counter || 0);
+    if (!Number.isFinite(target)) return;
+    const duration = 1200;
+    const start = performance.now();
+    const tick = (now) => {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      counter.textContent = String(Math.round(target * eased));
+      if (progress < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  });
+};
+
+const setupInscriptionReveal = () => {
+  document.querySelectorAll(".section-header").forEach((header) => {
+    const title = header.querySelector("h2");
+    const subtitle = header.querySelector("p");
+    if (title) title.classList.add("inscription-title");
+    if (subtitle) subtitle.classList.add("inscription-sub");
+  });
+};
+
+const setupStaggerReveal = () => {
+  const blocks = Array.from(document.querySelectorAll(".section, .hero, .site-footer"));
+  if (!blocks.length) return;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      const order = Number(entry.target.dataset.staggerOrder || 0);
+      const delay = Math.min(80, 40 + order * 6);
+      entry.target.style.setProperty("--reveal-delay", `${delay}ms`);
+      entry.target.classList.add("is-revealed");
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0.15 });
+
+  blocks.forEach((block, index) => {
+    block.dataset.staggerOrder = String(index % 7);
+    observer.observe(block);
+  });
+};
+
 const setActiveNav = (sectionId) => {
   if (!sectionId) return;
   const navLinks = document.querySelectorAll(".topbar-nav a, .sidebar-nav a");
   navLinks.forEach((link) => {
     const target = link.getAttribute("href")?.replace("#", "");
-    link.classList.toggle("active", target === sectionId);
+    const active = target === sectionId;
+    link.classList.toggle("active", active);
+    link.classList.toggle("sigil-pulse", active);
   });
 };
 
@@ -1135,7 +1357,7 @@ const scrollToSection = (sectionId, behavior = "smooth") => {
   if (!sectionId) return;
   const targetElement = document.getElementById(sectionId);
   if (!targetElement) return;
-  const headerOffset = SCROLL_OFFSET;
+  const headerOffset = getScrollOffset();
   const elementPosition = targetElement.getBoundingClientRect().top;
   const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
   window.scrollTo({ top: offsetPosition, behavior });
@@ -1151,6 +1373,16 @@ const setupNavScroll = () => {
       if (!targetId) return;
       event.preventDefault();
       scrollToSection(targetId);
+      const fogGate = document.getElementById("fogGate");
+      if (fogGate) {
+        fogGate.classList.remove("is-active");
+        requestAnimationFrame(() => fogGate.classList.add("is-active"));
+        const clearFog = () => {
+          fogGate.classList.remove("is-active");
+          fogGate.removeEventListener("animationend", clearFog);
+        };
+        fogGate.addEventListener("animationend", clearFog);
+      }
       window.history.pushState(null, "", `#${targetId}`);
       setActiveNav(targetId);
     });
@@ -1269,7 +1501,7 @@ const setupScrollSpy = () => {
   let ticking = false;
 
   const updateActiveSection = () => {
-    const scrollPosition = window.scrollY + SCROLL_OFFSET + 1;
+    const scrollPosition = window.scrollY + getScrollOffset() + 1;
     let currentSection = sections[0]?.id;
     sections.forEach((section) => {
       if (section.offsetTop <= scrollPosition) {
@@ -1297,28 +1529,43 @@ const setupCommandCardSpotlight = () => {
   const cards = Array.from(document.querySelectorAll(".command-card, .glass-card"));
   if (!cards.length) return;
   const supportsHover = window.matchMedia("(hover: hover)").matches;
-  if (!supportsHover) return;
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!supportsHover || reduceMotion) return;
+  let activeCard = null;
   let rafId = null;
   let lastEvent = null;
 
   const updateSpotlight = () => {
-    if (!lastEvent) return;
-    cards.forEach((card) => {
-      const rect = card.getBoundingClientRect();
-      const x = lastEvent.clientX - rect.left;
-      const y = lastEvent.clientY - rect.top;
-      card.style.setProperty("--mouse-x", `${x}px`);
-      card.style.setProperty("--mouse-y", `${y}px`);
-    });
+    if (!activeCard || !lastEvent) {
+      rafId = null;
+      return;
+    }
+    const rect = activeCard.getBoundingClientRect();
+    const x = lastEvent.clientX - rect.left;
+    const y = lastEvent.clientY - rect.top;
+    activeCard.style.setProperty("--mouse-x", `${x}px`);
+    activeCard.style.setProperty("--mouse-y", `${y}px`);
     rafId = null;
   };
 
+  cards.forEach((card) => {
+    card.addEventListener("mouseenter", () => {
+      activeCard = card;
+    });
+    card.addEventListener("mouseleave", () => {
+      card.style.removeProperty("--mouse-x");
+      card.style.removeProperty("--mouse-y");
+      if (activeCard === card) activeCard = null;
+    });
+  });
+
   document.addEventListener("mousemove", (event) => {
+    if (!activeCard) return;
     lastEvent = event;
     if (!rafId) {
       rafId = window.requestAnimationFrame(updateSpotlight);
     }
-  });
+  }, { passive: true });
 };
 
 const setupCardTilt = () => {
@@ -1449,8 +1696,27 @@ const init = async () => {
       renderSectionCards(commands, section.contentId, section.categories);
     });
 
-    renderPills(PILL_DATA);
-    renderEquipment(EQUIPMENT_DATA);
+    let pillReport = { total: PILL_DATA.length, supplemented: 0, deduped: 0, failed: 0, failures: [] };
+    let pills = stableSortAtlas(PILL_DATA.map((item) => ({ ...item, category: item.category || "丹药", chapter: item.chapter || "天魔教主", subcategory: item.subcategory || item.tier || "常规" })));
+    try {
+      const loaded = await loadPillData();
+      pills = loaded.pills;
+      pillReport = loaded.report;
+    } catch (pillError) {
+      pillReport = { ...pillReport, failed: 1, failures: [{ item: "pill-loader", reason: String(pillError?.message || pillError) }] };
+    }
+    renderPills(pills);
+    renderEquipment(stableSortAtlas(EQUIPMENT_DATA.map((item) => ({ ...item, chapter: item.chapter || "小玉京与大雷音", subcategory: item.subcategory || item.tier || "装备" }))));
+
+    window.__pillReport = pillReport;
+
+    const pillContainer = document.getElementById("pillsContent");
+    if (pillContainer && pillReport.failed > 0) {
+      const warn = createElement("article", "card glass-card item-card");
+      warn.appendChild(createElement("h3", "", "丹药源同步提示"));
+      warn.appendChild(createElement("p", "item-description", `远程补录失败 ${pillReport.failed} 项，已使用本地图鉴；失败原因：${pillReport.failures.map((f) => `${f.item}: ${f.reason}`).join(" | ")}`));
+      pillContainer.appendChild(warn);
+    }
     renderQuickstartPath(commands, features);
     renderTruthAudit(commands, features);
     renderDailyLog();
@@ -1475,6 +1741,13 @@ const init = async () => {
     setupSidebarSearch();
     setupNavScroll();
     setupScrollSpy();
+    setupFxSystem();
+    setupScrollSigil();
+    setupTopbarRail();
+    setupInscriptionReveal();
+    setupStaggerReveal();
+    animateStatNumbers();
+    setupBackgroundEffects();
 
     const footer = document.getElementById("siteFooter");
     if (footer && !footer.textContent.trim()) {
@@ -1485,15 +1758,33 @@ const init = async () => {
   }
 };
 
+
+const getFxParticleProfile = () => {
+  const level = window.localStorage.getItem("msj-fx-level") || document.body?.dataset.fx || "balanced";
+  const densityMap = { full: 1, balanced: 0.65, lite: 0.35 };
+  const baseDensity = densityMap[level] || densityMap.balanced;
+  const mobile = window.matchMedia("(max-width: 900px)").matches;
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const mobileMultiplier = mobile ? 0.5 : 1;
+  const reducedMultiplier = reduced ? 0.45 : 1;
+  return {
+    density: baseDensity * mobileMultiplier * reducedMultiplier,
+    reduceMotion: reduced,
+  };
+};
+
 class RuinsBackground {
-  constructor() {
+  constructor(options = {}) {
     this.canvas = document.createElement("canvas");
     this.canvas.className = "ruins-background";
     this.context = this.canvas.getContext("2d");
     this.particles = [];
     this.bursts = [];
-    this.maxParticles = 140;
-    this.light = { x: window.innerWidth / 2, y: window.innerHeight / 2, radius: 160 };
+    this.profile = options.profile || getFxParticleProfile();
+    this.maxParticles = Math.max(24, Math.round(140 * this.profile.density));
+    this.motionScale = this.profile.reduceMotion ? 0.24 : 1;
+    this.canvas.dataset.particles = String(this.maxParticles);
+    this.light = { x: window.innerWidth / 2, y: window.innerHeight / 2, radius: this.profile.reduceMotion ? 72 : 160 };
     this.running = false;
 
     this.handleResize = this.handleResize.bind(this);
@@ -1530,11 +1821,11 @@ class RuinsBackground {
     return {
       x: base.x,
       y: base.y,
-      vx: (Math.random() - 0.5) * 0.4,
-      vy: (Math.random() - 0.5) * 0.4,
-      size: Math.random() * 2.8 + 0.8,
-      alpha: Math.random() * 0.5 + 0.15,
-      hue: 220 + Math.random() * 40,
+      vx: (Math.random() - 0.5) * 0.4 * this.motionScale,
+      vy: (Math.random() - 0.5) * 0.4 * this.motionScale,
+      size: Math.random() * 2.2 + 0.8,
+      alpha: Math.random() * 0.28 + 0.14,
+      hue: 200 + Math.random() * 36,
     };
   }
 
@@ -1544,10 +1835,10 @@ class RuinsBackground {
   }
 
   spawnBurst(x, y) {
-    const count = 26 + Math.floor(Math.random() * 18);
+    const count = this.profile.reduceMotion ? 8 : 18 + Math.floor(Math.random() * 12);
     for (let i = 0; i < count; i += 1) {
       const angle = Math.random() * Math.PI * 2;
-      const speed = Math.random() * 3 + 1;
+      const speed = (Math.random() * 2.2 + 0.8) * this.motionScale;
       this.bursts.push({
         x,
         y,
@@ -1581,22 +1872,22 @@ class RuinsBackground {
       const dy = particle.y - this.light.y;
       const distance = Math.hypot(dx, dy);
       if (distance < this.light.radius) {
-        const force = (1 - distance / this.light.radius) * 1.4;
-        particle.vx += (dx / Math.max(distance, 1)) * force * 0.6;
-        particle.vy += (dy / Math.max(distance, 1)) * force * 0.6;
+        const force = (1 - distance / this.light.radius) * 1.2 * this.motionScale;
+        particle.vx += (dx / Math.max(distance, 1)) * force * 0.4;
+        particle.vy += (dy / Math.max(distance, 1)) * force * 0.4;
       }
 
       particle.x += particle.vx;
       particle.y += particle.vy;
-      particle.vx *= 0.96;
-      particle.vy *= 0.96;
+      particle.vx *= 0.97;
+      particle.vy *= 0.97;
       if (particle.x < -20) particle.x = width + 20;
       if (particle.x > width + 20) particle.x = -20;
       if (particle.y < -20) particle.y = height + 20;
       if (particle.y > height + 20) particle.y = -20;
 
       ctx.beginPath();
-      ctx.fillStyle = `hsla(${particle.hue}, 30%, 25%, ${particle.alpha})`;
+      ctx.fillStyle = `hsla(${particle.hue}, 36%, 62%, ${particle.alpha})`;
       ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
       ctx.fill();
     });
@@ -1623,8 +1914,8 @@ class RuinsBackground {
       particle.life += 1;
       particle.x += particle.vx;
       particle.y += particle.vy;
-      particle.vx *= 0.96;
-      particle.vy *= 0.96;
+      particle.vx *= 0.97;
+      particle.vy *= 0.97;
       const progress = particle.life / particle.ttl;
       const alpha = particle.alpha * (1 - progress);
       ctx.beginPath();
@@ -1639,8 +1930,8 @@ class RuinsBackground {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const ruinsBackground = reduceMotion ? null : new RuinsBackground();
+  const profile = getFxParticleProfile();
+  const ruinsBackground = new RuinsBackground({ profile });
   init().catch((error) => {
     console.error("Initialization failed.", error);
   });
