@@ -530,6 +530,28 @@ body::-webkit-scrollbar-thumb:hover,
   gap: 6px;
 }
 
+
+.count-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.8em;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(213, 154, 82, 0.6);
+  background: rgba(13, 15, 20, 0.8);
+  color: var(--gold-100);
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+.detail-list {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--mist-100);
+  display: grid;
+  gap: 6px;
+}
 .section-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));

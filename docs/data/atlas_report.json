@@ -1,0 +1,37 @@
+{
+  "sourceCounts": {
+    "TRAIN_LOOT_CHANCE": 1,
+    "DEEP_LOOT_CHANCE": 1,
+    "LOW_TIER_LOOT": 9,
+    "HIGH_TIER_LOOT": 13,
+    "PILLS": 34,
+    "SUPER_RARE_PILLS": 5,
+    "WEAPONS": 27,
+    "LIMITED_WEAPONS": 5,
+    "ARMORS": 25,
+    "LIMITED_ARMORS": 5,
+    "ITEMS": 40,
+    "RECIPES": 35
+  },
+  "frontendCounts": {
+    "pills": 39,
+    "weapons": 32,
+    "armors": 30,
+    "items": 40,
+    "recipes": 35,
+    "loot_low": 9,
+    "loot_high": 13
+  },
+  "expectedCounts": {
+    "pills": 39,
+    "weapons": 32,
+    "armors": 30,
+    "items": 40,
+    "recipes": 35,
+    "loot_low": 9,
+    "loot_high": 13
+  },
+  "missingNames": {},
+  "conflicts": [],
+  "isConsistent": true
+}

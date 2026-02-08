@@ -153,14 +153,12 @@ function pickRandomLines(items, count = 6) {
 const REDACT_KEYWORD = "天道";
 const UNKNOWN_TEXT = "大墟的黑暗掩盖了真相...";
 const ITEM_SECTIONS = [
-  {
-    id: "pills",
-    title: "丹药图鉴",
-  },
-  {
-    id: "equipment",
-    title: "神兵宝甲",
-  },
+  { id: "materials", title: "材料图鉴" },
+  { id: "pills", title: "丹药图鉴" },
+  { id: "weapons", title: "武器图鉴" },
+  { id: "armors", title: "防具图鉴" },
+  { id: "recipes", title: "配方图鉴" },
+  { id: "loot", title: "闭关掉落" },
 ];
 
 const IMMERSION_SECTIONS = [
@@ -301,28 +299,15 @@ const formatRealmRequirement = (minTier = 0, minStage = 1) => {
   return `${tierName}${phase}`;
 };
 
-const PILL_DATA = [
-  { name: "聚气丹", tier: "常见", description: "聚拢灵气", effect: "修为 +120", icon: "🧪", minTier: 0, minStage: 1, price: 18, source: { file: "mushenji_bot.py", registry: "PILLS" } },
-  { name: "培元丹", tier: "常见", description: "稳固根基", effect: "修为 +90", icon: "🧪", minTier: 0, minStage: 1, price: 15, source: { file: "mushenji_bot.py", registry: "PILLS" } },
-  { name: "凝元丹", tier: "常见", description: "凝聚真元", effect: "修为 +220", icon: "🧪", minTier: 0, minStage: 2, price: 38, source: { file: "mushenji_bot.py", registry: "PILLS" } },
-  { name: "破境丹", tier: "稀有", description: "冲击瓶颈", effect: "修为 +900", icon: "🔥", minTier: 1, minStage: 3, price: 180, source: { file: "mushenji_bot.py", registry: "PILLS" } },
-  { name: "赤火灵丹", tier: "稀有", description: "烈火淬体，龙麒麟最爱", effect: "修为 +80", icon: "🔥", minTier: 0, minStage: 1, price: 25, source: { file: "mushenji_bot.py", registry: "PILLS" } },
-  { name: "洗髓丹", tier: "稀有", description: "洗练根骨", effect: "清除丹毒", icon: "💠", minTier: 0, minStage: 1, price: 120, source: { file: "mushenji_bot.py", registry: "PILLS" } },
-  { name: "天罡丹", tier: "珍稀", description: "天罡护体", effect: "修为 +980", icon: "✨", minTier: 2, minStage: 3, price: 320, source: { file: "mushenji_bot.py", registry: "PILLS" } },
-  { name: "生死轮回丹", tier: "超稀有", description: "轮回生死，重铸道基", effect: "修为 +1800", icon: "🌌", minTier: 4, minStage: 1, price: 2200, source: { file: "mushenji_bot.py", registry: "SUPER_RARE_PILLS" } },
-  { name: "神桥造化丹", tier: "超稀有", description: "神桥造化，破境登阶", effect: "修为 +2200", icon: "🌌", minTier: 5, minStage: 1, price: 2600, source: { file: "mushenji_bot.py", registry: "SUPER_RARE_PILLS" } }
-];
-
-const EQUIPMENT_DATA = [
-  { name: "飞星剑", tier: "常见", description: "青芒飞星", effect: "攻击 +26", icon: "⚔️", minTier: 0, price: 80, source: { file: "mushenji_bot.py", registry: "WEAPONS" } },
-  { name: "玄铁重剑", tier: "稀有", description: "沉重如山", effect: "攻击 +55", icon: "⚔️", minTier: 1, price: 260, source: { file: "mushenji_bot.py", registry: "WEAPONS" } },
-  { name: "太虚神弓", tier: "珍稀", description: "太虚裂空", effect: "攻击 +120", icon: "🏹", minTier: 3, price: 1200, source: { file: "mushenji_bot.py", registry: "WEAPONS" } },
-  { name: "七公子的剑", tier: "限量", description: "剑光寒彻九州，七星剑势", effect: "攻击 +190", icon: "🗡️", minTier: 5, price: 4200, source: { file: "mushenji_bot.py", registry: "LIMITED_WEAPONS" } },
-  { name: "青木衣", tier: "常见", description: "轻灵护体", effect: "防御 +16", icon: "🛡️", minTier: 0, price: 60, source: { file: "mushenji_bot.py", registry: "ARMORS" } },
-  { name: "太虚道袍", tier: "珍稀", description: "太虚护道", effect: "防御 +110", icon: "🛡️", minTier: 3, price: 980, source: { file: "mushenji_bot.py", registry: "ARMORS" } },
-  { name: "白虎战铠", tier: "限量", description: "白虎战意，肃杀森然", effect: "防御 +160", icon: "🛡️", minTier: 5, price: 3800, source: { file: "mushenji_bot.py", registry: "LIMITED_ARMORS" } }
-];
-
+const fallbackAtlasData = {
+  loot: { trainChance: 0.12, deepChance: 0.25, low: [], high: [] },
+  pills: [],
+  weapons: [],
+  armors: [],
+  items: [],
+  recipes: [],
+  syncReport: { sourceCounts: {}, frontendCounts: {}, expectedCounts: {}, missingNames: {}, conflicts: [], isConsistent: false },
+};
 const CATEGORY_LABELS = {
   卷首语: "卷首语",
   大墟残老村: "壹 · 大墟残老村",
@@ -578,87 +563,6 @@ const stableSortAtlas = (items) =>
     if (subDiff !== 0) return subDiff;
     return String(a.name || "").localeCompare(String(b.name || ""));
   });
-
-const parsePillsFromSource = (sourceText = "") => {
-  const failed = [];
-  if (!sourceText) {
-    failed.push({ item: "mushenji_bot.py", reason: "source is empty" });
-    return { items: [], failed };
-  }
-
-  const blocks = ["PILLS", "SUPER_RARE_PILLS"];
-  const parsed = [];
-
-  blocks.forEach((name) => {
-    const start = sourceText.indexOf(`${name} = {`);
-    if (start < 0) {
-      failed.push({ item: name, reason: "registry not found" });
-      return;
-    }
-    const end = sourceText.indexOf("}\n\n", start);
-    const chunk = sourceText.slice(start, end > start ? end + 1 : start + 1200);
-    const rx = /"([^"\n]+)"\s*:\s*\{[^}]*?"price"\s*:\s*(\d+)[^}]*?"min_tier"\s*:\s*(\d+)[^}]*?"min_stage"\s*:\s*(\d+)/g;
-    let m;
-    while ((m = rx.exec(chunk))) {
-      parsed.push({
-        name: m[1],
-        tier: name === "SUPER_RARE_PILLS" ? "超稀有" : "常见",
-        description: "来源自动补录（mushenji_bot.py）",
-        effect: "效果以源脚本字段为准",
-        icon: name === "SUPER_RARE_PILLS" ? "🌌" : "🧪",
-        category: "丹药",
-        chapter: "天魔教主",
-        subcategory: name,
-        minTier: Number(m[3]),
-        minStage: Number(m[4]),
-        price: Number(m[2]),
-        source: { file: "mushenji_bot.py", registry: name },
-        preconditions: [`境界：${formatRealmRequirement(Number(m[3]), Number(m[4]))}`],
-        restrictions: ["按冷却与材料条件使用"],
-        notes: ["自动解析条目，建议结合源码进一步补全说明。"],
-      });
-    }
-  });
-
-  return { items: parsed, failed };
-};
-
-const loadPillData = async () => {
-  const base = PILL_DATA.map((item) => ({
-    ...item,
-    category: item.category || "丹药",
-    chapter: item.chapter || "天魔教主",
-    subcategory: item.subcategory || item.tier || "常规",
-    preconditions: [typeof item.minTier === "number" ? `境界：${formatRealmRequirement(item.minTier, item.minStage || 1)}` : "无"],
-    restrictions: item.restrictions || ["按冷却与材料条件使用"],
-    notes: item.notes || ["来源：mushenji_bot.py"],
-  }));
-
-  let extracted = [];
-  let failures = [];
-  try {
-    const res = await fetch("https://raw.githubusercontent.com/zhanjie78/mushenji/main/mushenji_bot.py", { cache: "no-store" });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const text = await res.text();
-    const result = parsePillsFromSource(text);
-    extracted = result.items;
-    failures = result.failed;
-  } catch (error) {
-    failures.push({ item: "remote-source", reason: String(error?.message || error) });
-  }
-
-  const deduped = dedupeByKey([...base, ...extracted], (item) => item.name);
-  return {
-    pills: stableSortAtlas(deduped),
-    report: {
-      total: deduped.length,
-      supplemented: Math.max(0, extracted.length),
-      deduped: base.length + extracted.length - deduped.length,
-      failed: failures.length,
-      failures,
-    },
-  };
-};
 
 const buildNavLinks = (container, items) => {
   if (!container) return;
@@ -1223,9 +1127,64 @@ const renderItemSection = (sectionId, items) => {
 };
 
 const renderPills = (items) => renderItemSection("pillsContent", items);
-const renderEquipment = (items) => renderItemSection("equipmentContent", items);
+const renderMaterials = (items) => renderItemSection("materialsContent", items);
+const renderWeapons = (items) => renderItemSection("weaponsContent", items);
+const renderArmors = (items) => renderItemSection("armorsContent", items);
 
+const renderRecipes = (items) => {
+  const container = document.getElementById("recipesContent");
+  if (!container) return;
+  clearContainer(container);
+  items.forEach((item) => {
+    const card = createElement("article", "card glass-card item-card tilt-card");
+    card.appendChild(createElement("h3", "", item.name));
+    const meta = createElement("div", "item-meta");
+    [item.kind, item.target ? `目标：${item.target}` : null, Number.isFinite(item.tier) ? `tier ${item.tier}` : null, Number.isFinite(item.price) ? `售价：${item.price}灵石` : null]
+      .filter(Boolean)
+      .forEach((txt) => meta.appendChild(createElement("span", "item-tier", txt)));
+    card.appendChild(meta);
+    if (item.desc) card.appendChild(createElement("p", "item-description", item.desc));
+    if (Array.isArray(item.mats) && item.mats.length) {
+      const mats = createElement("div", "item-effect", `mats：${item.mats.map((m) => `${m[0]}×${m[1]}`).join("、")}`);
+      card.appendChild(mats);
+    }
+    container.appendChild(card);
+    applyTiltEffect(card, 10);
+  });
+};
 
+const renderLoot = (loot) => {
+  const container = document.getElementById("lootContent");
+  if (!container) return;
+  clearContainer(container);
+  const pools = [
+    { title: `普通闭关池（TRAIN ${loot.trainChance}）`, rows: loot.low || [] },
+    { title: `深度闭关池（DEEP ${loot.deepChance}）`, rows: loot.high || [] },
+  ];
+  pools.forEach((pool) => {
+    const card = createElement("article", "card glass-card item-card");
+    card.appendChild(createElement("h3", "", pool.title));
+    const ul = createElement("ul", "detail-list");
+    pool.rows.forEach((row) => ul.appendChild(createElement("li", "", `${row.name} · 权重 ${row.weight}`)));
+    card.appendChild(ul);
+    container.appendChild(card);
+  });
+};
+
+const setAtlasCounts = (atlas) => {
+  const map = {
+    materialsCount: atlas.items.length,
+    pillsCount: atlas.pills.length,
+    weaponsCount: atlas.weapons.length,
+    armorsCount: atlas.armors.length,
+    recipesCount: atlas.recipes.length,
+    lootCount: (atlas.loot.low?.length || 0) + (atlas.loot.high?.length || 0),
+  };
+  Object.entries(map).forEach(([id, count]) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = String(count);
+  });
+};
 
 const setupFxSystem = () => {
   const root = document.body;
@@ -1696,26 +1655,25 @@ const init = async () => {
       renderSectionCards(commands, section.contentId, section.categories);
     });
 
-    let pillReport = { total: PILL_DATA.length, supplemented: 0, deduped: 0, failed: 0, failures: [] };
-    let pills = stableSortAtlas(PILL_DATA.map((item) => ({ ...item, category: item.category || "丹药", chapter: item.chapter || "天魔教主", subcategory: item.subcategory || item.tier || "常规" })));
-    try {
-      const loaded = await loadPillData();
-      pills = loaded.pills;
-      pillReport = loaded.report;
-    } catch (pillError) {
-      pillReport = { ...pillReport, failed: 1, failures: [{ item: "pill-loader", reason: String(pillError?.message || pillError) }] };
-    }
-    renderPills(pills);
-    renderEquipment(stableSortAtlas(EQUIPMENT_DATA.map((item) => ({ ...item, chapter: item.chapter || "小玉京与大雷音", subcategory: item.subcategory || item.tier || "装备" }))));
+    const atlas = await loadJson("data/atlas.json", fallbackAtlasData);
+    renderMaterials(atlas.items || []);
+    renderPills(atlas.pills || []);
+    renderWeapons(atlas.weapons || []);
+    renderArmors(atlas.armors || []);
+    renderRecipes(atlas.recipes || []);
+    renderLoot(atlas.loot || { trainChance: 0, deepChance: 0, low: [], high: [] });
+    setAtlasCounts(atlas);
 
-    window.__pillReport = pillReport;
+    window.__atlasReport = atlas.syncReport || {};
 
-    const pillContainer = document.getElementById("pillsContent");
-    if (pillContainer && pillReport.failed > 0) {
-      const warn = createElement("article", "card glass-card item-card");
-      warn.appendChild(createElement("h3", "", "丹药源同步提示"));
-      warn.appendChild(createElement("p", "item-description", `远程补录失败 ${pillReport.failed} 项，已使用本地图鉴；失败原因：${pillReport.failures.map((f) => `${f.item}: ${f.reason}`).join(" | ")}`));
-      pillContainer.appendChild(warn);
+    if (atlas.syncReport && !atlas.syncReport.isConsistent) {
+      const pillContainer = document.getElementById("pillsContent");
+      if (pillContainer) {
+        const warn = createElement("article", "card glass-card item-card");
+        warn.appendChild(createElement("h3", "", "图鉴同步告警"));
+        warn.appendChild(createElement("p", "item-description", "图鉴与源数据计数不一致，请检查 atlas_report.json。"));
+        pillContainer.appendChild(warn);
+      }
     }
     renderQuickstartPath(commands, features);
     renderTruthAudit(commands, features);
