@@ -177,14 +177,22 @@ const SECTION_TITLE_MAP = new Map([
   ["command-library", "命令索引"],
 ]);
 
-const PAGE_NAV_ORDER = [
+const TOP_NAV_ORDER = [
+  "quickstart-path",
+  "truth-audit",
+  ...SECTIONS.map((section) => section.id),
+  "command-library",
+  "troubleshooting",
+];
+
+const SIDEBAR_NAV_ORDER = [
   "hero",
   "quickstart-path",
   "truth-audit",
   ...SECTIONS.map((section) => section.id),
   ...ITEM_SECTIONS.map((section) => section.id),
-  "troubleshooting",
   "command-library",
+  "troubleshooting",
   "daily-log",
   "easter-eggs",
 ];
@@ -668,10 +676,12 @@ const sortCategoriesByChapter = (categories) =>
     return String(a || "").localeCompare(String(b || ""), "zh-CN");
   });
 
-const buildOrderedNavItems = (includeHero = false) =>
-  PAGE_NAV_ORDER
-    .filter((id) => (includeHero ? true : id !== "hero"))
-    .map((id) => ({ id, title: id === "hero" ? "概览" : (SECTION_TITLE_MAP.get(id) || id) }));
+const mapNavItems = (order) =>
+  order.map((id) => ({ id, title: id === "hero" ? "概览" : (SECTION_TITLE_MAP.get(id) || id) }));
+
+const buildTopNavItems = () => mapNavItems(TOP_NAV_ORDER);
+
+const buildSidebarNavItems = () => mapNavItems(SIDEBAR_NAV_ORDER);
 
 const stableSortAtlas = (items) =>
   [...items].sort((a, b) => {
@@ -1748,8 +1758,8 @@ const init = async () => {
     renderHeroTags();
     renderNpcWhispers();
     renderSnapshot(commands, features);
-    buildNavLinks(document.getElementById("topNav"), buildOrderedNavItems(false));
-    buildNavLinks(document.getElementById("sidebarNav"), buildOrderedNavItems(true));
+    buildNavLinks(document.getElementById("topNav"), buildTopNavItems());
+    buildNavLinks(document.getElementById("sidebarNav"), buildSidebarNavItems());
 
     const prefixFeature = features.find((feature) => feature.name === "PREFIX" || feature.id === "PREFIX");
     if (prefixFeature) {
