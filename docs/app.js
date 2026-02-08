@@ -167,6 +167,36 @@ const IMMERSION_SECTIONS = [
   { id: "daily-log", title: "修炼日报" },
   { id: "easter-eggs", title: "彩蛋区" },
 ];
+
+
+const SECTION_TITLE_MAP = new Map([
+  ...SECTIONS.map((section) => [section.id, section.title]),
+  ...ITEM_SECTIONS.map((section) => [section.id, section.title]),
+  ...IMMERSION_SECTIONS.map((section) => [section.id, section.title]),
+  ["troubleshooting", "故障排查"],
+  ["command-library", "命令索引"],
+]);
+
+const TOP_NAV_ORDER = [
+  "quickstart-path",
+  "truth-audit",
+  ...SECTIONS.map((section) => section.id),
+  "command-library",
+  "troubleshooting",
+];
+
+const SIDEBAR_NAV_ORDER = [
+  "hero",
+  "quickstart-path",
+  "truth-audit",
+  ...SECTIONS.map((section) => section.id),
+  ...ITEM_SECTIONS.map((section) => section.id),
+  "command-library",
+  "troubleshooting",
+  "daily-log",
+  "easter-eggs",
+];
+
 const LORE_TEMPLATES = [
   (file, registry) => `
     <strong>【道法根脚】</strong><br>
@@ -319,6 +349,8 @@ const rarityToTier = {
   奇: "奇珍",
 };
 
+const DEFAULT_ISSUE_VISIBLE_COUNT = 3;
+
 const buildFallbackFlavor = (name, kind) => {
   const table = {
     pill: `药香入脉，${name}在炉火里沉浮三转，最忌贪服。`,
@@ -329,6 +361,17 @@ const buildFallbackFlavor = (name, kind) => {
   };
   return table[kind] || `${name}条目已录，细节待后续补完。`;
 };
+
+const cleanTierLabelFromText = (text) => {
+  if (typeof text !== "string") return text;
+  return text
+    .replace(/^\s*(?:t\s*\d+|tier\s*\d+)\s*[:：\-—]?\s*/i, "")
+    .replace(/\s*[（(]\s*(?:t\s*\d+|tier\s*\d+)\s*[)）]\s*$/i, "")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+};
+
+const sanitizeTierDescription = (value) => sanitizeText(cleanTierLabelFromText(value));
 
 const normalizeAtlasData = (atlas = fallbackAtlasData) => {
   const pills = (atlas.pills || []).map((item) => {
@@ -343,7 +386,7 @@ const normalizeAtlasData = (atlas = fallbackAtlasData) => {
       minTier: item.min_tier,
       minStage: item.min_stage,
       price: item.price,
-      description: item.desc || buildFallbackFlavor(item.name, "pill"),
+      description: sanitizeTierDescription(item.desc || buildFallbackFlavor(item.name, "pill")),
       effect: effects.join(" · ") || "稳固根基",
     };
   });
@@ -354,7 +397,7 @@ const normalizeAtlasData = (atlas = fallbackAtlasData) => {
     tier: item.use ? "限定" : formatRealmRequirement(item.min_tier || 0, 1),
     minTier: item.min_tier,
     price: item.price,
-    description: item.desc || buildFallbackFlavor(item.name, "weapon"),
+    description: sanitizeTierDescription(item.desc || buildFallbackFlavor(item.name, "weapon")),
     effect: Number.isFinite(item.atk) ? `攻击 +${item.atk}${item.use ? ` · ${item.use}` : ""}` : (item.use || "神兵护道"),
   }));
 
@@ -364,7 +407,7 @@ const normalizeAtlasData = (atlas = fallbackAtlasData) => {
     tier: item.use ? "限定" : formatRealmRequirement(item.min_tier || 0, 1),
     minTier: item.min_tier,
     price: item.price,
-    description: item.desc || buildFallbackFlavor(item.name, "armor"),
+    description: sanitizeTierDescription(item.desc || buildFallbackFlavor(item.name, "armor")),
     effect: Number.isFinite(item.def) ? `防御 +${item.def}${item.use ? ` · ${item.use}` : ""}` : (item.use || "护体守心"),
   }));
 
@@ -373,13 +416,13 @@ const normalizeAtlasData = (atlas = fallbackAtlasData) => {
     icon: "🧱",
     tier: rarityToTier[item.rarity] || "杂录",
     price: item.price,
-    description: item.desc || buildFallbackFlavor(item.name, "item"),
+    description: sanitizeTierDescription(item.desc || buildFallbackFlavor(item.name, "item")),
     effect: item.rarity ? `稀有度：${item.rarity}` : "炼制素材",
   }));
 
   const recipes = (atlas.recipes || []).map((item) => ({
     ...item,
-    desc: item.desc || buildFallbackFlavor(item.name, "recipe"),
+    desc: sanitizeTierDescription(item.desc || buildFallbackFlavor(item.name, "recipe")),
   }));
 
   return { ...atlas, pills, weapons, armors, items, recipes };
@@ -631,6 +674,27 @@ const CHAPTER_ORDER = {
   屠夫的一刀: 8,
   牧神之道: 9,
 };
+
+const sortCommandsByChapter = (items) =>
+  [...items].sort((a, b) => {
+    const chapterDiff = (CHAPTER_ORDER[a.category] ?? 999) - (CHAPTER_ORDER[b.category] ?? 999);
+    if (chapterDiff !== 0) return chapterDiff;
+    return String(a.name || "").localeCompare(String(b.name || ""), "zh-CN");
+  });
+
+const sortCategoriesByChapter = (categories) =>
+  [...categories].sort((a, b) => {
+    const chapterDiff = (CHAPTER_ORDER[a] ?? 999) - (CHAPTER_ORDER[b] ?? 999);
+    if (chapterDiff !== 0) return chapterDiff;
+    return String(a || "").localeCompare(String(b || ""), "zh-CN");
+  });
+
+const mapNavItems = (order) =>
+  order.map((id) => ({ id, title: id === "hero" ? "概览" : (SECTION_TITLE_MAP.get(id) || id) }));
+
+const buildTopNavItems = () => mapNavItems(TOP_NAV_ORDER);
+
+const buildSidebarNavItems = () => mapNavItems(SIDEBAR_NAV_ORDER);
 
 const stableSortAtlas = (items) =>
   [...items].sort((a, b) => {
@@ -1028,7 +1092,7 @@ const renderSectionCards = (commands, sectionId, categories) => {
     applyTiltEffect(emptyCard);
     return;
   }
-  scoped.forEach((cmd) => {
+  sortCommandsByChapter(scoped).forEach((cmd) => {
     const card = createElement("article", "card command-card tilt-card");
     card.appendChild(createCardHeader(cmd.name, `分类：${getCategoryLabel(cmd.category)}`));
     card.appendChild(createElement("div", "card-meta", `描述：${getDescriptionText(cmd.description)}`));
@@ -1051,25 +1115,47 @@ const renderErrors = (errors) => {
   const container = document.getElementById("errorContent");
   if (!container) return;
   clearContainer(container);
-  if (!errors.length) {
+  const list = Array.isArray(errors) ? errors : [];
+  if (!list.length) {
     container.appendChild(createElement("div", "detail-inline", "尚未收录错误数据"));
     return;
   }
-  errors.forEach((error) => {
-    const card = createElement("div", "card tilt-card");
-    card.appendChild(createElement("h3", "", error.message));
-    if (error.meaning) {
-      card.appendChild(createElement("div", "card-meta", `含义：${error.meaning}`));
+  const visibleCount = Math.max(1, Number(DEFAULT_ISSUE_VISIBLE_COUNT) || 3);
+  let expanded = false;
+
+  const renderList = () => {
+    clearContainer(container);
+    const showing = expanded ? list : list.slice(0, visibleCount);
+    showing.forEach((error) => {
+      const card = createElement("div", "card tilt-card");
+      card.appendChild(createElement("h3", "", sanitizeText(error.message || "未知故障")));
+      if (error.meaning) {
+        card.appendChild(createElement("div", "card-meta", `含义：${sanitizeText(error.meaning)}`));
+      }
+      if (hasItems(error.causes)) {
+        card.appendChild(createElement("div", "card-meta", `常见原因：${error.causes.map(sanitizeText).join(" / ")}`));
+      }
+      if (hasItems(error.fixes)) {
+        card.appendChild(createElement("div", "card-meta", `解决方式：${error.fixes.map(sanitizeText).join(" / ")}`));
+      }
+      container.appendChild(card);
+      applyTiltEffect(card, 8);
+    });
+
+    if (list.length > visibleCount) {
+      const remain = Math.max(0, list.length - visibleCount);
+      const toggle = createElement("button", "issues-toggle", expanded ? "收起" : `展开全部（+${remain}）`);
+      toggle.type = "button";
+      toggle.setAttribute("aria-expanded", String(expanded));
+      toggle.addEventListener("click", () => {
+        expanded = !expanded;
+        renderList();
+      });
+      container.appendChild(toggle);
     }
-    if (hasItems(error.causes)) {
-      card.appendChild(createElement("div", "card-meta", `常见原因：${error.causes.join(" / ")}`));
-    }
-    if (hasItems(error.fixes)) {
-      card.appendChild(createElement("div", "card-meta", `解决方式：${error.fixes.join(" / ")}`));
-    }
-    container.appendChild(card);
-    applyTiltEffect(card, 8);
-  });
+  };
+
+  renderList();
 };
 
 const buildCommandIndex = (commands) => {
@@ -1085,7 +1171,7 @@ const renderCommandList = (commands) => {
   const container = document.getElementById("commandList");
   if (!container) return;
   clearContainer(container);
-  commands.forEach((command) => {
+  sortCommandsByChapter(commands).forEach((command) => {
     const item = createElement("div", "command-item tilt-card");
     item.dataset.command = slugify(command.name);
     item.appendChild(createElement("h4", "", command.name));
@@ -1165,7 +1251,9 @@ const renderItemSection = (sectionId, items) => {
     card.appendChild(header);
 
     const metaRow = createElement("div", "item-meta");
-    metaRow.appendChild(createElement("span", "item-tier", item.tier || "图鉴已录"));
+    if (item.tier) {
+      metaRow.appendChild(createElement("span", "item-tier", item.tier));
+    }
 
     if (typeof item.minTier === "number") {
       const realmTag = createElement(
@@ -1185,7 +1273,7 @@ const renderItemSection = (sectionId, items) => {
 
 
     if (item.description) {
-      card.appendChild(createElement("p", "item-description", sanitizeText(item.description)));
+      card.appendChild(createElement("p", "item-description", sanitizeTierDescription(item.description)));
     }
     if (item.effect) {
       card.appendChild(createElement("div", "item-effect", sanitizeText(item.effect)));
@@ -1220,7 +1308,7 @@ const renderRecipes = (items) => {
       .filter(Boolean)
       .forEach((txt) => meta.appendChild(createElement("span", "item-tier", txt)));
     card.appendChild(meta);
-    if (item.desc) card.appendChild(createElement("p", "item-description", item.desc));
+    if (item.desc) card.appendChild(createElement("p", "item-description", sanitizeTierDescription(item.desc)));
     if (Array.isArray(item.mats) && item.mats.length) {
       const mats = createElement("div", "item-effect", `mats：${item.mats.map((m) => `${m[0]}×${m[1]}`).join("、")}`);
       card.appendChild(mats);
@@ -1630,7 +1718,7 @@ const setupCommandInteractions = (commands) => {
     handleHashChange(commandIndex);
   };
 
-  const categories = [...new Set(commands.map((command) => command.category))].filter(Boolean);
+  const categories = sortCategoriesByChapter([...new Set(commands.map((command) => command.category))].filter(Boolean));
   categorySelect.innerHTML =
     `<option value="all">全部分类</option>` +
     categories.map((category) => `<option value="${category}">${getCategoryLabel(category)}</option>`).join("");
@@ -1699,7 +1787,7 @@ const init = async () => {
     loadJson("data/errors.json", [], "inline-errors"),
   ]);
 
-  const commands = filterCommands(commandsRaw);
+  const commands = sortCommandsByChapter(filterCommands(commandsRaw));
   const features = filterFeatures(featuresRaw);
   const errors = filterErrors(errorsRaw);
 
@@ -1707,21 +1795,8 @@ const init = async () => {
     renderHeroTags();
     renderNpcWhispers();
     renderSnapshot(commands, features);
-    buildNavLinks(document.getElementById("topNav"), [
-      ...SECTIONS.map((section) => ({ id: section.id, title: section.title })),
-      ...ITEM_SECTIONS.map((section) => ({ id: section.id, title: section.title })),
-      ...IMMERSION_SECTIONS,
-      { id: "troubleshooting", title: "故障排查" },
-      { id: "command-library", title: "命令索引" },
-    ]);
-    buildNavLinks(document.getElementById("sidebarNav"), [
-      { id: "hero", title: "概览" },
-      ...SECTIONS.map((section) => ({ id: section.id, title: section.title })),
-      ...ITEM_SECTIONS.map((section) => ({ id: section.id, title: section.title })),
-      ...IMMERSION_SECTIONS,
-      { id: "troubleshooting", title: "故障排查" },
-      { id: "command-library", title: "命令索引" },
-    ]);
+    buildNavLinks(document.getElementById("topNav"), buildTopNavItems());
+    buildNavLinks(document.getElementById("sidebarNav"), buildSidebarNavItems());
 
     const prefixFeature = features.find((feature) => feature.name === "PREFIX" || feature.id === "PREFIX");
     if (prefixFeature) {

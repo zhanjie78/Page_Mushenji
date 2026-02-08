@@ -120,11 +120,23 @@ a {
 
 .topbar-nav {
   display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-  justify-content: center;
+  gap: 12px;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: thin;
   font-size: 13px;
   color: var(--mist-200);
+}
+
+.topbar-nav::-webkit-scrollbar {
+  height: 6px;
+}
+
+.topbar-nav::-webkit-scrollbar-thumb {
+  background: rgba(176, 138, 83, 0.35);
+  border-radius: 999px;
 }
 
 .topbar-nav a,
@@ -916,12 +928,16 @@ body::-webkit-scrollbar-thumb:hover,
 
 .command-item {
   padding: 12px;
+  min-height: 44px;
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
   background: var(--ink-700);
   cursor: pointer;
   transition: border 0.2s ease, transform 0.2s ease;
   margin-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .command-item:hover,
@@ -932,10 +948,12 @@ body::-webkit-scrollbar-thumb:hover,
 
 .command-item h4 {
   margin: 0 0 6px;
+  line-height: 1.35;
   color: var(--gold-200);
   font-family: "Noto Serif SC", "Songti SC", "STSong", serif;
-  white-space: normal;
-  overflow-wrap: anywhere;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 img,
@@ -1054,8 +1072,26 @@ pre {
 
 .command-item p {
   margin: 0;
+  line-height: 1.4;
   font-size: 12px;
   color: var(--mist-200);
+}
+
+.issues-toggle {
+  margin-top: 10px;
+  min-height: 40px;
+  width: 100%;
+  border-radius: var(--radius-10);
+  border: 1px solid rgba(215, 180, 106, 0.45);
+  background: linear-gradient(120deg, rgba(24, 28, 38, 0.88), rgba(14, 18, 28, 0.92));
+  color: var(--gold-200);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.issues-toggle:hover,
+.issues-toggle:focus-visible {
+  border-color: rgba(242, 191, 109, 0.72);
 }
 
 .command-card,
