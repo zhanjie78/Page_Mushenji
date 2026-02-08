@@ -167,6 +167,36 @@ const IMMERSION_SECTIONS = [
   { id: "daily-log", title: "修炼日报" },
   { id: "easter-eggs", title: "彩蛋区" },
 ];
+
+
+const SECTION_TITLE_MAP = new Map([
+  ...SECTIONS.map((section) => [section.id, section.title]),
+  ...ITEM_SECTIONS.map((section) => [section.id, section.title]),
+  ...IMMERSION_SECTIONS.map((section) => [section.id, section.title]),
+  ["troubleshooting", "故障排查"],
+  ["command-library", "命令索引"],
+]);
+
+const TOP_NAV_ORDER = [
+  "quickstart-path",
+  "truth-audit",
+  ...SECTIONS.map((section) => section.id),
+  "command-library",
+  "troubleshooting",
+];
+
+const SIDEBAR_NAV_ORDER = [
+  "hero",
+  "quickstart-path",
+  "truth-audit",
+  ...SECTIONS.map((section) => section.id),
+  ...ITEM_SECTIONS.map((section) => section.id),
+  "command-library",
+  "troubleshooting",
+  "daily-log",
+  "easter-eggs",
+];
+
 const LORE_TEMPLATES = [
   (file, registry) => `
     <strong>【道法根脚】</strong><br>
@@ -632,6 +662,27 @@ const CHAPTER_ORDER = {
   牧神之道: 9,
 };
 
+const sortCommandsByChapter = (items) =>
+  [...items].sort((a, b) => {
+    const chapterDiff = (CHAPTER_ORDER[a.category] ?? 999) - (CHAPTER_ORDER[b.category] ?? 999);
+    if (chapterDiff !== 0) return chapterDiff;
+    return String(a.name || "").localeCompare(String(b.name || ""), "zh-CN");
+  });
+
+const sortCategoriesByChapter = (categories) =>
+  [...categories].sort((a, b) => {
+    const chapterDiff = (CHAPTER_ORDER[a] ?? 999) - (CHAPTER_ORDER[b] ?? 999);
+    if (chapterDiff !== 0) return chapterDiff;
+    return String(a || "").localeCompare(String(b || ""), "zh-CN");
+  });
+
+const mapNavItems = (order) =>
+  order.map((id) => ({ id, title: id === "hero" ? "概览" : (SECTION_TITLE_MAP.get(id) || id) }));
+
+const buildTopNavItems = () => mapNavItems(TOP_NAV_ORDER);
+
+const buildSidebarNavItems = () => mapNavItems(SIDEBAR_NAV_ORDER);
+
 const stableSortAtlas = (items) =>
   [...items].sort((a, b) => {
     const chapterDiff = (CHAPTER_ORDER[a.chapter] ?? 999) - (CHAPTER_ORDER[b.chapter] ?? 999);
@@ -1028,7 +1079,7 @@ const renderSectionCards = (commands, sectionId, categories) => {
     applyTiltEffect(emptyCard);
     return;
   }
-  scoped.forEach((cmd) => {
+  sortCommandsByChapter(scoped).forEach((cmd) => {
     const card = createElement("article", "card command-card tilt-card");
     card.appendChild(createCardHeader(cmd.name, `分类：${getCategoryLabel(cmd.category)}`));
     card.appendChild(createElement("div", "card-meta", `描述：${getDescriptionText(cmd.description)}`));
@@ -1085,7 +1136,7 @@ const renderCommandList = (commands) => {
   const container = document.getElementById("commandList");
   if (!container) return;
   clearContainer(container);
-  commands.forEach((command) => {
+  sortCommandsByChapter(commands).forEach((command) => {
     const item = createElement("div", "command-item tilt-card");
     item.dataset.command = slugify(command.name);
     item.appendChild(createElement("h4", "", command.name));
@@ -1630,7 +1681,7 @@ const setupCommandInteractions = (commands) => {
     handleHashChange(commandIndex);
   };
 
-  const categories = [...new Set(commands.map((command) => command.category))].filter(Boolean);
+  const categories = sortCategoriesByChapter([...new Set(commands.map((command) => command.category))].filter(Boolean));
   categorySelect.innerHTML =
     `<option value="all">全部分类</option>` +
     categories.map((category) => `<option value="${category}">${getCategoryLabel(category)}</option>`).join("");
@@ -1699,7 +1750,7 @@ const init = async () => {
     loadJson("data/errors.json", [], "inline-errors"),
   ]);
 
-  const commands = filterCommands(commandsRaw);
+  const commands = sortCommandsByChapter(filterCommands(commandsRaw));
   const features = filterFeatures(featuresRaw);
   const errors = filterErrors(errorsRaw);
 
@@ -1707,21 +1758,8 @@ const init = async () => {
     renderHeroTags();
     renderNpcWhispers();
     renderSnapshot(commands, features);
-    buildNavLinks(document.getElementById("topNav"), [
-      ...SECTIONS.map((section) => ({ id: section.id, title: section.title })),
-      ...ITEM_SECTIONS.map((section) => ({ id: section.id, title: section.title })),
-      ...IMMERSION_SECTIONS,
-      { id: "troubleshooting", title: "故障排查" },
-      { id: "command-library", title: "命令索引" },
-    ]);
-    buildNavLinks(document.getElementById("sidebarNav"), [
-      { id: "hero", title: "概览" },
-      ...SECTIONS.map((section) => ({ id: section.id, title: section.title })),
-      ...ITEM_SECTIONS.map((section) => ({ id: section.id, title: section.title })),
-      ...IMMERSION_SECTIONS,
-      { id: "troubleshooting", title: "故障排查" },
-      { id: "command-library", title: "命令索引" },
-    ]);
+    buildNavLinks(document.getElementById("topNav"), buildTopNavItems());
+    buildNavLinks(document.getElementById("sidebarNav"), buildSidebarNavItems());
 
     const prefixFeature = features.find((feature) => feature.name === "PREFIX" || feature.id === "PREFIX");
     if (prefixFeature) {
