@@ -133,7 +133,3 @@ python -m http.server 8000
 - 显式展示失败项与失败原因（不静默吞掉）。
 
 ---
-
-## 卷末：GitHub Pages
-
-仓库以 `/docs` 作为 GitHub Pages 根目录，启用后即可直接访问站点。
