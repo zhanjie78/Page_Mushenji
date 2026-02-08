@@ -32,6 +32,8 @@ body {
 html {
   height: auto;
   overflow-y: auto;
+  overflow-x: clip;
+  overflow-x: hidden;
   scroll-behavior: smooth;
   background: transparent;
 }
@@ -180,6 +182,7 @@ a {
   top: 80px;
   height: calc(100vh - 100px);
   overflow-y: auto;
+  overflow-x: clip;
   align-self: start;
   display: flex;
   flex-direction: column;
@@ -319,19 +322,20 @@ a {
   flex-direction: column;
   gap: 32px;
   width: 100%;
-  overflow-x: auto;
+  overflow-x: visible;
 }
 
 .main-content {
   width: 100%;
-  overflow-x: auto;
+  overflow-x: visible;
 }
 
 table {
   width: 100%;
   max-width: 100%;
-  display: block;
-  overflow-x: auto;
+  display: table;
+  table-layout: fixed;
+  overflow-x: visible;
 }
 
 body::-webkit-scrollbar,
@@ -866,6 +870,7 @@ body::-webkit-scrollbar-thumb:hover,
   gap: 12px;
   max-height: 350px;
   overflow-y: auto;
+  overflow-x: clip;
   padding-right: 6px;
 }
 
@@ -1745,8 +1750,11 @@ body.mushenji-theme::after {
 .command-detail pre,
 .command-detail code {
   max-width: 100%;
-  overflow-x: auto;
+  overflow-x: visible;
   scrollbar-width: thin;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .cmd-lines,
@@ -2067,7 +2075,7 @@ body::before { opacity: 0.03; }
 .detail-inline,
 .props-value,
 .command-item h4 {
-  overflow-x: auto;
+  overflow-x: visible;
   scrollbar-width: thin;
   scrollbar-color: rgba(176, 138, 83, 0.8) rgba(14, 17, 24, 0.7);
 }
@@ -2541,4 +2549,10 @@ body[data-fx="full"] .bg-layer {
   align-items: center;
   min-height: 34px;
   line-height: 1.35;
+}
+
+
+.section,
+.hero {
+  scroll-margin-top: 132px;
 }

@@ -53,6 +53,11 @@ const TAXONOMY = [
 
 const SCROLL_OFFSET = 100;
 
+const getScrollOffset = () => {
+  const topbar = document.getElementById("topbar");
+  return (topbar?.getBoundingClientRect().height || SCROLL_OFFSET) + 16;
+};
+
 const sectionMappings = {
   preface: ["卷首语"],
   "great-ruins": ["大墟残老村"],
@@ -551,6 +556,109 @@ const filterErrors = (errors) =>
       })),
     (error) => error.message
   );
+
+const CHAPTER_ORDER = {
+  卷首语: 0,
+  大墟残老村: 1,
+  霸体筑基: 2,
+  延康国师变法: 3,
+  天魔教主: 4,
+  酆都鬼城: 5,
+  小玉京与大雷音: 6,
+  上苍虚界: 7,
+  屠夫的一刀: 8,
+  牧神之道: 9,
+};
+
+const stableSortAtlas = (items) =>
+  [...items].sort((a, b) => {
+    const chapterDiff = (CHAPTER_ORDER[a.chapter] ?? 999) - (CHAPTER_ORDER[b.chapter] ?? 999);
+    if (chapterDiff !== 0) return chapterDiff;
+    const subDiff = String(a.subcategory || a.tier || "").localeCompare(String(b.subcategory || b.tier || ""));
+    if (subDiff !== 0) return subDiff;
+    return String(a.name || "").localeCompare(String(b.name || ""));
+  });
+
+const parsePillsFromSource = (sourceText = "") => {
+  const failed = [];
+  if (!sourceText) {
+    failed.push({ item: "mushenji_bot.py", reason: "source is empty" });
+    return { items: [], failed };
+  }
+
+  const blocks = ["PILLS", "SUPER_RARE_PILLS"];
+  const parsed = [];
+
+  blocks.forEach((name) => {
+    const start = sourceText.indexOf(`${name} = {`);
+    if (start < 0) {
+      failed.push({ item: name, reason: "registry not found" });
+      return;
+    }
+    const end = sourceText.indexOf("}\n\n", start);
+    const chunk = sourceText.slice(start, end > start ? end + 1 : start + 1200);
+    const rx = /"([^"\n]+)"\s*:\s*\{[^}]*?"price"\s*:\s*(\d+)[^}]*?"min_tier"\s*:\s*(\d+)[^}]*?"min_stage"\s*:\s*(\d+)/g;
+    let m;
+    while ((m = rx.exec(chunk))) {
+      parsed.push({
+        name: m[1],
+        tier: name === "SUPER_RARE_PILLS" ? "超稀有" : "常见",
+        description: "来源自动补录（mushenji_bot.py）",
+        effect: "效果以源脚本字段为准",
+        icon: name === "SUPER_RARE_PILLS" ? "🌌" : "🧪",
+        category: "丹药",
+        chapter: "天魔教主",
+        subcategory: name,
+        minTier: Number(m[3]),
+        minStage: Number(m[4]),
+        price: Number(m[2]),
+        source: { file: "mushenji_bot.py", registry: name },
+        preconditions: [`境界：${formatRealmRequirement(Number(m[3]), Number(m[4]))}`],
+        restrictions: ["按冷却与材料条件使用"],
+        notes: ["自动解析条目，建议结合源码进一步补全说明。"],
+      });
+    }
+  });
+
+  return { items: parsed, failed };
+};
+
+const loadPillData = async () => {
+  const base = PILL_DATA.map((item) => ({
+    ...item,
+    category: item.category || "丹药",
+    chapter: item.chapter || "天魔教主",
+    subcategory: item.subcategory || item.tier || "常规",
+    preconditions: [typeof item.minTier === "number" ? `境界：${formatRealmRequirement(item.minTier, item.minStage || 1)}` : "无"],
+    restrictions: item.restrictions || ["按冷却与材料条件使用"],
+    notes: item.notes || ["来源：mushenji_bot.py"],
+  }));
+
+  let extracted = [];
+  let failures = [];
+  try {
+    const res = await fetch("https://raw.githubusercontent.com/zhanjie78/mushenji/main/mushenji_bot.py", { cache: "no-store" });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const text = await res.text();
+    const result = parsePillsFromSource(text);
+    extracted = result.items;
+    failures = result.failed;
+  } catch (error) {
+    failures.push({ item: "remote-source", reason: String(error?.message || error) });
+  }
+
+  const deduped = dedupeByKey([...base, ...extracted], (item) => item.name);
+  return {
+    pills: stableSortAtlas(deduped),
+    report: {
+      total: deduped.length,
+      supplemented: Math.max(0, extracted.length),
+      deduped: base.length + extracted.length - deduped.length,
+      failed: failures.length,
+      failures,
+    },
+  };
+};
 
 const buildNavLinks = (container, items) => {
   if (!container) return;
@@ -1249,7 +1357,7 @@ const scrollToSection = (sectionId, behavior = "smooth") => {
   if (!sectionId) return;
   const targetElement = document.getElementById(sectionId);
   if (!targetElement) return;
-  const headerOffset = SCROLL_OFFSET;
+  const headerOffset = getScrollOffset();
   const elementPosition = targetElement.getBoundingClientRect().top;
   const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
   window.scrollTo({ top: offsetPosition, behavior });
@@ -1393,7 +1501,7 @@ const setupScrollSpy = () => {
   let ticking = false;
 
   const updateActiveSection = () => {
-    const scrollPosition = window.scrollY + SCROLL_OFFSET + 1;
+    const scrollPosition = window.scrollY + getScrollOffset() + 1;
     let currentSection = sections[0]?.id;
     sections.forEach((section) => {
       if (section.offsetTop <= scrollPosition) {
@@ -1588,8 +1696,27 @@ const init = async () => {
       renderSectionCards(commands, section.contentId, section.categories);
     });
 
-    renderPills(PILL_DATA);
-    renderEquipment(EQUIPMENT_DATA);
+    let pillReport = { total: PILL_DATA.length, supplemented: 0, deduped: 0, failed: 0, failures: [] };
+    let pills = stableSortAtlas(PILL_DATA.map((item) => ({ ...item, category: item.category || "丹药", chapter: item.chapter || "天魔教主", subcategory: item.subcategory || item.tier || "常规" })));
+    try {
+      const loaded = await loadPillData();
+      pills = loaded.pills;
+      pillReport = loaded.report;
+    } catch (pillError) {
+      pillReport = { ...pillReport, failed: 1, failures: [{ item: "pill-loader", reason: String(pillError?.message || pillError) }] };
+    }
+    renderPills(pills);
+    renderEquipment(stableSortAtlas(EQUIPMENT_DATA.map((item) => ({ ...item, chapter: item.chapter || "小玉京与大雷音", subcategory: item.subcategory || item.tier || "装备" }))));
+
+    window.__pillReport = pillReport;
+
+    const pillContainer = document.getElementById("pillsContent");
+    if (pillContainer && pillReport.failed > 0) {
+      const warn = createElement("article", "card glass-card item-card");
+      warn.appendChild(createElement("h3", "", "丹药源同步提示"));
+      warn.appendChild(createElement("p", "item-description", `远程补录失败 ${pillReport.failed} 项，已使用本地图鉴；失败原因：${pillReport.failures.map((f) => `${f.item}: ${f.reason}`).join(" | ")}`));
+      pillContainer.appendChild(warn);
+    }
     renderQuickstartPath(commands, features);
     renderTruthAudit(commands, features);
     renderDailyLog();
