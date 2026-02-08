@@ -349,6 +349,8 @@ const rarityToTier = {
   奇: "奇珍",
 };
 
+const DEFAULT_ISSUE_VISIBLE_COUNT = 3;
+
 const buildFallbackFlavor = (name, kind) => {
   const table = {
     pill: `药香入脉，${name}在炉火里沉浮三转，最忌贪服。`,
@@ -360,8 +362,73 @@ const buildFallbackFlavor = (name, kind) => {
   return table[kind] || `${name}条目已录，细节待后续补完。`;
 };
 
+const LEVEL_ORDER = {
+  灵胎: 1,
+  五曜: 2,
+  六合: 3,
+  七星: 4,
+  天人: 5,
+  生死: 6,
+  神桥: 7,
+};
+
+const sanitizeTierTokens = (text) => {
+  if (typeof text !== "string") return text;
+  return text
+    .replace(/^\s*(?:\[\s*)?(?:t\s*\d+|tier\s*\d+)(?:\s*\])?\s*[:：\-—]?\s*/i, "")
+    .replace(/\s*[（(]\s*(?:t\s*\d+|tier\s*\d+)\s*[)）]\s*$/i, "")
+    .replace(/\s*\[\s*(?:t\s*\d+|tier\s*\d+)\s*\]\s*/gi, " ")
+    .replace(/\s*[\-—–]?\s*(?:t\s*\d+|tier\s*\d+)\s*[\-—–]?\s*/gi, " ")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+};
+
+const sanitizeTierDescription = (value) => sanitizeText(sanitizeTierTokens(value));
+
+const extractLevelLabel = (item = {}) => {
+  const candidates = [item.tier, item.realm, item.requirement, item.description, item.desc]
+    .filter((value) => typeof value === "string");
+  const matched = candidates
+    .map((value) => {
+      const found = value.match(/(灵胎|五曜|六合|七星|天人|生死|神桥)/);
+      return found ? found[1] : null;
+    })
+    .find(Boolean);
+  return matched || "未知等级";
+};
+
+const sortAtlasByLevel = (items) =>
+  [...(Array.isArray(items) ? items : [])].sort((a, b) => {
+    const levelA = extractLevelLabel(a);
+    const levelB = extractLevelLabel(b);
+    const rankA = LEVEL_ORDER[levelA] ?? 999;
+    const rankB = LEVEL_ORDER[levelB] ?? 999;
+    if (rankA !== rankB) return rankA - rankB;
+    return String(a?.name || "").localeCompare(String(b?.name || ""), "zh-CN");
+  });
+
+const getItemIconByName = (name, category) => {
+  if (category !== "weapon") return "✨";
+  const text = String(name || "");
+  if (text.includes("剑")) return "🗡️";
+  if (text.includes("刀")) return "🔪";
+  if (text.includes("枪") || text.includes("矛")) return "🔱";
+  if (text.includes("弓")) return "🏹";
+  if (text.includes("琴")) return "🎻";
+  if (text.includes("树") || text.includes("木")) return "🌳";
+  return "⚔️";
+};
+
+const getPricingLabel = (item = {}) => {
+  if (typeof item.price === "number" && Number.isFinite(item.price)) {
+    return `灵石：${item.price}`;
+  }
+  if (item.isLimited) return "限量";
+  return "暂无标价";
+};
+
 const normalizeAtlasData = (atlas = fallbackAtlasData) => {
-  const pills = (atlas.pills || []).map((item) => {
+  const pills = sortAtlasByLevel((atlas.pills || []).map((item) => {
     const effects = [];
     if (Number.isFinite(item.exp) && item.exp > 0) effects.push(`修为 +${item.exp}`);
     if (Number.isFinite(item.reduce_toxic) && item.reduce_toxic > 0) effects.push(`丹毒 -${item.reduce_toxic}`);
@@ -369,47 +436,56 @@ const normalizeAtlasData = (atlas = fallbackAtlasData) => {
     return {
       ...item,
       icon: "🧪",
+      levelLabel: extractLevelLabel({ ...item, tier: formatRealmRequirement(item.min_tier || 0, item.min_stage || 1) }),
       tier: item.min_tier >= 4 ? "超稀有" : item.min_tier >= 2 ? "上品" : "常规",
       minTier: item.min_tier,
       minStage: item.min_stage,
       price: item.price,
-      description: item.desc || buildFallbackFlavor(item.name, "pill"),
+      description: sanitizeTierDescription(item.desc || buildFallbackFlavor(item.name, "pill")),
       effect: effects.join(" · ") || "稳固根基",
+      pricingLabel: getPricingLabel({ ...item, isLimited: Boolean(item.use || item.limited || item.limit) }),
     };
-  });
-
-  const weapons = (atlas.weapons || []).map((item) => ({
-    ...item,
-    icon: item.use ? "🗡️" : "⚔️",
-    tier: item.use ? "限定" : formatRealmRequirement(item.min_tier || 0, 1),
-    minTier: item.min_tier,
-    price: item.price,
-    description: item.desc || buildFallbackFlavor(item.name, "weapon"),
-    effect: Number.isFinite(item.atk) ? `攻击 +${item.atk}${item.use ? ` · ${item.use}` : ""}` : (item.use || "神兵护道"),
   }));
 
-  const armors = (atlas.armors || []).map((item) => ({
+  const weapons = sortAtlasByLevel((atlas.weapons || []).map((item) => ({
+    ...item,
+    icon: getItemIconByName(item.name, "weapon"),
+    isLimited: Boolean(item.use || item.limited || item.limit),
+    tier: item.use ? "限定" : formatRealmRequirement(item.min_tier || 0, 1),
+    levelLabel: extractLevelLabel({ ...item, tier: formatRealmRequirement(item.min_tier || 0, 1) }),
+    minTier: item.min_tier,
+    price: item.price,
+    pricingLabel: getPricingLabel({ ...item, isLimited: Boolean(item.use || item.limited || item.limit) }),
+    description: sanitizeTierDescription(item.desc || buildFallbackFlavor(item.name, "weapon")),
+    effect: Number.isFinite(item.atk) ? `攻击 +${item.atk}${item.use ? ` · ${item.use}` : ""}` : (item.use || "神兵护道"),
+  })));
+
+  const armors = sortAtlasByLevel((atlas.armors || []).map((item) => ({
     ...item,
     icon: item.use ? "🛡️" : "🥋",
+    isLimited: Boolean(item.use || item.limited || item.limit),
     tier: item.use ? "限定" : formatRealmRequirement(item.min_tier || 0, 1),
+    levelLabel: extractLevelLabel({ ...item, tier: formatRealmRequirement(item.min_tier || 0, 1) }),
     minTier: item.min_tier,
     price: item.price,
-    description: item.desc || buildFallbackFlavor(item.name, "armor"),
+    pricingLabel: getPricingLabel({ ...item, isLimited: Boolean(item.use || item.limited || item.limit) }),
+    description: sanitizeTierDescription(item.desc || buildFallbackFlavor(item.name, "armor")),
     effect: Number.isFinite(item.def) ? `防御 +${item.def}${item.use ? ` · ${item.use}` : ""}` : (item.use || "护体守心"),
-  }));
+  })));
 
   const items = (atlas.items || []).map((item) => ({
     ...item,
     icon: "🧱",
+    levelLabel: extractLevelLabel(item),
     tier: rarityToTier[item.rarity] || "杂录",
     price: item.price,
-    description: item.desc || buildFallbackFlavor(item.name, "item"),
+    description: sanitizeTierDescription(item.desc || buildFallbackFlavor(item.name, "item")),
     effect: item.rarity ? `稀有度：${item.rarity}` : "炼制素材",
   }));
 
   const recipes = (atlas.recipes || []).map((item) => ({
     ...item,
-    desc: item.desc || buildFallbackFlavor(item.name, "recipe"),
+    desc: sanitizeTierDescription(item.desc || buildFallbackFlavor(item.name, "recipe")),
   }));
 
   return { ...atlas, pills, weapons, armors, items, recipes };
@@ -1102,25 +1178,47 @@ const renderErrors = (errors) => {
   const container = document.getElementById("errorContent");
   if (!container) return;
   clearContainer(container);
-  if (!errors.length) {
+  const list = Array.isArray(errors) ? errors : [];
+  if (!list.length) {
     container.appendChild(createElement("div", "detail-inline", "尚未收录错误数据"));
     return;
   }
-  errors.forEach((error) => {
-    const card = createElement("div", "card tilt-card");
-    card.appendChild(createElement("h3", "", error.message));
-    if (error.meaning) {
-      card.appendChild(createElement("div", "card-meta", `含义：${error.meaning}`));
+  const visibleCount = Math.max(1, Number(DEFAULT_ISSUE_VISIBLE_COUNT) || 3);
+  let expanded = false;
+
+  const renderList = () => {
+    clearContainer(container);
+    const showing = expanded ? list : list.slice(0, visibleCount);
+    showing.forEach((error) => {
+      const card = createElement("div", "card tilt-card");
+      card.appendChild(createElement("h3", "", sanitizeText(error.message || "未知故障")));
+      if (error.meaning) {
+        card.appendChild(createElement("div", "card-meta", `含义：${sanitizeText(error.meaning)}`));
+      }
+      if (hasItems(error.causes)) {
+        card.appendChild(createElement("div", "card-meta", `常见原因：${error.causes.map(sanitizeText).join(" / ")}`));
+      }
+      if (hasItems(error.fixes)) {
+        card.appendChild(createElement("div", "card-meta", `解决方式：${error.fixes.map(sanitizeText).join(" / ")}`));
+      }
+      container.appendChild(card);
+      applyTiltEffect(card, 8);
+    });
+
+    if (list.length > visibleCount) {
+      const remain = Math.max(0, list.length - visibleCount);
+      const toggle = createElement("button", "issues-toggle", expanded ? "收起" : `展开全部（+${remain}）`);
+      toggle.type = "button";
+      toggle.setAttribute("aria-expanded", String(expanded));
+      toggle.addEventListener("click", () => {
+        expanded = !expanded;
+        renderList();
+      });
+      container.appendChild(toggle);
     }
-    if (hasItems(error.causes)) {
-      card.appendChild(createElement("div", "card-meta", `常见原因：${error.causes.join(" / ")}`));
-    }
-    if (hasItems(error.fixes)) {
-      card.appendChild(createElement("div", "card-meta", `解决方式：${error.fixes.join(" / ")}`));
-    }
-    container.appendChild(card);
-    applyTiltEffect(card, 8);
-  });
+  };
+
+  renderList();
 };
 
 const buildCommandIndex = (commands) => {
@@ -1216,7 +1314,9 @@ const renderItemSection = (sectionId, items) => {
     card.appendChild(header);
 
     const metaRow = createElement("div", "item-meta");
-    metaRow.appendChild(createElement("span", "item-tier", item.tier || "图鉴已录"));
+    if (item.tier) {
+      metaRow.appendChild(createElement("span", "item-tier", item.tier));
+    }
 
     if (typeof item.minTier === "number") {
       const realmTag = createElement(
@@ -1227,16 +1327,19 @@ const renderItemSection = (sectionId, items) => {
       metaRow.appendChild(realmTag);
     }
 
-    if (typeof item.price === "number") {
-      const priceTag = createElement("span", "item-tier", `售价：${item.price}灵石`);
-      metaRow.appendChild(priceTag);
+    if (item.levelLabel === "未知等级") {
+      metaRow.appendChild(createElement("span", "item-tier", "未知等级"));
+    }
+
+    if (item.pricingLabel) {
+      metaRow.appendChild(createElement("span", "item-tier", item.pricingLabel));
     }
 
     card.appendChild(metaRow);
 
 
     if (item.description) {
-      card.appendChild(createElement("p", "item-description", sanitizeText(item.description)));
+      card.appendChild(createElement("p", "item-description", sanitizeTierDescription(item.description)));
     }
     if (item.effect) {
       card.appendChild(createElement("div", "item-effect", sanitizeText(item.effect)));
@@ -1267,11 +1370,11 @@ const renderRecipes = (items) => {
     const card = createElement("article", "card glass-card item-card tilt-card");
     card.appendChild(createElement("h3", "", item.name));
     const meta = createElement("div", "item-meta");
-    [item.kind, item.target ? `目标：${item.target}` : null, Number.isFinite(item.tier) ? `tier ${item.tier}` : null, Number.isFinite(item.price) ? `售价：${item.price}灵石` : null]
+    [item.kind, item.target ? `目标：${item.target}` : null, Number.isFinite(item.tier) ? `tier ${item.tier}` : null, Number.isFinite(item.price) ? `灵石：${item.price}` : null]
       .filter(Boolean)
       .forEach((txt) => meta.appendChild(createElement("span", "item-tier", txt)));
     card.appendChild(meta);
-    if (item.desc) card.appendChild(createElement("p", "item-description", item.desc));
+    if (item.desc) card.appendChild(createElement("p", "item-description", sanitizeTierDescription(item.desc)));
     if (Array.isArray(item.mats) && item.mats.length) {
       const mats = createElement("div", "item-effect", `mats：${item.mats.map((m) => `${m[0]}×${m[1]}`).join("、")}`);
       card.appendChild(mats);
@@ -1667,9 +1770,17 @@ const setupCommandInteractions = (commands) => {
   const categorySelect = document.getElementById("categoryFilter");
   if (!categorySelect) {
     renderCommandList(commands);
-    handleHashChange(commandIndex);
+    renderCommandDetail(commands[0] || null);
     return;
   }
+
+  const setActiveCommand = (slug) => {
+    const command = commandIndex.get(slug);
+    renderCommandDetail(command);
+    document.querySelectorAll(".command-item").forEach((item) => {
+      item.classList.toggle("active", item.dataset.command === slug);
+    });
+  };
 
   const renderFiltered = () => {
     const category = categorySelect.value;
@@ -1678,7 +1789,12 @@ const setupCommandInteractions = (commands) => {
       return matchCategory;
     });
     renderCommandList(filtered);
-    handleHashChange(commandIndex);
+    const firstFiltered = filtered[0];
+    if (firstFiltered) {
+      setActiveCommand(slugify(firstFiltered.name));
+    } else {
+      renderCommandDetail(null);
+    }
   };
 
   const categories = sortCategoriesByChapter([...new Set(commands.map((command) => command.category))].filter(Boolean));
@@ -1690,31 +1806,22 @@ const setupCommandInteractions = (commands) => {
 
   renderFiltered();
 
-  window.addEventListener("hashchange", () => handleHashChange(commandIndex));
-  handleHashChange(commandIndex);
-
   if (listContainer) {
     listContainer.addEventListener("click", (event) => {
       const target = event.target.closest(".command-item");
       if (!target) return;
       const slug = target.dataset.command;
       if (slug) {
-        window.location.hash = `command-${slug}`;
+        event.preventDefault();
+        setActiveCommand(slug);
       }
     });
   }
 };
 
-const handleHashChange = (commandIndex) => {
+const handleHashChange = () => {
   const hash = window.location.hash.replace("#", "");
-  if (hash.startsWith("command-")) {
-    const slug = hash.replace("command-", "");
-    const command = commandIndex.get(slug);
-    renderCommandDetail(command);
-    document.querySelectorAll(".command-item").forEach((item) => {
-      item.classList.toggle("active", item.dataset.command === slug);
-    });
-  } else if (hash) {
+  if (hash && !hash.startsWith("command-")) {
     scrollToSection(hash, "auto");
   }
   highlightActiveNav();
