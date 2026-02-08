@@ -308,6 +308,83 @@ const fallbackAtlasData = {
   recipes: [],
   syncReport: { sourceCounts: {}, frontendCounts: {}, expectedCounts: {}, missingNames: {}, conflicts: [], isConsistent: false },
 };
+
+
+const rarityToTier = {
+  凡: "凡品",
+  玄: "玄品",
+  稀: "灵品",
+  珍: "珍品",
+  传: "传说",
+  奇: "奇珍",
+};
+
+const buildFallbackFlavor = (name, kind) => {
+  const table = {
+    pill: `药香入脉，${name}在炉火里沉浮三转，最忌贪服。`,
+    weapon: `${name}寒芒微敛，出鞘时可断风声。`,
+    armor: `${name}护住命门，夜行大墟不惧冷风。`,
+    item: `${name}可作炼制底材，残老村常备之物。`,
+    recipe: `${name}记载于旧卷，照谱开炉便可循迹而炼。`,
+  };
+  return table[kind] || `${name}条目已录，细节待后续补完。`;
+};
+
+const normalizeAtlasData = (atlas = fallbackAtlasData) => {
+  const pills = (atlas.pills || []).map((item) => {
+    const effects = [];
+    if (Number.isFinite(item.exp) && item.exp > 0) effects.push(`修为 +${item.exp}`);
+    if (Number.isFinite(item.reduce_toxic) && item.reduce_toxic > 0) effects.push(`丹毒 -${item.reduce_toxic}`);
+    if (item.clear_toxic) effects.push("清除丹毒");
+    return {
+      ...item,
+      icon: "🧪",
+      tier: item.min_tier >= 4 ? "超稀有" : item.min_tier >= 2 ? "上品" : "常规",
+      minTier: item.min_tier,
+      minStage: item.min_stage,
+      price: item.price,
+      description: item.desc || buildFallbackFlavor(item.name, "pill"),
+      effect: effects.join(" · ") || "稳固根基",
+    };
+  });
+
+  const weapons = (atlas.weapons || []).map((item) => ({
+    ...item,
+    icon: item.use ? "🗡️" : "⚔️",
+    tier: item.use ? "限定" : formatRealmRequirement(item.min_tier || 0, 1),
+    minTier: item.min_tier,
+    price: item.price,
+    description: item.desc || buildFallbackFlavor(item.name, "weapon"),
+    effect: Number.isFinite(item.atk) ? `攻击 +${item.atk}${item.use ? ` · ${item.use}` : ""}` : (item.use || "神兵护道"),
+  }));
+
+  const armors = (atlas.armors || []).map((item) => ({
+    ...item,
+    icon: item.use ? "🛡️" : "🥋",
+    tier: item.use ? "限定" : formatRealmRequirement(item.min_tier || 0, 1),
+    minTier: item.min_tier,
+    price: item.price,
+    description: item.desc || buildFallbackFlavor(item.name, "armor"),
+    effect: Number.isFinite(item.def) ? `防御 +${item.def}${item.use ? ` · ${item.use}` : ""}` : (item.use || "护体守心"),
+  }));
+
+  const items = (atlas.items || []).map((item) => ({
+    ...item,
+    icon: "🧱",
+    tier: rarityToTier[item.rarity] || "杂录",
+    price: item.price,
+    description: item.desc || buildFallbackFlavor(item.name, "item"),
+    effect: item.rarity ? `稀有度：${item.rarity}` : "炼制素材",
+  }));
+
+  const recipes = (atlas.recipes || []).map((item) => ({
+    ...item,
+    desc: item.desc || buildFallbackFlavor(item.name, "recipe"),
+  }));
+
+  return { ...atlas, pills, weapons, armors, items, recipes };
+};
+
 const CATEGORY_LABELS = {
   卷首语: "卷首语",
   大墟残老村: "壹 · 大墟残老村",
@@ -1088,7 +1165,7 @@ const renderItemSection = (sectionId, items) => {
     card.appendChild(header);
 
     const metaRow = createElement("div", "item-meta");
-    metaRow.appendChild(createElement("span", "item-tier", item.tier || "未录"));
+    metaRow.appendChild(createElement("span", "item-tier", item.tier || "图鉴已录"));
 
     if (typeof item.minTier === "number") {
       const realmTag = createElement(
@@ -1655,7 +1732,8 @@ const init = async () => {
       renderSectionCards(commands, section.contentId, section.categories);
     });
 
-    const atlas = await loadJson("data/atlas.json", fallbackAtlasData);
+    const atlasRaw = await loadJson("data/atlas.json", fallbackAtlasData);
+    const atlas = normalizeAtlasData(atlasRaw);
     renderMaterials(atlas.items || []);
     renderPills(atlas.pills || []);
     renderWeapons(atlas.weapons || []);
