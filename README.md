@@ -16,8 +16,6 @@ docs/
     commands.json
     features.json
     errors.json
-tools/
-  extract_mushenji_docs.py
 ```
 
 ---
@@ -64,16 +62,16 @@ tools/
 
 ---
 
-## 卷三：如何重刻数据
+## 卷三：如何更新数据（当前仓库方式）
 
-1. 获取 `zhanjie78/mushenji` 仓库（确保网络可访问 GitHub）。
-2. 运行抽取脚本：
+> 注意：仓库内的 `.py` 抽取脚本已移除。
 
-```bash
-python tools/extract_mushenji_docs.py --repo /path/to/mushenji
-```
+当前维护方式：**直接维护 `docs/data/*.json`**。
 
-3. 生成文件将覆盖：
+你可以按以下顺序更新：
+
+1. 从上游项目/运行日志整理最新命令与机制信息。
+2. 手动更新：
 
 ```text
 docs/data/commands.json
@@ -81,13 +79,13 @@ docs/data/features.json
 docs/data/errors.json
 ```
 
-> 说明：当前抽取器以正则扫描 `mushenji_bot.py` 命令分支，仍偏“骨架化”。若需更精确语义，请继续增强解析器。
+3. 本地预览页面并核对：命令索引、分类、错误提示是否正常展示。
 
-### 尚待补全（TODO）
+### 数据维护建议（避免丢字段）
 
-- 命令描述/示例/别名：来自 `handle_cmd` 具体分支。
-- 常量机制：来自脚本顶层常量与配置表（如 PREFIX、冷却、掉落等）。
-- 错误语义：来自异常分支或提示定义区域。
+- `commands.json`：保持 `name / usage / category / details / source` 等关键字段完整。
+- `features.json`：常量值建议以字符串保存，便于前端统一解析。
+- `errors.json`：建议同时补充 `causes / fixes`，便于排障。
 
 ---
 
@@ -117,7 +115,7 @@ python -m http.server 8000
 
 ## 卷六：丹药图鉴补录规则
 
-前端支持运行时尝试从 `mushenji_bot.py` 补录丹药条目，并按：  
+前端支持运行时尝试从上游源码补录丹药条目，并按：  
 **章节 → 子类 → 名称** 稳定排序，且以“丹药名”为主键去重。
 
 若网络环境无法访问 `raw.githubusercontent.com`：
